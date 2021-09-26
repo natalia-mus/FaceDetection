@@ -1,6 +1,6 @@
 package com.example.facedetection.api
 
-import com.example.facedetection.model.FacesInfo
+import com.example.facedetection.model.facesinfo.FacesInfo
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

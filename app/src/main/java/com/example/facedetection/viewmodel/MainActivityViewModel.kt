@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.facedetection.api.FacesInfoRepository
 import com.example.facedetection.api.RepositoryCallback
-import com.example.facedetection.model.FacesInfo
+import com.example.facedetection.model.facesinfo.FacesInfo
 
 class MainActivityViewModel : ViewModel() {
 
