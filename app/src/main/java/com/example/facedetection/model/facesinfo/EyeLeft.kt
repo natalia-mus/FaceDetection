@@ -1,9 +1,9 @@
-package com.example.facedetection.model
+package com.example.facedetection.model.facesinfo
 
 
 import com.google.gson.annotations.SerializedName
 
-data class MouthCenter(
+data class EyeLeft(
     @SerializedName("confidence")
     val confidence: Int,
     @SerializedName("id")
