@@ -11,9 +11,12 @@ import com.example.facedetection.model.imagetourl.ImageToUrl
 
 class MainActivityViewModel : ViewModel() {
 
-    val facesInfo = MutableLiveData<FacesInfo>()
+    //val facesInfo = MutableLiveData<FacesInfo>()
+    val loading = MutableLiveData<Boolean>(false)
 
     fun detectFaces(image: String) {
+        loading.value = true
+
         ImageToUrlRepository.getImageUrl(image, object : RepositoryCallback<ImageToUrl> {
             override fun onSuccess(data: ImageToUrl) {
                 val url = data.data.url
@@ -22,6 +25,7 @@ class MainActivityViewModel : ViewModel() {
 
             override fun onError() {
                 Log.e("detectFaces", "error")
+                loading.value = false
             }
         })
     }
@@ -31,10 +35,12 @@ class MainActivityViewModel : ViewModel() {
         FacesInfoRepository.getFacesInfo(url, object : RepositoryCallback<FacesInfo> {
             override fun onSuccess(data: FacesInfo) {
                 Log.e("success", data.toString())
+                loading.value = false
             }
 
             override fun onError() {
                 Log.e("getFacesInfo", "error")
+                loading.value = false
             }
         })
     }

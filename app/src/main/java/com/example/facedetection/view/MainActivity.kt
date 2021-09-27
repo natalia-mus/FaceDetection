@@ -7,8 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
 import com.example.facedetection.RequestCodeUtil
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var buttonCamera: Button
     private lateinit var buttonGallery: Button
+    private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: MainActivityViewModel
 
@@ -28,14 +31,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setView()
+        setObservers()
         setListeners()
-
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
 
     private fun setView() {
         buttonCamera = findViewById(R.id.main_activity_button_camera)
         buttonGallery = findViewById(R.id.main_activity_button_gallery)
+        loadingSection = findViewById(R.id.main_activity_loading_section)
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
@@ -47,6 +50,18 @@ class MainActivity : AppCompatActivity() {
 
         buttonGallery.setOnClickListener() {
             openGallery()
+        }
+    }
+
+    private fun setObservers() {
+        viewModel.loading.observe(this, { loadingStatusChanged(it) })
+    }
+
+    private fun loadingStatusChanged(loading: Boolean) {
+        if (loading) {
+            loadingSection.visibility = View.VISIBLE
+        } else {
+            loadingSection.visibility = View.INVISIBLE
         }
     }
 
@@ -72,11 +87,7 @@ class MainActivity : AppCompatActivity() {
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
 
-                val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                val output = outputStream.toByteArray()
-                val finalImage = Base64.encodeToString(output, Base64.DEFAULT)
-
+                val finalImage = convertToBase64(bitmap)
                 viewModel.detectFaces(finalImage)
             }
 
@@ -85,15 +96,21 @@ class MainActivity : AppCompatActivity() {
             val imageFromCamera = data?.getParcelableExtra<Bitmap>("data")
 
             if (imageFromCamera != null) {
-                val outputStream = ByteArrayOutputStream()
-                imageFromCamera.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                val output = outputStream.toByteArray()
-                val finalImage = Base64.encodeToString(output, Base64.DEFAULT)
-
+                val finalImage = convertToBase64(imageFromCamera)
                 viewModel.detectFaces(finalImage)
             }
 
         }
+    }
+
+
+    private fun convertToBase64(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val output = outputStream.toByteArray()
+        val image = Base64.encodeToString(output, Base64.DEFAULT)
+
+        return image
     }
 
 }
