@@ -1,6 +1,6 @@
 package com.example.facedetection.api
 
-import com.example.facedetection.model.imagetourl.ImageToUrl
+import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Multipart

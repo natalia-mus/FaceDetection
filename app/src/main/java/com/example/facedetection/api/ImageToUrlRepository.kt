@@ -1,7 +1,7 @@
 package com.example.facedetection.api
 
 import android.util.Log
-import com.example.facedetection.model.imagetourl.ImageToUrl
+import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,7 +1,9 @@
-package com.example.facedetection.model.facesinfo
+package com.example.facedetection.model.datamodel.facesinfo
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class FacesInfo(
     @SerializedName("operation_id")

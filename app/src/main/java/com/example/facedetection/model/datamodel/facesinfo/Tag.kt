@@ -1,4 +1,4 @@
-package com.example.facedetection.model.facesinfo
+package com.example.facedetection.model.datamodel.facesinfo
 
 
 import com.google.gson.annotations.SerializedName

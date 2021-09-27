@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
 import com.example.facedetection.RequestCodeUtil
+import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.viewmodel.MainActivityViewModel
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setObservers() {
         viewModel.loading.observe(this, { loadingStatusChanged(it) })
+        viewModel.facesInfo.observe(this, { facesInfoChanged(it) })
     }
 
     private fun loadingStatusChanged(loading: Boolean) {
@@ -63,6 +65,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             loadingSection.visibility = View.INVISIBLE
         }
+    }
+
+    private fun facesInfoChanged(facesInfo: FacesInfo) {
+        val intent = Intent(this, ProcessedImageActivity::class.java)
+        startActivity(intent)
     }
 
     // check permissions first

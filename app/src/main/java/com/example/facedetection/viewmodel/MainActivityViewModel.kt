@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.example.facedetection.api.FacesInfoRepository
 import com.example.facedetection.api.ImageToUrlRepository
 import com.example.facedetection.api.RepositoryCallback
-import com.example.facedetection.model.facesinfo.FacesInfo
-import com.example.facedetection.model.imagetourl.ImageToUrl
+import com.example.facedetection.model.ImageProcessing
+import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
+import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 
 class MainActivityViewModel : ViewModel() {
 
-    //val facesInfo = MutableLiveData<FacesInfo>()
     val loading = MutableLiveData<Boolean>(false)
+    val facesInfo = MutableLiveData<FacesInfo>()
 
     fun detectFaces(image: String) {
         loading.value = true
@@ -35,14 +36,22 @@ class MainActivityViewModel : ViewModel() {
         FacesInfoRepository.getFacesInfo(url, object : RepositoryCallback<FacesInfo> {
             override fun onSuccess(data: FacesInfo) {
                 Log.e("success", data.toString())
-                loading.value = false
+                //loading.value = false
+                //facesInfo.value = data
+                processImage(data)
             }
 
             override fun onError() {
                 Log.e("getFacesInfo", "error")
-                loading.value = false
+                //loading.value = false
             }
         })
+    }
+
+
+    private fun processImage(facesInfo: FacesInfo) {
+        Log.e("process", facesInfo.toString())
+        ImageProcessing.processImage(facesInfo)
     }
 
 }
