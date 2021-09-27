@@ -37,12 +37,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_activity_button_camera" />
 
-    <!-- ImageView in MainActivity just to check if everything's fine -->
-    <ImageView
-        android:id="@+id/main_activity_image"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_activity_button_gallery" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

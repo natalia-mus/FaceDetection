@@ -13,6 +13,7 @@ object ImageToUrlRepository {
 
     private const val BASE_URL = "https://api.imgbb.com/"
     private const val API_KEY = "71d60985b5f8dd4f6f423458a7ea70cf"
+    private const val IMAGE = "image"
 
     private val retrofit =
         Retrofit.Builder()
@@ -22,17 +23,21 @@ object ImageToUrlRepository {
 
     private val apiService = retrofit.create(ImageToUrlAPIService::class.java)
 
+
     fun getImageUrl(image: String, callback: RepositoryCallback<ImageToUrl>) {
-        val body = MultipartBody.Part.createFormData("image", image)
+        val body = MultipartBody.Part.createFormData(IMAGE, image)
 
         apiService.getImageUrl(API_KEY, body).enqueue(object : Callback<ImageToUrl> {
             override fun onResponse(call: Call<ImageToUrl>, response: Response<ImageToUrl>) {
                 Log.e("request", response.raw().request().url().toString())
                 Log.e("response", response.body().toString())
+
+                response.body()?.let { callback.onSuccess(it) }
             }
 
             override fun onFailure(call: Call<ImageToUrl>, t: Throwable) {
-                Log.e("error", "error")
+                Log.e("error", t.message.toString())
+                callback.onError()
             }
         })
     }
