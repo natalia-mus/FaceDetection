@@ -32,6 +32,7 @@ object FacesInfoRepository {
                 override fun onResponse(call: Call<FacesInfo>, response: Response<FacesInfo>) {
                     Log.e("ok", response.body().toString())
                     Log.e("request", response.raw().request().url().toString())
+
                     response.body()?.let { callback.onSuccess(it) }
                 }
 
