@@ -1,7 +1,7 @@
 package com.example.facedetection.api
 
 import android.util.Log
-import com.example.facedetection.model.FacesInfo
+import com.example.facedetection.model.facesinfo.FacesInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // http://api.skybiometry.com/fc/faces/ detect.json ? api_key=ir36vvdkebnvbucctdnmke653d & api_secret=taubtcdfrtihh83i5pchqkdbbh & urls=https://www.elleman.pl/uploads/media/default/0005/40/cec344175ad1976fe2a78e04a2843f97ce77270b.jpeg & attributes=age
 
-object Repository {
+object FacesInfoRepository {
 
     private const val BASE_URL = "http://api.skybiometry.com/fc/faces/"
     private const val API_KEY = "ir36vvdkebnvbucctdnmke653d"
@@ -24,7 +24,7 @@ object Repository {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    private val apiService = retrofit.create(APIService::class.java)
+    private val apiService = retrofit.create(FacesInfoAPIService::class.java)
 
     fun getFacesInfo(url: String, callback: RepositoryCallback<FacesInfo>) {
         apiService.getFacesInfo(RESPONSE_FORMAT, API_KEY, API_SECRET, url, ATTRIBUTES)
