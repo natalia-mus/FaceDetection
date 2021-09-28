@@ -90,15 +90,16 @@ class ProcessedImageActivity : AppCompatActivity() {
 
 
         // rysowanie kształtu:
-        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        //val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
 
-        //val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
         //val bitmap = Bitmap.createBitmap(backgroundPhoto, 50, 50, 100, 100)
         //val bitmap = Bitmap.createBitmap(backgroundPhoto, 100, 100, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         //paint.setColor(Color.RED)
         paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 10f
         //paint.strokeWidth(3)
         //canvas.drawCircle(30f, 70f, 30f, paint)
         //canvas.drawRect(7f, 20f, 30f, 20f, paint)
@@ -120,6 +121,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             val width = face.width.toFloat()
             val height = face.height.toFloat()
 
+
             /*Log.e("width", width.toString())
             Log.e("height", height.toString())
             Log.e("center x", centerX.toString())
@@ -130,10 +132,32 @@ class ProcessedImageActivity : AppCompatActivity() {
             val top = centerY - (centerY/2)
             val bottom = centerY + 2*centerY*/
 
-            val left = centerX + width / 2
+            /*val left = centerX + width / 2
             val right = centerX - width / 2
             val top = centerY - height / 2
-            val bottom = centerY + height / 2
+            val bottom = centerY + height / 2*/
+
+            val left = ((centerX + width / 2) * photoWidth) / 100
+            val right = ((centerX - width / 2) * photoWidth) / 100
+            val top = ((centerY - height / 2) * photoHeight) / 100
+            val bottom = ((centerY + height / 2) * photoHeight) / 100
+
+            Log.e("left", left.toString())
+            Log.e("right", right.toString())
+            Log.e("top", top.toString())
+            Log.e("bottom", bottom.toString())
+            Log.e("photo width", photoWidth.toString())
+            Log.e("photo height", photoHeight.toString())
+
+            /*val left = (centerX + width / 2) * photoWidth
+            val right = (centerX - width / 2) * photoWidth
+            val top = (centerY - height / 2) * photoHeight
+            val bottom = (centerY + height / 2) * photoHeight*/
+
+            /*val left = (centerX + width / 2) * 100
+            val right = (centerX - width / 2) * 100
+            val top = (centerY - height / 2) * 100
+            val bottom = (centerY + height / 2) * 100*/
 
             //canvas.drawRect(width, height, width, height, paint)
             //canvas.drawRect(10f, 0f, 50f, 90f, paint)
