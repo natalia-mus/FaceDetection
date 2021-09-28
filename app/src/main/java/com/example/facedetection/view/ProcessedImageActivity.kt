@@ -28,18 +28,6 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         setView()
         setObservers()
-
-        if (intent.hasExtra(ConstValues.FACES_INFO)) {
-            val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)
-            val imageUrl =
-                facesInfo!!.photos[0].url                                            // !!
-
-            Glide.with(this).load(imageUrl).into(photo)
-
-            val photo = facesInfo.photos[0]
-            viewModel.processImage(photo)
-        }
-
     }
 
     private fun setView() {
@@ -50,6 +38,20 @@ class ProcessedImageActivity : AppCompatActivity() {
         children = findViewById(R.id.processed_image_activity_children)
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
+
+
+        if (intent.hasExtra(ConstValues.FACES_INFO)) {
+            val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)
+
+            if (facesInfo != null) {
+                val imageUrl = facesInfo.photos[0].url
+
+                Glide.with(this).load(imageUrl).into(photo)
+
+                val photo = facesInfo.photos[0]
+                viewModel.processImage(photo)
+            }
+        }
     }
 
     private fun setObservers() {

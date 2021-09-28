@@ -9,10 +9,12 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
+import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.RequestCodeUtil
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setObservers() {
         viewModel.loading.observe(this, { loadingStatusChanged(it) })
+        viewModel.status.observe(this, { statusChanged(it) })
         viewModel.facesInfo.observe(this, { facesInfoChanged(it) })
     }
 
@@ -65,6 +68,13 @@ class MainActivity : AppCompatActivity() {
             loadingSection.visibility = View.VISIBLE
         } else {
             loadingSection.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun statusChanged(status: Status) {
+        if (status == Status.ERROR) {
+            Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG)
+                .show()
         }
     }
 
@@ -91,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodeUtil.REQUEST_CODE_GALLERY_IMAGE && resultCode == RESULT_OK) {
 
-            if (data != null) {
+            if (data != null && data.data != null) {
                 val uriImage: Uri = data.data!!
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
@@ -108,10 +118,9 @@ class MainActivity : AppCompatActivity() {
                 val finalImage = convertToBase64(imageFromCamera)
                 viewModel.detectFaces(finalImage)
             }
-
         }
-    }
 
+    }
 
     private fun convertToBase64(bitmap: Bitmap): String {
         val outputStream = ByteArrayOutputStream()
