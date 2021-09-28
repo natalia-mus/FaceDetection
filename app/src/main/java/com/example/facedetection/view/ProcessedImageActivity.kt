@@ -2,8 +2,8 @@ package com.example.facedetection.view
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,7 +14,10 @@ import com.example.facedetection.viewmodel.ProcessedImageViewModel
 class ProcessedImageActivity : AppCompatActivity() {
 
     private lateinit var photo: ImageView
-    private lateinit var image: ImageView
+    private lateinit var faces: ImageView
+    private lateinit var people: TextView
+    private lateinit var adults: TextView
+    private lateinit var children: TextView
 
     private lateinit var viewModel: ProcessedImageViewModel
 
@@ -39,7 +42,10 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun setView() {
         photo = findViewById(R.id.processed_image_activity_photo)
-        image = findViewById(R.id.processed_image_activity_rectangles)
+        faces = findViewById(R.id.processed_image_activity_faces)
+        people = findViewById(R.id.processed_image_activity_people)
+        adults = findViewById(R.id.processed_image_activity_adults)
+        children = findViewById(R.id.processed_image_activity_children)
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
     }
@@ -53,19 +59,19 @@ class ProcessedImageActivity : AppCompatActivity() {
 
 
     private fun peopleCountChanged(peopleCount: Int) {
-        Log.e("people", peopleCount.toString())
+        people.text = peopleCount.toString()
     }
 
     private fun childrenCountChanged(childrenCount: Int) {
-        Log.e("children", childrenCount.toString())
+        children.text = childrenCount.toString()
     }
 
     private fun adultsCountChanged(adultsCount: Int) {
-        Log.e("adults", adultsCount.toString())
+        adults.text = adultsCount.toString()
     }
 
     private fun processedImageChanged(processedImage: Bitmap) {
-        image.setImageBitmap(processedImage)
+        faces.setImageBitmap(processedImage)
     }
 
 }

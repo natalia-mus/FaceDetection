@@ -3,4 +3,7 @@
     <string name="select_picture_info">Select picture to detect faces.</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="people">people:</string>
+    <string name="adults">adults:</string>
+    <string name="children">children:</string>
 </resources>

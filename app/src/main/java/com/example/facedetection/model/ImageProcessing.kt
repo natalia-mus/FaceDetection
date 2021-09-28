@@ -11,16 +11,6 @@ object ImageProcessing {
 
     fun countPeople(faces: List<Tag>) = faces.size
 
-    fun countChildren(faces: List<Tag>): Int {
-        var childrenCount = 0
-
-        for (face in faces) {
-            if (face.attributes.ageEst.value.toInt() < 16) childrenCount++
-        }
-
-        return childrenCount
-    }
-
     fun countAdults(faces: List<Tag>): Int {
         var adultsCount = 0
 
@@ -29,6 +19,16 @@ object ImageProcessing {
         }
 
         return adultsCount
+    }
+
+    fun countChildren(faces: List<Tag>): Int {
+        var childrenCount = 0
+
+        for (face in faces) {
+            if (face.attributes.ageEst.value.toInt() < 16) childrenCount++
+        }
+
+        return childrenCount
     }
 
     fun drawRectangles(photo: Photo): Bitmap {
@@ -62,7 +62,6 @@ object ImageProcessing {
             val bottom = ((centerY + height / 2) * photoHeight) / 100
 
             canvas.drawRect(left, top, right, bottom, paint)
-
         }
 
         return bitmap
