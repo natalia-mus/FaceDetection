@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.facedetection.api.FacesInfoRepository
 import com.example.facedetection.api.ImageToUrlRepository
 import com.example.facedetection.api.RepositoryCallback
-import com.example.facedetection.model.ImageProcessing
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 
@@ -38,7 +37,6 @@ class MainActivityViewModel : ViewModel() {
                 Log.e("success", data.toString())
                 loading.value = false
                 facesInfo.value = data
-                processImage(data)
             }
 
             override fun onError() {
@@ -46,12 +44,6 @@ class MainActivityViewModel : ViewModel() {
                 loading.value = false
             }
         })
-    }
-
-
-    private fun processImage(facesInfo: FacesInfo) {
-        Log.e("process", facesInfo.toString())
-        ImageProcessing.processImage(facesInfo)
     }
 
 }
