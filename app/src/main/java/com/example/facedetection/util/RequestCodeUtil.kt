@@ -1,4 +1,4 @@
-package com.example.facedetection
+package com.example.facedetection.util
 
 object RequestCodeUtil {
 

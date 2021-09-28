@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <LinearLayout
+            android:id="@+id/processed_image_activity_people_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/processed_image_activity_adults_section"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/people"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/processed_image_activity_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
+                tools:text="4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/processed_image_activity_adults_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/processed_image_activity_children_section"
+            app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_people_section">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/adults"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/processed_image_activity_adults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
+                tools:text="3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/processed_image_activity_children_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginVertical="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/processed_image_activity_photo"
+            app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_adults_section">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/children"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/processed_image_activity_children"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
+                tools:text="1" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/processed_image_activity_photo"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_children_section" />
+
+        <ImageView
+            android:id="@+id/processed_image_activity_faces"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_children_section" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,7 +1,8 @@
-package com.example.facedetection.api
+package com.example.facedetection.api.imagetourl
 
 import android.util.Log
-import com.example.facedetection.model.imagetourl.ImageToUrl
+import com.example.facedetection.api.RepositoryCallback
+import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,9 +30,6 @@ object ImageToUrlRepository {
 
         apiService.getImageUrl(API_KEY, body).enqueue(object : Callback<ImageToUrl> {
             override fun onResponse(call: Call<ImageToUrl>, response: Response<ImageToUrl>) {
-                Log.e("request", response.raw().request().url().toString())
-                Log.e("response", response.body().toString())
-
                 response.body()?.let { callback.onSuccess(it) }
             }
 

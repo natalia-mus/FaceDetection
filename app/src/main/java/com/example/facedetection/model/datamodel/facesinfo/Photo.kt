@@ -1,8 +1,11 @@
-package com.example.facedetection.model.facesinfo
+package com.example.facedetection.model.datamodel.facesinfo
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Photo(
     @SerializedName("height")
     val height: Int,
@@ -14,4 +17,4 @@ data class Photo(
     val url: String,
     @SerializedName("width")
     val width: Int
-)
+) : Parcelable
