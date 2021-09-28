@@ -1,22 +1,25 @@
 package com.example.facedetection.model.datamodel.facesinfo
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Tag(
     @SerializedName("attributes")
     val attributes: Attributes,
     @SerializedName("center")
     val center: Center,
-    @SerializedName("confirmed")
+    /*@SerializedName("confirmed")
     val confirmed: Boolean,
     @SerializedName("eye_left")
     val eyeLeft: EyeLeft,
     @SerializedName("eye_right")
-    val eyeRight: EyeRight,
+    val eyeRight: EyeRight,*/
     @SerializedName("height")
     val height: Double,
-    @SerializedName("label")
+    /*@SerializedName("label")
     val label: Any,
     @SerializedName("manual")
     val manual: Boolean,
@@ -41,5 +44,8 @@ data class Tag(
     @SerializedName("width")
     val width: Double,
     @SerializedName("yaw")
-    val yaw: Int
-)
+    val yaw: Int*/
+
+    @SerializedName("width")
+    val width: Double
+): Parcelable

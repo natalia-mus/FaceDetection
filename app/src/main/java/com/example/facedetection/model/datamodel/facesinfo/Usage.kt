@@ -3,7 +3,7 @@ package com.example.facedetection.model.datamodel.facesinfo
 
 import com.google.gson.annotations.SerializedName
 
-data class Usage(
+/*data class Usage(
     @SerializedName("limit")
     val limit: Int,
     @SerializedName("remaining")
@@ -14,4 +14,4 @@ data class Usage(
     val resetTimeText: String,
     @SerializedName("used")
     val used: Int
-)
+)*/

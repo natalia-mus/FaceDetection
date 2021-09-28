@@ -13,10 +13,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 object FacesInfoRepository {
 
     private const val BASE_URL = "http://api.skybiometry.com/fc/faces/"
-    private const val API_KEY = "ir36vvdkebnvbucctdnmke653d"
-    private const val API_SECRET = "taubtcdfrtihh83i5pchqkdbbh"
+    //private const val API_KEY = "ir36vvdkebnvbucctdnmke653d"
+    //private const val API_SECRET = "taubtcdfrtihh83i5pchqkdbbh"
     private const val RESPONSE_FORMAT = "detect.json"
     private const val ATTRIBUTES = "age"
+
+    private const val API_KEY = "uece7en7b1n1mbd5uuo2fq7p7i"
+    private const val API_SECRET = "skrmgdhpk62rld7dsju3s9m0g7"
 
     private val retrofit =
         Retrofit.Builder()

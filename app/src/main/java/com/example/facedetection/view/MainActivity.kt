@@ -69,6 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun facesInfoChanged(facesInfo: FacesInfo) {
         val intent = Intent(this, ProcessedImageActivity::class.java)
+        //intent.putExtra("image_url", facesInfo.photos[0].url)
+        intent.putExtra("faces_info", facesInfo)
         startActivity(intent)
     }
 

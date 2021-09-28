@@ -36,14 +36,14 @@ class MainActivityViewModel : ViewModel() {
         FacesInfoRepository.getFacesInfo(url, object : RepositoryCallback<FacesInfo> {
             override fun onSuccess(data: FacesInfo) {
                 Log.e("success", data.toString())
-                //loading.value = false
-                //facesInfo.value = data
+                loading.value = false
+                facesInfo.value = data
                 processImage(data)
             }
 
             override fun onError() {
                 Log.e("getFacesInfo", "error")
-                //loading.value = false
+                loading.value = false
             }
         })
     }

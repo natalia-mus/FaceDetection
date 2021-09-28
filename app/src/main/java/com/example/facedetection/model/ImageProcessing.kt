@@ -13,7 +13,7 @@ object ImageProcessing {
 
         countPeople(faces)
         //checkAge(faces)
-        checkFaceCoordinates(faces)
+        //checkFaceCoordinates(faces)
     }
 
     private fun countPeople(faces: List<Tag>) {
@@ -33,7 +33,7 @@ object ImageProcessing {
         }
     }*/
 
-    private fun checkFaceCoordinates(faces: List<Tag>) {
+    /*private fun checkFaceCoordinates(faces: List<Tag>) {
 
         for (element in faces) {
             val center = element.center
@@ -45,6 +45,14 @@ object ImageProcessing {
             Log.e("width", width.toString())
             Log.e("height", height.toString())
             Log.e("age", age)
+        }
+    }*/
+
+    fun drawRectangles(faces: List<Tag>) {
+
+        for(element in faces) {
+            Log.e("image processing", element.attributes.ageEst.toString())
+            Log.e("image processing", element.center.toString())
         }
     }
 

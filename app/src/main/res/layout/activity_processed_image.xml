@@ -3,8 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/processed_image_activity_image"
+    <ImageView
+        android:id="@+id/processed_image_activity_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/processed_image_activity_rectangles"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

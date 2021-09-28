@@ -3,7 +3,7 @@ package com.example.facedetection.model.datamodel.facesinfo
 
 import com.google.gson.annotations.SerializedName
 
-data class EyeRight(
+/*data class EyeRight(
     @SerializedName("confidence")
     val confidence: Int,
     @SerializedName("id")
@@ -12,4 +12,4 @@ data class EyeRight(
     val x: Double,
     @SerializedName("y")
     val y: Double
-)
+)*/
