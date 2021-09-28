@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
-import com.example.facedetection.RequestCodeUtil
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
+import com.example.facedetection.util.ConstValues
+import com.example.facedetection.util.RequestCodeUtil
 import com.example.facedetection.viewmodel.MainActivityViewModel
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -69,8 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun facesInfoChanged(facesInfo: FacesInfo) {
         val intent = Intent(this, ProcessedImageActivity::class.java)
-        //intent.putExtra("image_url", facesInfo.photos[0].url)
-        intent.putExtra("faces_info", facesInfo)
+        intent.putExtra(ConstValues.FACES_INFO, facesInfo)
         startActivity(intent)
     }
 
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
+        intent.type = ConstValues.INTENT_TYPE_IMAGE
         startActivityForResult(intent, RequestCodeUtil.REQUEST_CODE_GALLERY_IMAGE)
     }
 
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
 
 
         } else if (requestCode == RequestCodeUtil.REQUEST_CODE_CAMERA_IMAGE && resultCode == RESULT_OK) {
-            val imageFromCamera = data?.getParcelableExtra<Bitmap>("data")
+            val imageFromCamera = data?.getParcelableExtra<Bitmap>(ConstValues.DATA)
 
             if (imageFromCamera != null) {
                 val finalImage = convertToBase64(imageFromCamera)

@@ -1,4 +1,4 @@
-package com.example.facedetection.api
+package com.example.facedetection.api.facesinfo
 
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import retrofit2.Call

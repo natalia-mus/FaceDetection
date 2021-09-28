@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
+import com.example.facedetection.util.ConstValues
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
 
 class ProcessedImageActivity : AppCompatActivity() {
@@ -28,10 +29,11 @@ class ProcessedImageActivity : AppCompatActivity() {
         setView()
         setObservers()
 
-        if (intent.hasExtra("faces_info")) {
-            val facesInfo = intent.getParcelableExtra<FacesInfo>("faces_info")
+        if (intent.hasExtra(ConstValues.FACES_INFO)) {
+            val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)
             val imageUrl =
                 facesInfo!!.photos[0].url                                            // !!
+
             Glide.with(this).load(imageUrl).into(photo)
 
             val photo = facesInfo.photos[0]

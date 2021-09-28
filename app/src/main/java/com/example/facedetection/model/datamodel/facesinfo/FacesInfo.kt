@@ -12,7 +12,5 @@ data class FacesInfo(
     @SerializedName("photos")
     val photos: List<Photo>,
     @SerializedName("status")
-    val status: String,
-    /*@SerializedName("usage")
-    val usage: Usage*/
-): Parcelable
+    val status: String
+) : Parcelable

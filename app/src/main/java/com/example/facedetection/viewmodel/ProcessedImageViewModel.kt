@@ -15,6 +15,7 @@ class ProcessedImageViewModel : ViewModel() {
 
     fun processImage(photo: Photo) {
         val faces = photo.tags
+
         peopleCount.value = ImageProcessing.countPeople(faces)
         adultsCount.value = ImageProcessing.countAdults(faces)
         childrenCount.value = ImageProcessing.countChildren(faces)

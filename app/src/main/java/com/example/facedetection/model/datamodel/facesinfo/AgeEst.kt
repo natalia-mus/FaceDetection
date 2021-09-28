@@ -7,8 +7,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class AgeEst(
-    /*@SerializedName("confidence")
-    val confidence: Int,*/
     @SerializedName("value")
     val value: String
-): Parcelable
+) : Parcelable

@@ -1,4 +1,4 @@
-package com.example.facedetection.api
+package com.example.facedetection.api.imagetourl
 
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody

@@ -9,6 +9,4 @@ import kotlinx.parcelize.Parcelize
 data class Attributes(
     @SerializedName("age_est")
     val ageEst: AgeEst,
-    /*@SerializedName("face")
-    val face: Face*/
-): Parcelable
+) : Parcelable

@@ -1,11 +1,10 @@
 package com.example.facedetection.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.facedetection.api.FacesInfoRepository
-import com.example.facedetection.api.ImageToUrlRepository
 import com.example.facedetection.api.RepositoryCallback
+import com.example.facedetection.api.facesinfo.FacesInfoRepository
+import com.example.facedetection.api.imagetourl.ImageToUrlRepository
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 
@@ -24,7 +23,6 @@ class MainActivityViewModel : ViewModel() {
             }
 
             override fun onError() {
-                Log.e("detectFaces", "error")
                 loading.value = false
             }
         })
@@ -34,13 +32,11 @@ class MainActivityViewModel : ViewModel() {
     private fun getFacesInfo(url: String) {
         FacesInfoRepository.getFacesInfo(url, object : RepositoryCallback<FacesInfo> {
             override fun onSuccess(data: FacesInfo) {
-                Log.e("success", data.toString())
                 loading.value = false
                 facesInfo.value = data
             }
 
             override fun onError() {
-                Log.e("getFacesInfo", "error")
                 loading.value = false
             }
         })

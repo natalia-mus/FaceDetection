@@ -11,4 +11,4 @@ data class Center(
     val x: Double,
     @SerializedName("y")
     val y: Double
-): Parcelable
+) : Parcelable
