@@ -4,25 +4,47 @@ import android.util.Log
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.facesinfo.Tag
 
+// Tag >> center, width, height
+
 object ImageProcessing {
 
     fun processImage(facesInfo: FacesInfo) {
-        val face = facesInfo.photos[0].tags
-        val peopleCount = face.size
+        val faces = facesInfo.photos[0].tags
 
-        Log.e("people", peopleCount.toString())
-        checkAge(face)
+        countPeople(faces)
+        //checkAge(faces)
+        checkFaceCoordinates(faces)
     }
 
-    fun checkAge(face: List<Tag>) {
+    private fun countPeople(faces: List<Tag>) {
+        val peopleCount = faces.size
+        Log.e("people", peopleCount.toString())
+    }
 
-        for (element in face) {
+    /*private fun checkAge(faces: List<Tag>) {
+
+        for (element in faces) {
             val age = element.attributes.ageEst.value.toInt()
             if (age < 16) {
-                Log.e("wiek", "dziecko")
+                Log.e("age", "child")
             } else {
-                Log.e("wiek", "dorosły")
+                Log.e("age", "adult")
             }
+        }
+    }*/
+
+    private fun checkFaceCoordinates(faces: List<Tag>) {
+
+        for (element in faces) {
+            val center = element.center
+            val width = element.width
+            val height = element.height
+            val age = element.attributes.ageEst.value
+
+            Log.e("center", center.toString())
+            Log.e("width", width.toString())
+            Log.e("height", height.toString())
+            Log.e("age", age)
         }
     }
 
