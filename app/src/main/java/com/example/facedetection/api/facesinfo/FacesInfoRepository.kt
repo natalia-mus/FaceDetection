@@ -11,15 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 // http://api.skybiometry.com/fc/faces/ detect.json ? api_key=ir36vvdkebnvbucctdnmke653d & api_secret=taubtcdfrtihh83i5pchqkdbbh & urls=https://www.elleman.pl/uploads/media/default/0005/40/cec344175ad1976fe2a78e04a2843f97ce77270b.jpeg & attributes=age
 
-//private const val API_KEY = "ir36vvdkebnvbucctdnmke653d"
-//private const val API_SECRET = "taubtcdfrtihh83i5pchqkdbbh"
-
-
 object FacesInfoRepository {
 
     private const val BASE_URL = "http://api.skybiometry.com/fc/faces/"
-
-    private const val RESPONSE_FORMAT = "detect.json"
     private const val API_KEY = "uece7en7b1n1mbd5uuo2fq7p7i"
     private const val API_SECRET = "skrmgdhpk62rld7dsju3s9m0g7"
     private const val ATTRIBUTES = "age"
@@ -33,7 +27,7 @@ object FacesInfoRepository {
     private val apiService = retrofit.create(FacesInfoAPIService::class.java)
 
     fun getFacesInfo(url: String, callback: RepositoryCallback<FacesInfo>) {
-        apiService.getFacesInfo(RESPONSE_FORMAT, API_KEY, API_SECRET, url, ATTRIBUTES)
+        apiService.getFacesInfo(API_KEY, API_SECRET, url, ATTRIBUTES)
             .enqueue(object : Callback<FacesInfo> {
                 override fun onResponse(call: Call<FacesInfo>, response: Response<FacesInfo>) {
                     response.body()?.let { callback.onSuccess(it) }

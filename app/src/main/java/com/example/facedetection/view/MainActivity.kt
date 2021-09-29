@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -20,10 +19,10 @@ import com.example.facedetection.R
 import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
+import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.util.Permissions
 import com.example.facedetection.util.RequestCodeUtil
 import com.example.facedetection.viewmodel.MainActivityViewModel
-import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
@@ -111,16 +110,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        // documentation still gives this way as correct:
         startActivityForResult(intent, RequestCodeUtil.REQUEST_CODE_CAMERA_IMAGE)
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = ConstValues.INTENT_TYPE_IMAGE
+
+        // documentation still gives this way as correct:
         startActivityForResult(intent, RequestCodeUtil.REQUEST_CODE_GALLERY_IMAGE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // documentation still gives this way as correct:
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodeUtil.REQUEST_CODE_GALLERY_IMAGE && resultCode == RESULT_OK) {
 
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                 val uriImage: Uri = data.data!!
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val photoBitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
-                val photoBase64 = convertToBase64(photoBitmap)
+                val photoBase64 = ImageConverter.convertToBase64(photoBitmap)
 
                 viewModel.detectFaces(photoBase64)
             }
@@ -138,21 +142,12 @@ class MainActivity : AppCompatActivity() {
             val imageFromCamera = data?.getParcelableExtra<Bitmap>(ConstValues.DATA)
 
             if (imageFromCamera != null) {
-                val photoBase64 = convertToBase64(imageFromCamera)
+                val photoBase64 = ImageConverter.convertToBase64(imageFromCamera)
 
                 viewModel.detectFaces(photoBase64)
             }
         }
 
-    }
-
-    private fun convertToBase64(bitmap: Bitmap): String {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        val output = outputStream.toByteArray()
-        val image = Base64.encodeToString(output, Base64.DEFAULT)
-
-        return image
     }
 
 }
