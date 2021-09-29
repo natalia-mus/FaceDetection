@@ -1,6 +1,7 @@
 package com.example.facedetection.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -9,12 +10,17 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
+import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
+import com.example.facedetection.util.Permissions
 import com.example.facedetection.util.RequestCodeUtil
 import com.example.facedetection.viewmodel.MainActivityViewModel
 import java.io.ByteArrayOutputStream
@@ -47,7 +53,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         buttonCamera.setOnClickListener() {
-            openCamera()
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openCamera()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.CAMERA),
+                    Permissions.CAMERA
+                )
+            }
         }
 
         buttonGallery.setOnClickListener() {
@@ -57,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setObservers() {
         viewModel.loading.observe(this, { loadingStatusChanged(it) })
+        viewModel.status.observe(this, { statusChanged(it) })
         viewModel.facesInfo.observe(this, { facesInfoChanged(it) })
     }
 
@@ -68,13 +87,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun statusChanged(status: Status) {
+        if (status == Status.ERROR) {
+            Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
     private fun facesInfoChanged(facesInfo: FacesInfo) {
         val intent = Intent(this, ProcessedImageActivity::class.java)
         intent.putExtra(ConstValues.FACES_INFO, facesInfo)
         startActivity(intent)
     }
 
-    // check permissions first
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Permissions.CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED) openCamera()
+    }
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -91,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodeUtil.REQUEST_CODE_GALLERY_IMAGE && resultCode == RESULT_OK) {
 
-            if (data != null) {
+            if (data != null && data.data != null) {
                 val uriImage: Uri = data.data!!
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
@@ -108,10 +141,9 @@ class MainActivity : AppCompatActivity() {
                 val finalImage = convertToBase64(imageFromCamera)
                 viewModel.detectFaces(finalImage)
             }
-
         }
-    }
 
+    }
 
     private fun convertToBase64(bitmap: Bitmap): String {
         val outputStream = ByteArrayOutputStream()

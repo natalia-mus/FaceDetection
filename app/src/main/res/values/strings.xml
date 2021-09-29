@@ -6,4 +6,5 @@
     <string name="people">people:</string>
     <string name="adults">adults:</string>
     <string name="children">children:</string>
+    <string name="error_something_went_wrong">"Something went wrong. Try again."</string>
 </resources>
