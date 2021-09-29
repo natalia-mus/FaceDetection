@@ -1,3 +1,3 @@
 package com.example.facedetection.model.datamodel.imagetourl
 
-data class ImageToUrl(val data: ImageToUrlData)
+data class ImageToUrl(val data: Url)

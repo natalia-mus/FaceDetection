@@ -10,7 +10,6 @@ import java.net.URL
 class ImageProcessing(private val photo: Photo) {
 
     private val faces = photo.tags
-    private lateinit var photoBitmap: Bitmap
 
     fun countPeople() = faces.size
 

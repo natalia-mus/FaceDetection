@@ -95,7 +95,11 @@
             android:id="@+id/processed_image_activity_image"
             android:layout_width="match_parent"
             android:layout_height="600dp"
+<<<<<<< Updated upstream
             android:layout_marginTop="8dp"
+=======
+            android:layout_marginTop="20dp"
+>>>>>>> Stashed changes
             app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_children_section" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
