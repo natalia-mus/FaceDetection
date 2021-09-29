@@ -1,6 +1,7 @@
 package com.example.facedetection.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -12,11 +13,14 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
 import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
+import com.example.facedetection.util.Permissions
 import com.example.facedetection.util.RequestCodeUtil
 import com.example.facedetection.viewmodel.MainActivityViewModel
 import java.io.ByteArrayOutputStream
@@ -49,7 +53,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         buttonCamera.setOnClickListener() {
-            openCamera()
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openCamera()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.CAMERA),
+                    Permissions.CAMERA
+                )
+            }
         }
 
         buttonGallery.setOnClickListener() {
@@ -84,7 +100,14 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // check permissions first
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Permissions.CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED) openCamera()
+    }
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
