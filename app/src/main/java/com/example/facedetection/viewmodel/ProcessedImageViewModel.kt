@@ -9,16 +9,16 @@ import com.example.facedetection.model.datamodel.facesinfo.Photo
 class ProcessedImageViewModel : ViewModel() {
 
     val peopleCount = MutableLiveData<Int>()
-    val childrenCount = MutableLiveData<Int>()
     val adultsCount = MutableLiveData<Int>()
+    val childrenCount = MutableLiveData<Int>()
     val processedImage = MutableLiveData<Bitmap>()
 
     fun processImage(photo: Photo) {
-        val faces = photo.tags
+        val model = ImageProcessing(photo)
 
-        peopleCount.value = ImageProcessing.countPeople(faces)
-        adultsCount.value = ImageProcessing.countAdults(faces)
-        childrenCount.value = ImageProcessing.countChildren(faces)
-        processedImage.value = ImageProcessing.drawRectangles(photo)
+        peopleCount.value = model.countPeople()
+        adultsCount.value = model.countAdults()
+        childrenCount.value = model.countChildren()
+        processedImage.value = model.drawRectangles()
     }
 }

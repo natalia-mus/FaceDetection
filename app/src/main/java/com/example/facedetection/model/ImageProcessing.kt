@@ -7,11 +7,13 @@ import android.graphics.Paint
 import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.model.datamodel.facesinfo.Tag
 
-object ImageProcessing {
+class ImageProcessing(private val photo: Photo) {
 
-    fun countPeople(faces: List<Tag>) = faces.size
+    private val faces = photo.tags
 
-    fun countAdults(faces: List<Tag>): Int {
+    fun countPeople() = faces.size
+
+    fun countAdults(): Int {
         var adultsCount = 0
 
         for (face in faces) {
@@ -21,7 +23,7 @@ object ImageProcessing {
         return adultsCount
     }
 
-    fun countChildren(faces: List<Tag>): Int {
+    fun countChildren(): Int {
         var childrenCount = 0
 
         for (face in faces) {
@@ -31,11 +33,10 @@ object ImageProcessing {
         return childrenCount
     }
 
-    fun drawRectangles(photo: Photo): Bitmap {
+
+    fun drawRectangles(): Bitmap {
         val photoWidth = photo.width
         val photoHeight = photo.height
-
-        val faces = photo.tags
 
         val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
