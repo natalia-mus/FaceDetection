@@ -127,10 +127,10 @@ class MainActivity : AppCompatActivity() {
             if (data != null && data.data != null) {
                 val uriImage: Uri = data.data!!
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
-                val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
+                val photoBitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
+                val photoBase64 = convertToBase64(photoBitmap)
 
-                val finalImage = convertToBase64(bitmap)
-                viewModel.detectFaces(finalImage)
+                viewModel.detectFaces(photoBase64)
             }
 
 
@@ -138,8 +138,9 @@ class MainActivity : AppCompatActivity() {
             val imageFromCamera = data?.getParcelableExtra<Bitmap>(ConstValues.DATA)
 
             if (imageFromCamera != null) {
-                val finalImage = convertToBase64(imageFromCamera)
-                viewModel.detectFaces(finalImage)
+                val photoBase64 = convertToBase64(imageFromCamera)
+
+                viewModel.detectFaces(photoBase64)
             }
         }
 
