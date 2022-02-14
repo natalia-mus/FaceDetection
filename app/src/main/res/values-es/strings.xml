@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_picture_info">Seleccione una foto para detectar las caras.</string>
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+    <string name="people">personas:</string>
+    <string name="adults">adultos:</string>
+    <string name="children">niños:</string>
+    <string name="error_something_went_wrong">Algo salió mal. Inténta otra vez.</string>
+</resources>
