@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FaceDetection</string>
+    <string name="app_name" translatable="false">FaceDetection</string>
     <string name="select_picture_info">Select picture to detect faces.</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
