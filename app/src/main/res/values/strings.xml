@@ -7,4 +7,7 @@
     <string name="adults">adults:</string>
     <string name="children">children:</string>
     <string name="error_something_went_wrong">"Something went wrong. Try again."</string>
+    <string name="face_detection">Face detection</string>
+    <string name="age_estimation">Age estimation</string>
+    <string name="pixelization">Pixelization</string>
 </resources>
