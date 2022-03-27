@@ -1,6 +1,7 @@
 package com.example.facedetection.viewmodel
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.facedetection.model.ImageProcessing
@@ -24,7 +25,7 @@ class ProcessedImageViewModel : ViewModel() {
     }
 
     fun pixelateImage(bitmap: Bitmap): Bitmap {
-        return ImagePixelizator.pixelateImage(bitmap, 30)
+        return ImagePixelizator.pixelateImage(bitmap)
     }
 
 }

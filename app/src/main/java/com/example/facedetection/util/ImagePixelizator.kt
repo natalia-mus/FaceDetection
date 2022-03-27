@@ -11,20 +11,21 @@ object ImagePixelizator {
 
     private var imageWidth = 0
     private var imageHeight = 0
-    private var pixelSize = 2
+    private var pixelSize = 0
     private var initialIndicesSet = ArrayList<Int>()
 
 
     /**
      * Gets bitmap as an argument and returns this bitmap pixelated; pixelSize = pixel edge size
      */
-    fun pixelateImage(bitmap: Bitmap, pixelSize: Int): Bitmap {
-        imageWidth = bitmap.width
-        imageHeight = bitmap.height
-        this.pixelSize = pixelSize
+    fun pixelateImage(bitmap: Bitmap): Bitmap {
+        val operationalBitmap = prepareParameters(bitmap)
+
+        imageWidth = operationalBitmap.width
+        imageHeight = operationalBitmap.height
         prepareInitialIndicesSet()
 
-        val imageAsPixels = getImageAsPixels(bitmap)
+        val imageAsPixels = getImageAsPixels(operationalBitmap)
         val flattenPixels = flattenPixelsArray(imageAsPixels)
         val pixelatedFlatten = pixelate(flattenPixels)
         val pixelated = reflattenPixelsArray(pixelatedFlatten)
@@ -33,6 +34,32 @@ object ImagePixelizator {
         cleanAfterPixelization()
 
         return result
+    }
+
+
+    private fun prepareParameters(bitmap: Bitmap): Bitmap {
+        var btmp = bitmap
+        val parametersSet = listOf(10, 20, 25, 30)
+
+        while (pixelSize == 0) {
+            for (i in parametersSet.indices) {
+                if (btmp.width % parametersSet[i] == 0 && btmp.height % parametersSet[i] == 0) {
+                    pixelSize = parametersSet[i]
+                }
+            }
+
+            if (pixelSize == 0) {
+                if (btmp.width % 10 == 0) {
+                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width, btmp.height - 1)
+
+                } else {
+                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width - 1, btmp.height)
+                }
+
+            }
+        }
+
+        return btmp
     }
 
 
@@ -224,6 +251,7 @@ object ImagePixelizator {
      */
     private fun cleanAfterPixelization() {
         initialIndicesSet.clear()
+        pixelSize = 0
     }
 
 }
