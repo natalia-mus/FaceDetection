@@ -89,9 +89,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun statusChanged(status: Status) {
-        if (status == Status.ERROR) {
-            Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG)
-                .show()
+        when (status) {
+            Status.ERROR -> Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG).show()
+            Status.PHOTO_TOO_LARGE -> Toast.makeText(this, getString(R.string.error_picture_too_large) + ConstValues.MAX_PHOTO_SIZE, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -135,10 +135,9 @@ class MainActivity : AppCompatActivity() {
                 val uriImage: Uri = data.data!!
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val photoBitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
-                val photoBase64 = ImageConverter.convertToBase64(photoBitmap)
 
                 bitmap = ImageConverter.convertToByteArray(photoBitmap)
-                viewModel.detectFaces(photoBase64)
+                viewModel.detectFaces(photoBitmap)
             }
 
 
@@ -147,9 +146,8 @@ class MainActivity : AppCompatActivity() {
 
             if (imageFromCamera != null) {
                 bitmap = ImageConverter.convertToByteArray(imageFromCamera)
-                val photoBase64 = ImageConverter.convertToBase64(imageFromCamera)
 
-                viewModel.detectFaces(photoBase64)
+                viewModel.detectFaces(imageFromCamera)
             }
         }
 
