@@ -2,7 +2,10 @@ package com.example.facedetection.view
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +20,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var people: TextView
     private lateinit var adults: TextView
     private lateinit var children: TextView
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var viewModel: ProcessedImageViewModel
 
@@ -33,6 +37,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         people = findViewById(R.id.processed_image_activity_people)
         adults = findViewById(R.id.processed_image_activity_adults)
         children = findViewById(R.id.processed_image_activity_children)
+        progressBar = findViewById(R.id.activity_processed_image_progress_bar)
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
 
@@ -70,6 +75,13 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun processedImageChanged(processedImage: Bitmap) {
         image.setImageBitmap(processedImage)
+
+        Handler().postDelayed(
+            {
+                image.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }, 2000
+        )
     }
 
 }
