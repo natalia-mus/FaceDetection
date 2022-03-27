@@ -30,6 +30,8 @@ object ImagePixelizator {
         val pixelated = reflattenPixelsArray(pixelatedFlatten)
         val result = convertPixelsIntoBitmap(pixelated)
 
+        cleanAfterPixelization()
+
         return result
     }
 
@@ -214,6 +216,14 @@ object ImagePixelizator {
         val bitmap = Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.RGBA_F16)
 
         return bitmap
+    }
+
+
+    /**
+     * Cleans after processed image
+     */
+    private fun cleanAfterPixelization() {
+        initialIndicesSet.clear()
     }
 
 }

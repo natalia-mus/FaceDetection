@@ -83,56 +83,78 @@ class ProcessedImageActivity : AppCompatActivity() {
         viewModel.adultsCount.observe(this, { adultsCountChanged(it) })
         viewModel.processedImage.observe(this, {
             processedImage = it
-            imageChanged(it)
+            imageChanged(bitmap)
         })
     }
 
     private fun options() {
+        val optionFaceDetectionIcon = findViewById<ImageView>(R.id.option_face_detection_icon)
+        val optionFaceDetectionText = findViewById<TextView>(R.id.option_face_detection_text)
+        val optionAgeEstimationIcon = findViewById<ImageView>(R.id.option_age_estimation_icon)
+        val optionAgeEstimationText = findViewById<TextView>(R.id.option_age_estimation_text)
+        val optionPixelizationIcon = findViewById<ImageView>(R.id.option_pixelization_icon)
+        val optionPixelizationText = findViewById<TextView>(R.id.option_pixelization_text)
+
         optionFaceDetection.setOnClickListener() {
-            val icon = findViewById<ImageView>(R.id.option_face_detection_icon)
-            val text = findViewById<TextView>(R.id.option_face_detection_text)
+            progressBar.visibility = View.VISIBLE
 
             if (faceDetection) {
                 faceDetection = false
-                icon.setColorFilter(resources.getColor(R.color.white, null))
-                text.setTextColor(resources.getColor(R.color.white, null))
+                optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionFaceDetectionText.setTextColor(resources.getColor(R.color.white, null))
                 imageChanged(bitmap)
             } else {
                 faceDetection = true
-                icon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
-                text.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                ageEstimation = false
+                pixelization = false
+                optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
+                optionFaceDetectionText.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
+                optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
                 imageChanged(processedImage)
             }
         }
 
         optionAgeEstimation.setOnClickListener() {
-            val icon = findViewById<ImageView>(R.id.option_age_estimation_icon)
-            val text = findViewById<TextView>(R.id.option_age_estimation_text)
+            progressBar.visibility = View.VISIBLE
 
             if (ageEstimation) {
                 ageEstimation = false
-                icon.setColorFilter(resources.getColor(R.color.white, null))
-                text.setTextColor(resources.getColor(R.color.white, null))
+                optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
             } else {
+                faceDetection = false
                 ageEstimation = true
-                icon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
-                text.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                pixelization = false
+                optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionFaceDetectionText.setTextColor(resources.getColor(R.color.white, null))
+                optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
+                optionAgeEstimationText.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
             }
         }
 
         optionPixelization.setOnClickListener() {
-            val icon = findViewById<ImageView>(R.id.option_pixelization_icon)
-            val text = findViewById<TextView>(R.id.option_pixelization_text)
+            progressBar.visibility = View.VISIBLE
 
             if (pixelization) {
                 pixelization = false
-                icon.setColorFilter(resources.getColor(R.color.white, null))
-                text.setTextColor(resources.getColor(R.color.white, null))
+                optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
                 imageChanged(bitmap)
             } else {
+                faceDetection = false
+                ageEstimation = false
                 pixelization = true
-                icon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
-                text.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionFaceDetectionText.setTextColor(resources.getColor(R.color.white, null))
+                optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
+                optionPixelizationIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
+                optionPixelizationText.setTextColor(resources.getColor(R.color.blue_option_on, null))
                 imageChanged(viewModel.pixelateImage(bitmap))
             }
         }
@@ -157,7 +179,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
-            }, 2000
+            }, 500
         )
     }
 
