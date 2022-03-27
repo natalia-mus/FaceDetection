@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/image_processing_options"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:id="@+id/image_processing_options"
     android:background="@color/blue_dark"
     app:layout_constraintBottom_toBottomOf="parent">
 
@@ -15,22 +15,22 @@
             android:id="@+id/option_face_detection"
             android:layout_width="150dp"
             android:layout_height="90dp"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <ImageView
-                android:src="@drawable/ic_baseline_crop_free_24"
+                android:id="@+id/option_face_detection_icon"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                app:tint="@color/blue_option_on" />
+                android:src="@drawable/ic_baseline_crop_free_24" />
 
             <TextView
-                android:textAlignment="center"
+                android:id="@+id/option_face_detection_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/face_detection"
-                android:textColor="@color/blue_option_on"
-                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -39,15 +39,17 @@
             android:id="@+id/option_age_estimation"
             android:layout_width="150dp"
             android:layout_height="90dp"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <ImageView
-                android:src="@drawable/ic_baseline_30fps_24"
+                android:id="@+id/option_age_estimation_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_30fps_24" />
 
             <TextView
+                android:id="@+id/option_age_estimation_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/age_estimation"
@@ -61,15 +63,17 @@
             android:id="@+id/option_pixelization"
             android:layout_width="150dp"
             android:layout_height="90dp"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <ImageView
-                android:src="@drawable/ic_baseline_apps_24"
+                android:id="@+id/option_pixelization_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_apps_24" />
 
             <TextView
+                android:id="@+id/option_pixelization_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/pixelization"

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.facedetection.model.ImageProcessing
 import com.example.facedetection.model.datamodel.facesinfo.Photo
+import com.example.facedetection.util.ImagePixelizator
 
 class ProcessedImageViewModel : ViewModel() {
 
@@ -21,4 +22,9 @@ class ProcessedImageViewModel : ViewModel() {
         childrenCount.value = model.countChildren()
         processedImage.value = model.drawRectangles()
     }
+
+    fun pixelateImage(bitmap: Bitmap): Bitmap {
+        return ImagePixelizator.pixelateImage(bitmap, 30)
+    }
+
 }

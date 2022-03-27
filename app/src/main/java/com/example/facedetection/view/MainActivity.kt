@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
 
+    private lateinit var bitmap: ByteArray
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun facesInfoChanged(facesInfo: FacesInfo) {
         val intent = Intent(this, ProcessedImageActivity::class.java)
+        intent.putExtra(ConstValues.BITMAP, bitmap)
         intent.putExtra(ConstValues.FACES_INFO, facesInfo)
         startActivity(intent)
     }
@@ -134,6 +137,7 @@ class MainActivity : AppCompatActivity() {
                 val photoBitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
                 val photoBase64 = ImageConverter.convertToBase64(photoBitmap)
 
+                bitmap = ImageConverter.convertToByteArray(photoBitmap)
                 viewModel.detectFaces(photoBase64)
             }
 
@@ -142,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             val imageFromCamera = data?.getParcelableExtra<Bitmap>(ConstValues.DATA)
 
             if (imageFromCamera != null) {
+                bitmap = ImageConverter.convertToByteArray(imageFromCamera)
                 val photoBase64 = ImageConverter.convertToBase64(imageFromCamera)
 
                 viewModel.detectFaces(photoBase64)

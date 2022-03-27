@@ -1,17 +1,25 @@
 package com.example.facedetection.util
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Base64
 import java.io.ByteArrayOutputStream
 
 object ImageConverter {
 
-    fun convertToBase64(bitmap: Bitmap): String {
+    fun convertToByteArray(bitmap: Bitmap): ByteArray {
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        val output = outputStream.toByteArray()
-        val image = Base64.encodeToString(output, Base64.DEFAULT)
 
-        return image
+        return outputStream.toByteArray()
+    }
+
+    fun convertToBitmap(byteArray: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
+    fun convertToBase64(bitmap: Bitmap): String {
+        val output = convertToByteArray(bitmap)
+        return Base64.encodeToString(output, Base64.DEFAULT)
     }
 }
