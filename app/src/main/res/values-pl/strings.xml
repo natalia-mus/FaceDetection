@@ -7,4 +7,9 @@
     <string name="adults">dorośli:</string>
     <string name="children">dzieci:</string>
     <string name="error_something_went_wrong">Coś poszło nie tak. Spróbuj ponownie.</string>
+    <string name="info_api_usage_part_one">Wykorzystałeś </string>
+    <string name="info_api_usage_part_two"> zapytań.</string>
+    <string name="info_remaining_queries_part_one">Nadal pozostaje ci </string>
+    <string name="info_remaining_queries_part_two"> zapytań. </string>
+    <string name="close">Zamknij</string>
 </resources>
