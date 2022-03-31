@@ -34,7 +34,7 @@ class ImageProcessing(private val photo: Photo) {
     }
 
 
-    fun drawRectangles(): Bitmap {
+    fun detectFaces(): Bitmap {
         val urlPhoto = photo.url
         val url = URL(urlPhoto)
 
@@ -76,9 +76,73 @@ class ImageProcessing(private val photo: Photo) {
         return bitmap
     }
 
+
+    fun estimateAge(): Bitmap {
+        val urlPhoto = photo.url
+        val url = URL(urlPhoto)
+
+        val photoWidth = photo.width
+        val photoHeight = photo.height
+
+        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        backgroundPaint.color = Color.TRANSPARENT
+
+        val textPaintBlack = Paint(Paint.ANTI_ALIAS_FLAG)
+        textPaintBlack.style = Paint.Style.FILL_AND_STROKE
+        textPaintBlack.color = Color.BLACK
+        backgroundPaint.typeface = Typeface.DEFAULT_BOLD
+
+        val textPaintWhite = Paint(Paint.ANTI_ALIAS_FLAG)
+        textPaintBlack.style = Paint.Style.FILL
+        textPaintWhite.color = Color.WHITE
+
+        GlobalScope.launch {
+            val photoBitmap = getImageFromURL(url)
+            canvas.drawBitmap(photoBitmap, Matrix(), null)
+
+            for (face in faces) {
+                val age = face.attributes.ageEst.value.toInt()
+
+                val centerX = face.center.x.toFloat()
+                val centerY = face.center.y.toFloat() + (face.center.y / 2).toFloat()
+
+                val width = face.width.toFloat()
+                val height = face.height.toFloat() / 2
+
+                val left = (((centerX + width / 2) * photoWidth) / 100).toInt()
+                val right = (((centerX - width / 2) * photoWidth) / 100).toInt()
+                val top = (((centerY - height / 2) * photoHeight) / 100).toInt()
+                val bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
+
+                textPaintBlack.textSize = height * 10 + 6
+                textPaintWhite.textSize = height * 10
+
+                val rect = Rect(left, top, right, bottom)
+                canvas.drawRect(rect, backgroundPaint)
+                canvas.drawText(
+                    age.toString(),
+                    rect.centerX().toFloat(),
+                    rect.centerY().toFloat(),
+                    textPaintBlack
+                )
+                canvas.drawText(
+                    age.toString(),
+                    rect.centerX().toFloat(),
+                    rect.centerY().toFloat(),
+                    textPaintWhite
+                )
+            }
+        }
+
+        return bitmap
+    }
+
+
     private suspend fun getImageFromURL(url: URL): Bitmap {
-        val bitmap =
-            GlobalScope.async { BitmapFactory.decodeStream(url.openConnection().getInputStream()) }
+        val bitmap = GlobalScope.async { BitmapFactory.decodeStream(url.openConnection().getInputStream()) }
         return bitmap.await()
     }
 

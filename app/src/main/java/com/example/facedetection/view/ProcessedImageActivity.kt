@@ -1,7 +1,6 @@
 package com.example.facedetection.view
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -13,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
+import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
@@ -36,6 +36,7 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private lateinit var bitmap: Bitmap
     private lateinit var processedImage: Bitmap
+    private lateinit var photoData: Photo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +72,8 @@ class ProcessedImageActivity : AppCompatActivity() {
             val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)
 
             if (facesInfo != null) {
-                val processedImageData = facesInfo.photos[0]
-                viewModel.processImage(processedImageData)
+                photoData = facesInfo.photos[0]
+                viewModel.processImage(photoData)
             }
         }
 
@@ -86,6 +87,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             processedImage = it
             imageChanged(bitmap)
         })
+        viewModel.pixelatedImage.observe(this, { imageChanged(it) })
     }
 
     private fun options() {
@@ -125,6 +127,7 @@ class ProcessedImageActivity : AppCompatActivity() {
                 ageEstimation = false
                 optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
                 optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
+                imageChanged(bitmap)
             } else {
                 faceDetection = false
                 ageEstimation = true
@@ -135,6 +138,7 @@ class ProcessedImageActivity : AppCompatActivity() {
                 optionAgeEstimationText.setTextColor(resources.getColor(R.color.blue_option_on, null))
                 optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
                 optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
+                imageChanged(viewModel.estimateAge(photoData))
             }
         }
 
@@ -156,7 +160,7 @@ class ProcessedImageActivity : AppCompatActivity() {
                 optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
                 optionPixelizationIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
                 optionPixelizationText.setTextColor(resources.getColor(R.color.blue_option_on, null))
-                imageChanged(viewModel.pixelateImage(bitmap))
+                viewModel.pixelateImage(bitmap)
             }
         }
     }
@@ -180,7 +184,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
-            }, 500
+            }, 300
         )
     }
 
