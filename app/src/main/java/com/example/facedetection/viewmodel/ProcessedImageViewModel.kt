@@ -28,4 +28,8 @@ class ProcessedImageViewModel : ViewModel() {
         return ImagePixelizator.pixelateImage(bitmap)
     }
 
+    fun grayscaleImage(bitmap: Bitmap): Bitmap {
+        return ImagePixelizator.grayscaleImage(bitmap)
+    }
+
 }

@@ -83,6 +83,30 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/option_grayscale"
+            android:layout_width="150dp"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/option_grayscale_icon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_color_lens_24" />
+
+            <TextView
+                android:id="@+id/option_grayscale_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/grayscale"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </HorizontalScrollView>

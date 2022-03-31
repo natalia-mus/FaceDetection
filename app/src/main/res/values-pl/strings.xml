@@ -10,5 +10,6 @@
     <string name="face_detection">Detekcja twarzy</string>
     <string name="age_estimation">Szacowany wiek</string>
     <string name="pixelization">Pikselizacja</string>
+    <string name="grayscale">Odcienie szarości</string>
     <string name="error_picture_too_large">Zdjęcie zbyt duże. Maksymalny rozmiar: </string>
 </resources>

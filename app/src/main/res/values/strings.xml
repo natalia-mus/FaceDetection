@@ -10,5 +10,6 @@
     <string name="face_detection">Face detection</string>
     <string name="age_estimation">Age estimation</string>
     <string name="pixelization">Pixelization</string>
+    <string name="grayscale">Grayscale</string>
     <string name="error_picture_too_large">Picture too large. Max picture size: </string>
 </resources>
