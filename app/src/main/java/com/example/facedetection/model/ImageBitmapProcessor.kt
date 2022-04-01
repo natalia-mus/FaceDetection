@@ -1,4 +1,4 @@
-package com.example.facedetection.util
+package com.example.facedetection.model
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -7,7 +7,7 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.example.facedetection.model.datamodel.RGB
 
-object ImagePixelizator {
+object ImageBitmapProcessor {
 
     private var imageWidth = 0
     private var imageHeight = 0
@@ -52,6 +52,9 @@ object ImagePixelizator {
     }
 
 
+    /**
+     * Selects best pixel size for pixelation process depending on photo dimensions
+     */
     private fun prepareParameters(bitmap: Bitmap): Bitmap {
         var btmp = bitmap
         val parametersSet = listOf(10, 20, 25, 30)

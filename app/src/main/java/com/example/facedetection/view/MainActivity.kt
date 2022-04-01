@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     private fun statusChanged(status: Status) {
         when (status) {
             Status.ERROR -> Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG).show()
-            Status.PHOTO_TOO_LARGE -> Toast.makeText(this, getString(R.string.error_picture_too_large) + ConstValues.MAX_PHOTO_SIZE, Toast.LENGTH_LONG).show()
+            Status.PHOTO_TOO_LARGE -> Toast.makeText(this, getString(R.string.error_picture_too_large) + " " + ConstValues.MAX_PHOTO_SIZE, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -3,9 +3,9 @@ package com.example.facedetection.viewmodel
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.facedetection.model.ImageProcessing
+import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
-import com.example.facedetection.util.ImagePixelizator
+import com.example.facedetection.model.ImageBitmapProcessor
 
 class ProcessedImageViewModel() : ViewModel() {
 
@@ -16,12 +16,12 @@ class ProcessedImageViewModel() : ViewModel() {
     val processedImage = MutableLiveData<Bitmap>()
     val pixelatedImage = MutableLiveData<Bitmap>()
 
-    private lateinit var imageProcessor: ImageProcessing
+    private lateinit var imageProcessor: ImageDataProcessor
 
 
     fun processImage(photo: Photo) {
         if (!this::imageProcessor.isInitialized) {
-            imageProcessor = ImageProcessing(photo)
+            imageProcessor = ImageDataProcessor(photo)
         }
 
         peopleCount.value = imageProcessor.countPeople()
@@ -32,7 +32,7 @@ class ProcessedImageViewModel() : ViewModel() {
 
     fun estimateAge(photo: Photo): Bitmap {
         if (!this::imageProcessor.isInitialized) {
-            imageProcessor = ImageProcessing(photo)
+            imageProcessor = ImageDataProcessor(photo)
         }
 
         return imageProcessor.estimateAge()
@@ -40,12 +40,12 @@ class ProcessedImageViewModel() : ViewModel() {
 
     fun pixelateImage(bitmap: Bitmap) {
         loading.value = true
-        pixelatedImage.value = ImagePixelizator.pixelateImage(bitmap)
+        pixelatedImage.value = ImageBitmapProcessor.pixelateImage(bitmap)
         loading.value = false
     }
 
     fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        return ImagePixelizator.grayscaleImage(bitmap)
+        return ImageBitmapProcessor.grayscaleImage(bitmap)
     }
 
 }

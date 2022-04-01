@@ -7,7 +7,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.net.URL
 
-class ImageProcessing(private val photo: Photo) {
+class ImageDataProcessor(private val photo: Photo) {
 
     private val faces = photo.tags
 
@@ -88,7 +88,7 @@ class ImageProcessing(private val photo: Photo) {
         val canvas = Canvas(bitmap)
 
         val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        backgroundPaint.color = Color.TRANSPARENT
+        //backgroundPaint.color = Color.TRANSPARENT
 
         val textPaintBlack = Paint(Paint.ANTI_ALIAS_FLAG)
         textPaintBlack.style = Paint.Style.FILL_AND_STROKE
@@ -112,28 +112,38 @@ class ImageProcessing(private val photo: Photo) {
                 val width = face.width.toFloat()
                 val height = face.height.toFloat() / 2
 
-                val left = (((centerX + width / 2) * photoWidth) / 100).toInt()
-                val right = (((centerX - width / 2) * photoWidth) / 100).toInt()
-                val top = (((centerY - height / 2) * photoHeight) / 100).toInt()
-                val bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
+                var left = (((centerX + width / 2) * photoWidth) / 100).toInt()
+                var right = (((centerX - width / 2) * photoWidth) / 100).toInt()
+                var top = (((centerY - height / 2) * photoHeight) / 100).toInt()
+                var bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
 
-                textPaintBlack.textSize = height * 10 + 6
+                textPaintBlack.textSize = height * 5
                 textPaintWhite.textSize = height * 10
 
-                val rect = Rect(left, top, right, bottom)
-                canvas.drawRect(rect, backgroundPaint)
+                var rect = Rect(left, top, right, bottom)
+                canvas.drawRect(rect, textPaintBlack)
+
+                left = ((((centerX + width / 2) * photoWidth) / 100) - 10 / 8).toInt()
+                right = ((((centerX - width / 2) * photoWidth) / 100) + 10 / 8).toInt()
+                top = ((((centerY - height / 2) * photoHeight) / 100) + 10 / 8).toInt()
+                bottom = ((((centerY + height / 2) * photoHeight) / 100) - 10 / 8).toInt()
+                rect = Rect(left, top, right, bottom)
+                canvas.drawRect(rect, textPaintWhite)
+
+                val x = rect.right + (rect.centerX() - rect.right)/2
+                val y = rect.bottom + (rect.centerY() - rect.bottom)/2
                 canvas.drawText(
                     age.toString(),
-                    rect.centerX().toFloat(),
-                    rect.centerY().toFloat(),
+                    x.toFloat(),
+                    y.toFloat(),
                     textPaintBlack
                 )
-                canvas.drawText(
+                /*canvas.drawText(
                     age.toString(),
                     rect.centerX().toFloat(),
                     rect.centerY().toFloat(),
                     textPaintWhite
-                )
+                )*/
             }
         }
 
