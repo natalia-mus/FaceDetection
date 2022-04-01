@@ -37,6 +37,21 @@ object ImagePixelizator {
     }
 
 
+    /**
+     * Returns bitmap in grayscale
+     */
+    fun grayscaleImage(bitmap: Bitmap): Bitmap {
+        imageWidth = bitmap.width
+        imageHeight = bitmap.height
+
+        val imageAsPixels = getImageAsPixels(bitmap)
+        val grayscale = convertPixelsToGray(imageAsPixels)
+        val result = convertPixelsIntoBitmap(grayscale)
+
+        return result
+    }
+
+
     private fun prepareParameters(bitmap: Bitmap): Bitmap {
         var btmp = bitmap
         val parametersSet = listOf(10, 20, 25, 30)
@@ -243,6 +258,25 @@ object ImagePixelizator {
         val bitmap = Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.RGBA_F16)
 
         return bitmap
+    }
+
+
+    private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
+        for (row in pixels) {
+            for (pixel in row) {
+                val r = pixel.red
+                val g = pixel.green
+                val b = pixel.blue
+
+                val gray = (r + g + b) / 3
+
+                pixel.red = gray
+                pixel.green = gray
+                pixel.blue = gray
+            }
+        }
+
+        return pixels
     }
 
 

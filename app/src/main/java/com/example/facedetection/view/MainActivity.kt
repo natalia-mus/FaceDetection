@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
 import com.example.facedetection.Status
+import com.example.facedetection.model.datamodel.apiusage.APIUsageData
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
@@ -42,6 +45,20 @@ class MainActivity : AppCompatActivity() {
         setView()
         setObservers()
         setListeners()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_item_api_usage -> {
+                viewModel.checkAPIUsage()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setView() {
@@ -77,6 +94,7 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() {
         viewModel.loading.observe(this, { loadingStatusChanged(it) })
         viewModel.status.observe(this, { statusChanged(it) })
+        viewModel.apiUsage.observe(this, { apiUsageChanged(it) })
         viewModel.facesInfo.observe(this, { facesInfoChanged(it) })
     }
 
@@ -93,6 +111,11 @@ class MainActivity : AppCompatActivity() {
             Status.ERROR -> Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG).show()
             Status.PHOTO_TOO_LARGE -> Toast.makeText(this, getString(R.string.error_picture_too_large) + ConstValues.MAX_PHOTO_SIZE, Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun apiUsageChanged(apiUsage: APIUsageData) {
+        val info = APIUsageInfo(this, apiUsage)
+        info.show()
     }
 
     private fun facesInfoChanged(facesInfo: FacesInfo) {

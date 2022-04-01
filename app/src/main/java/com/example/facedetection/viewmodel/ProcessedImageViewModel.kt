@@ -44,4 +44,8 @@ class ProcessedImageViewModel() : ViewModel() {
         loading.value = false
     }
 
+    fun grayscaleImage(bitmap: Bitmap): Bitmap {
+        return ImagePixelizator.grayscaleImage(bitmap)
+    }
+
 }
