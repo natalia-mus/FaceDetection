@@ -12,4 +12,10 @@
     <string name="pixelization">Pixelización </string>
     <string name="grayscale">Escala de grises</string>
     <string name="error_picture_too_large">Imagen demasiado grande. Tamaño máximo: </string>
+    <string name="info_api_usage_part_one">You have used </string>
+    <string name="info_api_usage_part_two"> of your queries.</string>
+    <string name="info_remaining_queries_part_one">You still have </string>
+    <string name="info_remaining_queries_part_two"> remaining queries. </string>
+    <string name="close">Cerrar</string>
+    <string name="api_usage">Uso de API</string>
 </resources>
