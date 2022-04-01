@@ -12,4 +12,5 @@
     <string name="info_remaining_queries_part_one">You still have </string>
     <string name="info_remaining_queries_part_two"> remaining queries. </string>
     <string name="close">Cerrar</string>
+    <string name="api_usage">Uso de API</string>
 </resources>

@@ -3,10 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/drawable/ic_baseline_color_lens_24.xml" value="0.1" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/activity_main.xml" value="0.21875" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/activity_processed_image.xml" value="0.2625" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/image_processing_options.xml" value="0.2682291666666667" />
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/info_api_usage.xml" value="0.22" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/layout_api_usage.xml" value="0.2833333333333333" />
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/menu/main_menu.xml" value="0.27447916666666666" />
       </map>
     </option>
   </component>

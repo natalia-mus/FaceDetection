@@ -12,4 +12,5 @@
     <string name="info_remaining_queries_part_one">Nadal pozostaje ci </string>
     <string name="info_remaining_queries_part_two"> zapytań. </string>
     <string name="close">Zamknij</string>
+    <string name="api_usage">Zużycie API</string>
 </resources>
