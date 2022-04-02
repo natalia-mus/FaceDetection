@@ -7,4 +7,5 @@ object ConstValues {
     const val FACES_INFO = "faces_info"
     const val DATA = "data"
     const val BITMAP = "bitmap"
+    const val GENDER_FEMALE = "female"
 }

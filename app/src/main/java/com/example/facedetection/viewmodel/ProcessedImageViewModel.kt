@@ -20,6 +20,14 @@ class ProcessedImageViewModel() : ViewModel() {
     private lateinit var imageDataProcessor: ImageDataProcessor
 
 
+    fun isGenderInfoAvailable(photo: Photo): Boolean {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        return imageDataProcessor.isGenderInfoAvailable()
+    }
+
     fun processImage(photo: Photo) {
         if (!this::imageDataProcessor.isInitialized) {
             imageDataProcessor = ImageDataProcessor(photo)
@@ -48,9 +56,7 @@ class ProcessedImageViewModel() : ViewModel() {
     }
 
     fun pixelateImage(bitmap: Bitmap) {
-        loading.value = true
         pixelatedImage.value = ImageBitmapProcessor.pixelateImage(bitmap)
-        loading.value = false
     }
 
     fun grayscaleImage(bitmap: Bitmap): Bitmap {

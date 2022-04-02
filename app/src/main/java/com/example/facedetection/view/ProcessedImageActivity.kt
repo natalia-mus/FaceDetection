@@ -48,7 +48,7 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         setView()
         setObservers()
-        options()
+        setOptions()
     }
 
     private fun setView() {
@@ -96,7 +96,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         viewModel.pixelatedImage.observe(this, { imageChanged(it) })
     }
 
-    private fun options() {
+    private fun setOptions() {
         val optionFaceDetectionIcon = findViewById<ImageView>(R.id.option_face_detection_icon)
         val optionFaceDetectionText = findViewById<TextView>(R.id.option_face_detection_text)
         val optionAgeEstimationIcon = findViewById<ImageView>(R.id.option_age_estimation_icon)
@@ -107,6 +107,8 @@ class ProcessedImageActivity : AppCompatActivity() {
         val optionPixelizationText = findViewById<TextView>(R.id.option_pixelization_text)
         val optionGrayscaleIcon = findViewById<ImageView>(R.id.option_grayscale_icon)
         val optionGrayscaleText = findViewById<TextView>(R.id.option_grayscale_text)
+
+        val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
         optionFaceDetection.setOnClickListener() {
             progressBar.visibility = View.VISIBLE
@@ -164,32 +166,36 @@ class ProcessedImageActivity : AppCompatActivity() {
             }
         }
 
-        optionGender.setOnClickListener() {
-            progressBar.visibility = View.VISIBLE
+        if (genderInfoAvailable) {
+            optionGender.setOnClickListener() {
+                progressBar.visibility = View.VISIBLE
 
-            if (gender) {
-                gender = false
-                optionGenderIcon.setColorFilter(resources.getColor(R.color.white, null))
-                optionGenderText.setTextColor(resources.getColor(R.color.white, null))
-                imageChanged(bitmap)
-            } else {
-                faceDetection = false
-                ageEstimation = false
-                gender = true
-                pixelization = false
-                grayscale = false
-                optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.white, null))
-                optionFaceDetectionText.setTextColor(resources.getColor(R.color.white, null))
-                optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
-                optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
-                optionGenderIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
-                optionGenderText.setTextColor(resources.getColor(R.color.blue_option_on, null))
-                optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
-                optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
-                optionGrayscaleIcon.setColorFilter(resources.getColor(R.color.white, null))
-                optionGrayscaleText.setTextColor(resources.getColor(R.color.white, null))
-                imageChanged(viewModel.getGender(photoData, this))
+                if (gender) {
+                    gender = false
+                    optionGenderIcon.setColorFilter(resources.getColor(R.color.white, null))
+                    optionGenderText.setTextColor(resources.getColor(R.color.white, null))
+                    imageChanged(bitmap)
+                } else {
+                    faceDetection = false
+                    ageEstimation = false
+                    gender = true
+                    pixelization = false
+                    grayscale = false
+                    optionFaceDetectionIcon.setColorFilter(resources.getColor(R.color.white, null))
+                    optionFaceDetectionText.setTextColor(resources.getColor(R.color.white, null))
+                    optionAgeEstimationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                    optionAgeEstimationText.setTextColor(resources.getColor(R.color.white, null))
+                    optionGenderIcon.setColorFilter(resources.getColor(R.color.blue_option_on, null))
+                    optionGenderText.setTextColor(resources.getColor(R.color.blue_option_on, null))
+                    optionPixelizationIcon.setColorFilter(resources.getColor(R.color.white, null))
+                    optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
+                    optionGrayscaleIcon.setColorFilter(resources.getColor(R.color.white, null))
+                    optionGrayscaleText.setTextColor(resources.getColor(R.color.white, null))
+                    imageChanged(viewModel.getGender(photoData, this))
+                }
             }
+        } else {
+            optionGender.visibility = View.GONE
         }
 
         optionPixelization.setOnClickListener() {
