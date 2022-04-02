@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/blue_dark"
+    android:scrollbars="none"
     app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
@@ -53,6 +54,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/age_estimation"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/option_gender"
+            android:layout_width="150dp"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/option_gender_icon"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_baseline_female_24" />
+
+            <TextView
+                android:id="@+id/option_gender_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

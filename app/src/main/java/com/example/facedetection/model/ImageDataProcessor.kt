@@ -1,6 +1,9 @@
 package com.example.facedetection.model
 
+import android.content.Context
 import android.graphics.*
+import androidx.core.graphics.scale
+import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.Photo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -134,6 +137,63 @@ class ImageDataProcessor(private val photo: Photo) {
                     y.toFloat(),
                     paintBlack
                 )
+            }
+        }
+
+        return bitmap
+    }
+
+
+    fun getGender(context: Context): Bitmap {
+        val urlPhoto = photo.url
+        val url = URL(urlPhoto)
+
+        val photoWidth = photo.width
+        val photoHeight = photo.height
+
+        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        val paintTransparent = Paint(Paint.ANTI_ALIAS_FLAG)
+        paintTransparent.color = Color.TRANSPARENT
+
+        val paintBlack = Paint(Paint.ANTI_ALIAS_FLAG)
+        paintBlack.color = Color.BLACK
+
+        GlobalScope.launch {
+            val photoBitmap = getImageFromURL(url)
+            canvas.drawBitmap(photoBitmap, Matrix(), null)
+
+            for (face in faces) {
+                var genderSign = BitmapFactory.decodeResource(context.resources, R.drawable.gender_female)
+
+                val centerX = face.center.x.toFloat()
+                val centerY = face.center.y.toFloat() + (face.center.y / 2).toFloat()
+
+                val width = face.width.toFloat()
+                val height = face.height.toFloat() / 2
+
+                // transparent helper
+                var left = (((centerX + width / 2) * photoWidth) / 100).toInt()
+                var right = (((centerX - width / 2) * photoWidth) / 100).toInt()
+                var top = (((centerY - height / 2) * photoHeight) / 100).toInt()
+                var bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
+
+                // we want to draw helper and gender sign below detected face, not exactly on it
+                left -= 10 / 8
+                right += 10 / 8
+                top += 10 / 8
+                bottom -= 10 / 8
+                val rect = Rect(left, top, right, bottom)
+                canvas.drawRect(rect, paintTransparent)
+
+                // gender sign
+                val x = rect.right + (rect.centerX() - rect.right) / 2
+                val y = rect.top + (rect.top / 8)
+
+                val scale = rect.height()
+                genderSign = genderSign.scale(scale, scale, true)
+                canvas.drawBitmap(genderSign, x.toFloat(), y.toFloat(), paintBlack)
             }
         }
 

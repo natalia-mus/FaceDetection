@@ -1,5 +1,6 @@
 package com.example.facedetection.viewmodel
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,26 +17,34 @@ class ProcessedImageViewModel() : ViewModel() {
     val processedImage = MutableLiveData<Bitmap>()
     val pixelatedImage = MutableLiveData<Bitmap>()
 
-    private lateinit var imageProcessor: ImageDataProcessor
+    private lateinit var imageDataProcessor: ImageDataProcessor
 
 
     fun processImage(photo: Photo) {
-        if (!this::imageProcessor.isInitialized) {
-            imageProcessor = ImageDataProcessor(photo)
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
         }
 
-        peopleCount.value = imageProcessor.countPeople()
-        adultsCount.value = imageProcessor.countAdults()
-        childrenCount.value = imageProcessor.countChildren()
-        processedImage.value = imageProcessor.detectFaces()
+        peopleCount.value = imageDataProcessor.countPeople()
+        adultsCount.value = imageDataProcessor.countAdults()
+        childrenCount.value = imageDataProcessor.countChildren()
+        processedImage.value = imageDataProcessor.detectFaces()
     }
 
     fun estimateAge(photo: Photo): Bitmap {
-        if (!this::imageProcessor.isInitialized) {
-            imageProcessor = ImageDataProcessor(photo)
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
         }
 
-        return imageProcessor.estimateAge()
+        return imageDataProcessor.estimateAge()
+    }
+
+    fun getGender(photo: Photo, context: Context): Bitmap {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        return imageDataProcessor.getGender(context)
     }
 
     fun pixelateImage(bitmap: Bitmap) {

@@ -9,6 +9,7 @@
     <string name="error_something_went_wrong">"Something went wrong. Try again."</string>
     <string name="face_detection">Face detection</string>
     <string name="age_estimation">Age estimation</string>
+    <string name="gender">Gender</string>
     <string name="pixelization">Pixelization</string>
     <string name="grayscale">Grayscale</string>
     <string name="error_picture_too_large">Picture too large. Max picture size: </string>

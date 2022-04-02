@@ -9,6 +9,7 @@
     <string name="error_something_went_wrong">Algo salió mal. Inténta otra vez.</string>
     <string name="face_detection">Detección de rostro</string>
     <string name="age_estimation">Estimación de la edad </string>
+    <string name="gender">Género</string>
     <string name="pixelization">Pixelización </string>
     <string name="grayscale">Escala de grises</string>
     <string name="error_picture_too_large">Imagen demasiado grande. Tamaño máximo: </string>
