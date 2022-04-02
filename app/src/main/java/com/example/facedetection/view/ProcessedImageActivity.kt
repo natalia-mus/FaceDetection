@@ -191,7 +191,7 @@ class ProcessedImageActivity : AppCompatActivity() {
                     optionPixelizationText.setTextColor(resources.getColor(R.color.white, null))
                     optionGrayscaleIcon.setColorFilter(resources.getColor(R.color.white, null))
                     optionGrayscaleText.setTextColor(resources.getColor(R.color.white, null))
-                    imageChanged(viewModel.getGender(photoData, this))
+                    imageChanged(viewModel.getGender(photoData, resources))
                 }
             }
         } else {
@@ -275,7 +275,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
-            }, 300
+            }, 500
         )
     }
 

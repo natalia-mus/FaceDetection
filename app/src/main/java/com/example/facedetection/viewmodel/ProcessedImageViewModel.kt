@@ -1,12 +1,12 @@
 package com.example.facedetection.viewmodel
 
-import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.facedetection.model.ImageBitmapProcessor
 import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
-import com.example.facedetection.model.ImageBitmapProcessor
 
 class ProcessedImageViewModel() : ViewModel() {
 
@@ -47,12 +47,12 @@ class ProcessedImageViewModel() : ViewModel() {
         return imageDataProcessor.estimateAge()
     }
 
-    fun getGender(photo: Photo, context: Context): Bitmap {
+    fun getGender(photo: Photo, resources: Resources): Bitmap {
         if (!this::imageDataProcessor.isInitialized) {
             imageDataProcessor = ImageDataProcessor(photo)
         }
 
-        return imageDataProcessor.getGender(context)
+        return imageDataProcessor.getGender(resources)
     }
 
     fun pixelateImage(bitmap: Bitmap) {

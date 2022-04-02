@@ -1,6 +1,6 @@
 package com.example.facedetection.model
 
-import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import androidx.core.graphics.scale
 import com.example.facedetection.R
@@ -157,7 +157,7 @@ class ImageDataProcessor(private val photo: Photo) {
     }
 
 
-    fun getGender(context: Context): Bitmap {
+    fun getGender(resources: Resources): Bitmap {
         val urlPhoto = photo.url
         val url = URL(urlPhoto)
 
@@ -177,13 +177,8 @@ class ImageDataProcessor(private val photo: Photo) {
             for (face in faces) {
                 if (face.attributes.gender != null) {
                     var genderSign =
-                        if (face.attributes.gender.value == ConstValues.GENDER_FEMALE) BitmapFactory.decodeResource(
-                            context.resources,
-                            R.drawable.gender_female
-                        ) else BitmapFactory.decodeResource(
-                            context.resources,
-                            R.drawable.gender_male
-                        )
+                        if (face.attributes.gender.value == ConstValues.GENDER_FEMALE) BitmapFactory.decodeResource(resources, R.drawable.gender_female
+                        ) else BitmapFactory.decodeResource(resources, R.drawable.gender_male)
 
                     val centerX = face.center.x.toFloat()
                     val centerY = face.center.y.toFloat() + (face.center.y / 2).toFloat()
