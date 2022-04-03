@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/drawable/ic_baseline_color_lens_24.xml" value="0.1" />
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/drawable/ic_baseline_female_24.xml" value="0.15677083333333333" />
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/drawable/ic_baseline_male_24.xml" value="0.15677083333333333" />
+        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/drawable/sign_female.xml" value="0.26875" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/activity_main.xml" value="0.21875" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/activity_processed_image.xml" value="0.2625" />
-        <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/image_processing_options.xml" value="0.2682291666666667" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/image_processing_options.xml" value="0.2682291666666667" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/info_api_usage.xml" value="0.22" />
         <entry key="..\:/GITHUB/FaceDetection/app/src/main/res/layout/layout_api_usage.xml" value="0.2833333333333333" />

@@ -17,7 +17,7 @@ object FacesInfoRepository {
     private const val BASE_URL = "http://api.skybiometry.com/fc/"
     private const val API_KEY = "uece7en7b1n1mbd5uuo2fq7p7i"
     private const val API_SECRET = "skrmgdhpk62rld7dsju3s9m0g7"
-    private const val ATTRIBUTES = "age"
+    private const val ATTRIBUTES = "age,gender"
 
     private val retrofit =
         Retrofit.Builder()

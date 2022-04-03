@@ -1,35 +1,66 @@
 package com.example.facedetection.viewmodel
 
+import android.content.res.Resources
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.facedetection.model.ImageProcessing
+import com.example.facedetection.model.ImageBitmapProcessor
+import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
-import com.example.facedetection.util.ImagePixelizator
 
-class ProcessedImageViewModel : ViewModel() {
+class ProcessedImageViewModel() : ViewModel() {
 
+    val loading = MutableLiveData<Boolean>(false)
     val peopleCount = MutableLiveData<Int>()
     val adultsCount = MutableLiveData<Int>()
     val childrenCount = MutableLiveData<Int>()
     val processedImage = MutableLiveData<Bitmap>()
+    val pixelatedImage = MutableLiveData<Bitmap>()
 
-    fun processImage(photo: Photo) {
-        val model = ImageProcessing(photo)
+    private lateinit var imageDataProcessor: ImageDataProcessor
 
-        peopleCount.value = model.countPeople()
-        adultsCount.value = model.countAdults()
-        childrenCount.value = model.countChildren()
-        processedImage.value = model.drawRectangles()
+
+    fun isGenderInfoAvailable(photo: Photo): Boolean {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        return imageDataProcessor.isGenderInfoAvailable()
     }
 
-    fun pixelateImage(bitmap: Bitmap): Bitmap {
-        return ImagePixelizator.pixelateImage(bitmap)
+    fun processImage(photo: Photo) {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        peopleCount.value = imageDataProcessor.countPeople()
+        adultsCount.value = imageDataProcessor.countAdults()
+        childrenCount.value = imageDataProcessor.countChildren()
+        processedImage.value = imageDataProcessor.detectFaces()
+    }
+
+    fun estimateAge(photo: Photo): Bitmap {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        return imageDataProcessor.estimateAge()
+    }
+
+    fun getGender(photo: Photo, resources: Resources): Bitmap {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
+
+        return imageDataProcessor.getGender(resources)
+    }
+
+    fun pixelateImage(bitmap: Bitmap) {
+        pixelatedImage.value = ImageBitmapProcessor.pixelateImage(bitmap)
     }
 
     fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        return ImagePixelizator.grayscaleImage(bitmap)
+        return ImageBitmapProcessor.grayscaleImage(bitmap)
     }
 
 }
