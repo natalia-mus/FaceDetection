@@ -5,6 +5,7 @@
     <color name="blue_lighter">#A5DDE3</color>
     <color name="blue_option_on">#00383E</color>
     <color name="black">#FF000000</color>
+    <color name="black_transparent">#CE000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#CEFFFFFF</color>
 </resources>
