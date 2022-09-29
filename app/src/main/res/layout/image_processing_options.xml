@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/image_processing_options"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:background="@color/blue_dark"
     android:scrollbars="none"
     app:layout_constraintBottom_toBottomOf="parent">
@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/option_face_detection"
             android:layout_width="150dp"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
@@ -39,7 +39,7 @@
         <LinearLayout
             android:id="@+id/option_age_estimation"
             android:layout_width="150dp"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
@@ -63,7 +63,7 @@
         <LinearLayout
             android:id="@+id/option_gender"
             android:layout_width="150dp"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
@@ -87,7 +87,7 @@
         <LinearLayout
             android:id="@+id/option_pixelization"
             android:layout_width="150dp"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
@@ -111,7 +111,7 @@
         <LinearLayout
             android:id="@+id/option_grayscale"
             android:layout_width="150dp"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
