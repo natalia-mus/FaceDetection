@@ -59,9 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_item_api_usage -> {
-                viewModel.checkAPIUsage()
-            }
+            R.id.menu_item_api_usage -> viewModel.checkAPIUsage()
+            R.id.menu_item_change_api_key -> changeAPIKey()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -179,6 +178,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun changeAPIKey() {
+        val intent = Intent(this, ChangeAPIKeyActivity::class.java)
+        startActivity(intent)
     }
 
 }

@@ -19,4 +19,8 @@
     <string name="info_remaining_queries_part_two"> zapytań. </string>
     <string name="close">Zamknij</string>
     <string name="api_usage">Zużycie API</string>
+    <string name="change_api_key">Zmień klucz API</string>
+    <string name="change_api_key_info_1">Ta aplikacja wykorzystuje API ze strony imgbb.com. Domyślnie używanym kluczem API jest klucz programisty i to na jego konto przesyłane są wszystkie zdjęcia.</string>
+    <string name="change_api_key_info_2">Jeżeli posiadasz własne konto na imgbb.com, możesz użyć własnego klucza API - wówczas wszystkie twoje zdjęcia będą trafiać na twoje konto.</string>
+    <string name="change_api_key_info_3">Tylko ty będziesz w stanie widzieć swój klucz API.</string>
 </resources>

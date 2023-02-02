@@ -19,4 +19,8 @@
     <string name="info_remaining_queries_part_two"> solicitudes.</string>
     <string name="close">Cerrar</string>
     <string name="api_usage">Uso de API</string>
+    <string name="change_api_key">Cambiar clave de API</string>
+    <string name="change_api_key_info_1">La siguiente aplicación utiliza la API de imgbb.com. De manera predeterminada, la clave de API del desarrollador está en uso y todas las imágenes se cargan en la cuenta del desarrollador.</string>
+    <string name="change_api_key_info_2">Si tiene su propia cuenta de imgbb.com, puede usar su clave API dedicada; luego, todas sus imágenes se cargarán en su cuenta.</string>
+    <string name="change_api_key_info_3">Solo usted podrá ver su clave de API.</string>
 </resources>
