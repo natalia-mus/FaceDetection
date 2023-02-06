@@ -23,4 +23,7 @@
     <string name="change_api_key_info_1">Ta aplikacja wykorzystuje API ze strony imgbb.com. Domyślnie używanym kluczem API jest klucz programisty i to na jego konto przesyłane są wszystkie zdjęcia.</string>
     <string name="change_api_key_info_2">Jeżeli posiadasz własne konto na imgbb.com, możesz użyć własnego klucza API - wówczas wszystkie twoje zdjęcia będą trafiać na twoje konto.</string>
     <string name="change_api_key_info_3">Tylko ty będziesz w stanie widzieć swój klucz API.</string>
+    <string name="go_to_website">Przejdź do imgbb.com</string>
+    <string name="paste_your_api_key">wklej swój klucz API</string>
+    <string name="continue_with_default_key">Kontynuuj z domyślnym kluczem</string>
 </resources>
