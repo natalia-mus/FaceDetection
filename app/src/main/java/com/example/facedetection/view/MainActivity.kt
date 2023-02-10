@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.R
+import com.example.facedetection.Settings
 import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.apiusage.APIUsageData
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setView()
         setObservers()
         setListeners()
+        initSettings()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -96,10 +98,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        viewModel.loading.observe(this, { loadingStatusChanged(it) })
-        viewModel.status.observe(this, { statusChanged(it) })
-        viewModel.apiUsage.observe(this, { apiUsageChanged(it) })
-        viewModel.facesInfo.observe(this, { facesInfoChanged(it) })
+        viewModel.loading.observe(this) { loadingStatusChanged(it) }
+        viewModel.status.observe(this) { statusChanged(it) }
+        viewModel.apiUsage.observe(this) { apiUsageChanged(it) }
+        viewModel.facesInfo.observe(this) { facesInfoChanged(it) }
+    }
+
+    private fun initSettings() {
+        Settings.initSettings(this)
     }
 
     private fun loadingStatusChanged(loading: Boolean) {

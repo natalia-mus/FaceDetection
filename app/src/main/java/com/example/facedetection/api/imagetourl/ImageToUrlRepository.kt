@@ -1,6 +1,7 @@
 package com.example.facedetection.api.imagetourl
 
 import android.util.Log
+import com.example.facedetection.Settings
 import com.example.facedetection.api.RepositoryCallback
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
@@ -27,8 +28,9 @@ object ImageToUrlRepository {
 
     fun getImageUrl(image: String, callback: RepositoryCallback<ImageToUrl>) {
         val body = MultipartBody.Part.createFormData(IMAGE, image)
+        val apiKey = getAPIKey()
 
-        apiService.getImageUrl(API_KEY, body).enqueue(object : Callback<ImageToUrl> {
+        apiService.getImageUrl(apiKey, body).enqueue(object : Callback<ImageToUrl> {
             override fun onResponse(call: Call<ImageToUrl>, response: Response<ImageToUrl>) {
                 response.body()?.let { callback.onSuccess(it) }
             }
@@ -38,6 +40,17 @@ object ImageToUrlRepository {
                 callback.onError()
             }
         })
+    }
+
+    /**
+     * Returns user's API key if it's defined by user - otherwise returns default API key
+     */
+    private fun getAPIKey(): String {
+        val apiKey = Settings.getAPIKey()
+
+        return apiKey.ifEmpty {
+            API_KEY
+        }
     }
 
 }

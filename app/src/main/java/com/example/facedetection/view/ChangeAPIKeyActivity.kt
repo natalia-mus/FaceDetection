@@ -1,6 +1,5 @@
 package com.example.facedetection.view
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +12,7 @@ import com.example.facedetection.Settings
 class ChangeAPIKeyActivity : AppCompatActivity() {
 
     companion object {
-        const val URI = "https://imgbb.com/login"
+        private const val URI = "https://imgbb.com/login"
     }
 
     private lateinit var buttonGoToWebsite: Button
@@ -63,8 +62,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     }
 
     private fun saveAPIKey(apiKey: String) {
-        val sharedPreferences = getSharedPreferences(Settings.SETTINGS, Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString(Settings.API_KEY, apiKey).apply()
+        Settings.saveAPIKey(apiKey)
     }
 
 }
