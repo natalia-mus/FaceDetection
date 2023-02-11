@@ -6,8 +6,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.facedetection.ErrorCode
 import com.example.facedetection.R
 import com.example.facedetection.Settings
+import com.example.facedetection.api.RepositoryCallback
+import com.example.facedetection.api.imagetourl.ImageToUrlRepository
+import com.example.facedetection.model.datamodel.imagetourl.APIKeyConfirmationResult
 
 class ChangeAPIKeyActivity : AppCompatActivity() {
 
@@ -62,7 +66,19 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     }
 
     private fun saveAPIKey(apiKey: String) {
-        Settings.saveAPIKey(apiKey)
+        ImageToUrlRepository.confirmAPIKey(apiKey, object : RepositoryCallback<APIKeyConfirmationResult> {
+            override fun onSuccess(data: APIKeyConfirmationResult) {
+                if (data.error.code != ErrorCode.InvalidAPIKey.code) {
+                    Settings.saveAPIKey(apiKey)
+                } else {
+                    // TODO
+                }
+            }
+
+            override fun onError() {
+                // TODO
+            }
+        })
     }
 
 }

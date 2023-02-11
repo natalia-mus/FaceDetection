@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSettings() {
-        Settings.initSettings(this)
+        Settings.initSettings(applicationContext)
     }
 
     private fun loadingStatusChanged(loading: Boolean) {

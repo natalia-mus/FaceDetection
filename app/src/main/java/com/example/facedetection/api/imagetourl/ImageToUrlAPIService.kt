@@ -1,5 +1,6 @@
 package com.example.facedetection.api.imagetourl
 
+import com.example.facedetection.model.datamodel.imagetourl.APIKeyConfirmationResult
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -18,4 +19,7 @@ interface ImageToUrlAPIService {
         @Query("key") key: String,
         @Part() part: MultipartBody.Part
     ): Call<ImageToUrl>
+
+    @POST("1/upload")
+    fun confirmAPIKey(@Query("key") key: String): Call<APIKeyConfirmationResult>
 }

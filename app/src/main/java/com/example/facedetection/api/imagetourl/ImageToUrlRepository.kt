@@ -3,8 +3,10 @@ package com.example.facedetection.api.imagetourl
 import android.util.Log
 import com.example.facedetection.Settings
 import com.example.facedetection.api.RepositoryCallback
+import com.example.facedetection.model.datamodel.imagetourl.APIKeyConfirmationResult
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +42,33 @@ object ImageToUrlRepository {
                 callback.onError()
             }
         })
+    }
+
+    fun confirmAPIKey(apiKey: String, callback: RepositoryCallback<APIKeyConfirmationResult>): Boolean {
+        apiService.confirmAPIKey(apiKey).enqueue(object : Callback<APIKeyConfirmationResult> {
+            override fun onResponse(call: Call<APIKeyConfirmationResult>, response: Response<APIKeyConfirmationResult>) {
+                if (response.errorBody() != null) {
+                    val result = handleAPIKeyConfirmationResult(response.errorBody()!!)
+
+                    if (result != null) {
+                        callback.onSuccess(result)
+
+                    } else callback.onError()
+                }
+            }
+
+            override fun onFailure(call: Call<APIKeyConfirmationResult>, t: Throwable) {
+                Log.e("error", t.message.toString())
+                callback.onError()
+            }
+        })
+
+        return true
+    }
+
+    private fun handleAPIKeyConfirmationResult(response: ResponseBody): APIKeyConfirmationResult? {
+        val converter = retrofit.responseBodyConverter<APIKeyConfirmationResult>(APIKeyConfirmationResult::class.java, arrayOfNulls<Annotation>(0))
+        return converter.convert(response)
     }
 
     /**
