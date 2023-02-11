@@ -26,4 +26,8 @@
     <string name="go_to_website">Go to imgbb.com</string>
     <string name="paste_your_api_key">paste your API key</string>
     <string name="continue_with_default_key">Continue with default key</string>
+    <string name="api_key_valid">API key has been changed successfully</string>
+    <string name="api_key_invalid">API key is invalid and can not be used</string>
+    <string name="api_key_default">Default API key is in use</string>
+    <string name="api_key_error">API key can not be confirmed. Check your internet connection</string>
 </resources>
