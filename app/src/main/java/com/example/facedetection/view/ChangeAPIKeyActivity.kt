@@ -23,7 +23,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private lateinit var buttonGoToWebsite: Button
     private lateinit var buttonChangeAPIKey: Button
     private lateinit var buttonContinueWithDefaultKey: Button
-    private lateinit var apiKey: EditText
+    private lateinit var apiKeyField: EditText
     private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: ChangeAPIKeyViewModel
@@ -37,13 +37,15 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
         setView()
         setListeners()
         setObservers()
+
+        viewModel.getAPIKey()
     }
 
     private fun setView() {
         buttonGoToWebsite = findViewById(R.id.activity_change_api_key_go_to_website)
         buttonChangeAPIKey = findViewById(R.id.activity_change_api_key_button_change)
         buttonContinueWithDefaultKey = findViewById(R.id.activity_change_api_key_continue)
-        apiKey = findViewById(R.id.activity_change_api_key_api_key)
+        apiKeyField = findViewById(R.id.activity_change_api_key_api_key)
         loadingSection = findViewById(R.id.activity_change_api_key_loading_section)
     }
 
@@ -64,11 +66,16 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
 
     private fun setObservers() {
         viewModel.loading.observe(this) { loadingStatusChanged(it) }
+        viewModel.apiKey.observe(this) { setAPIKeyFieldText(it) }
         viewModel.isAPIKeyValid.observe(this) { handleAPIKeyConfirmationStatus(it) }
     }
 
+    private fun setAPIKeyFieldText(apiKey: String) {
+        apiKeyField.setText(apiKey)
+    }
+
     private fun changeAPIKey() {
-        val newAPIKey = apiKey.text.toString()
+        val newAPIKey = apiKeyField.text.toString()
         saveAPIKey(newAPIKey)
     }
 

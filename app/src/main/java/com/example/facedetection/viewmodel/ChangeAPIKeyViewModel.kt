@@ -11,7 +11,13 @@ import com.example.facedetection.model.datamodel.imagetourl.APIKeyConfirmationRe
 class ChangeAPIKeyViewModel : ViewModel() {
 
     val loading = MutableLiveData<Boolean>()
+    val apiKey = MutableLiveData<String>()
     val isAPIKeyValid = MutableLiveData<APIKeyConfirmationStatus>()
+
+
+    fun getAPIKey() {
+        apiKey.value = Settings.getAPIKey()
+    }
 
     fun saveAPIKey(apiKey: String) {
         loading.value = true
