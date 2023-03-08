@@ -19,4 +19,15 @@
     <string name="info_remaining_queries_part_two"> remaining queries. </string>
     <string name="close">Close</string>
     <string name="api_usage">API usage</string>
+    <string name="change_api_key">Change API key</string>
+    <string name="change_api_key_info_1">The following app uses imgbb.com API. By default the developer\'s API key is in use and all of the images upload to developer\'s account.</string>
+    <string name="change_api_key_info_2">If you have your own imgbb.com account, you can use your dedicated API key - then all of your images will upload to your account.</string>
+    <string name="change_api_key_info_3">Only you will be able to see your API key</string>
+    <string name="go_to_website">Go to imgbb.com</string>
+    <string name="paste_your_api_key">paste your API key</string>
+    <string name="continue_with_default_key">Continue with default key</string>
+    <string name="api_key_valid">API key has been changed successfully</string>
+    <string name="api_key_invalid">API key is invalid and can not be used</string>
+    <string name="api_key_default">Default API key is in use</string>
+    <string name="api_key_error">API key can not be confirmed. Check your internet connection</string>
 </resources>

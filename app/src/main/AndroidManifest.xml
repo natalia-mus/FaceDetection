@@ -26,6 +26,9 @@
         <activity
             android:name=".view.ProcessedImageActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ChangeAPIKeyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
