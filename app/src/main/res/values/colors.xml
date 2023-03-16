@@ -8,4 +8,5 @@
     <color name="black_transparent">#CE000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#CEFFFFFF</color>
+    <color name="purple">#62157E</color>
 </resources>

@@ -10,7 +10,7 @@ import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,8 +31,8 @@ import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var buttonCamera: Button
-    private lateinit var buttonGallery: Button
+    private lateinit var buttonCamera: LinearLayout
+    private lateinit var buttonGallery: LinearLayout
     private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: MainActivityViewModel
@@ -77,18 +77,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         buttonCamera.setOnClickListener() {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
+
             } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.CAMERA),
-                    Permissions.CAMERA
-                )
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), Permissions.CAMERA)
             }
         }
 
