@@ -105,8 +105,9 @@
 
     <ProgressBar
         android:id="@+id/activity_processed_image_progress_bar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:indeterminateDrawable="@drawable/progress_bar"
         android:translationZ="90dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/image_processing_options"

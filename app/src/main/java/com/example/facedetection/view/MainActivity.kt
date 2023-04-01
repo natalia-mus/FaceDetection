@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         if (loading) {
             loadingSection.visibility = View.VISIBLE
         } else {
-            loadingSection.visibility = View.INVISIBLE
+            loadingSection.visibility = View.GONE
         }
     }
 
