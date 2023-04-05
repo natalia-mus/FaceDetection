@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,7 +44,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setToolbar()
         setView()
+
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         setObservers()
         setListeners()
         initSettings()
@@ -67,12 +72,15 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setToolbar() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+    }
+
     private fun setView() {
         buttonCamera = findViewById(R.id.main_activity_button_camera)
         buttonGallery = findViewById(R.id.main_activity_button_gallery)
         loadingSection = findViewById(R.id.main_activity_loading_section)
-
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
 
     private fun setListeners() {

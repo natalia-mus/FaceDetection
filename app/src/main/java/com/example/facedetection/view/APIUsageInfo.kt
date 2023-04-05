@@ -21,10 +21,6 @@ class APIUsageInfo(context: Context, private val apiUsage: APIUsageData) : Dialo
         super.onCreate(savedInstanceState)
 
         setView()
-
-        buttonClose.setOnClickListener() {
-            onBackPressed()
-        }
     }
 
     private fun setView() {
@@ -38,6 +34,10 @@ class APIUsageInfo(context: Context, private val apiUsage: APIUsageData) : Dialo
         usedValue.text = apiUsage.used.toString()
         limitValue.text = apiUsage.limit.toString()
         remainingValue.text = apiUsage.remaining.toString()
+
+        buttonClose.setOnClickListener() {
+            onBackPressed()
+        }
     }
 
 }
