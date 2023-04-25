@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_item_api_usage"
-        android:title="@string/api_usage" />
+        android:icon="@drawable/ic_menu"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_item_api_usage"
+                android:icon="@drawable/ic_data_usage"
+                android:title="@string/api_usage" />
 
-    <item
-        android:id="@+id/menu_item_change_api_key"
-        android:title="@string/change_api_key" />
+            <item
+                android:id="@+id/menu_item_change_api_key"
+                android:icon="@drawable/ic_key"
+                android:title="@string/change_api_key" />
+        </menu>
+    </item>
 
 </menu>
