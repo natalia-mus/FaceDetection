@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/gradient_background_rounded"
     android:padding="20dp">
 
     <LinearLayout
@@ -136,11 +136,13 @@
 
     <Button
         android:id="@+id/api_usage_layout_button_close"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
         android:text="@string/close"
+        android:textStyle="bold"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
