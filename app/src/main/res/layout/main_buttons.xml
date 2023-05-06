@@ -13,6 +13,7 @@
         android:background="@drawable/button_background"
         android:gravity="center"
         android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
         app:layout_constraintBottom_toTopOf="@id/main_activity_button_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -41,6 +42,7 @@
         android:background="@drawable/button_background"
         android:gravity="center"
         android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_activity_button_camera">
