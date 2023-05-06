@@ -103,17 +103,25 @@
 
     </LinearLayout>
 
-    <ProgressBar
+    <LinearLayout
         android:id="@+id/activity_processed_image_progress_bar"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:indeterminateDrawable="@drawable/progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black_transparent"
+        android:gravity="center"
         android:translationZ="90dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/image_processing_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_info_section" />
+        app:layout_constraintTop_toBottomOf="@+id/processed_image_activity_info_section">
+
+        <ProgressBar
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/processed_image_activity_image"
