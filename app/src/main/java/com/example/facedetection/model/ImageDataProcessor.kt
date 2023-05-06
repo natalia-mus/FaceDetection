@@ -61,7 +61,7 @@ class ImageDataProcessor(private val photo: Photo) {
         val canvas = Canvas(bitmap)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 10f
+        paint.strokeWidth = 3f
 
         GlobalScope.launch {
             val photoBitmap = getImageFromURL(url)
