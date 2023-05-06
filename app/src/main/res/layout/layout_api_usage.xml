@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    android:background="@color/white">
+    android:background="@drawable/gradient_background_round"
+    android:padding="20dp">
 
     <LinearLayout
         android:id="@+id/api_usage_layout_percentage_usage"
@@ -134,13 +134,16 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/api_usage_layout_button_close"
-        android:layout_width="130dp"
-        android:layout_height="60dp"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/button_background_transparent"
+        android:paddingHorizontal="20dp"
         android:text="@string/close"
+        android:textStyle="bold"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
         app:layout_constraintBottom_toBottomOf="parent"

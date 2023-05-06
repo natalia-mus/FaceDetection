@@ -2,6 +2,8 @@ package com.example.facedetection.view
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -21,13 +23,11 @@ class APIUsageInfo(context: Context, private val apiUsage: APIUsageData) : Dialo
         super.onCreate(savedInstanceState)
 
         setView()
-
-        buttonClose.setOnClickListener() {
-            onBackPressed()
-        }
     }
 
     private fun setView() {
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         percentageUsage = findViewById(R.id.api_usage_layout_percentage_usage_value)
         usedValue = findViewById(R.id.api_usage_layout_used_value)
         limitValue = findViewById(R.id.api_usage_layout_limit_value)
@@ -38,6 +38,10 @@ class APIUsageInfo(context: Context, private val apiUsage: APIUsageData) : Dialo
         usedValue.text = apiUsage.used.toString()
         limitValue.text = apiUsage.limit.toString()
         remainingValue.text = apiUsage.remaining.toString()
+
+        buttonClose.setOnClickListener() {
+            onBackPressed()
+        }
     }
 
 }

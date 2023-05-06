@@ -6,6 +6,9 @@
     <color name="blue_option_on">#00383E</color>
     <color name="black">#FF000000</color>
     <color name="black_transparent">#CE000000</color>
+    <color name="black_transparent_light">#20000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent">#CEFFFFFF</color>
+    <color name="purple">#62157E</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>

@@ -10,9 +10,10 @@ import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,8 +32,8 @@ import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var buttonCamera: Button
-    private lateinit var buttonGallery: Button
+    private lateinit var buttonCamera: LinearLayout
+    private lateinit var buttonGallery: LinearLayout
     private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: MainActivityViewModel
@@ -43,7 +44,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setToolbar()
         setView()
+
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         setObservers()
         setListeners()
         initSettings()
@@ -67,28 +72,24 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setToolbar() {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+    }
+
     private fun setView() {
         buttonCamera = findViewById(R.id.main_activity_button_camera)
         buttonGallery = findViewById(R.id.main_activity_button_gallery)
         loadingSection = findViewById(R.id.main_activity_loading_section)
-
-        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
 
     private fun setListeners() {
         buttonCamera.setOnClickListener() {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
+
             } else {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.CAMERA),
-                    Permissions.CAMERA
-                )
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), Permissions.CAMERA)
             }
         }
 
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         if (loading) {
             loadingSection.visibility = View.VISIBLE
         } else {
-            loadingSection.visibility = View.INVISIBLE
+            loadingSection.visibility = View.GONE
         }
     }
 

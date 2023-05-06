@@ -4,25 +4,27 @@
     android:id="@+id/image_processing_options"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/blue_dark"
+    android:background="@drawable/gradient_background"
     android:scrollbars="none"
     app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/option_face_detection"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/option_face_detection_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="34dp"
                 android:src="@drawable/ic_baseline_crop_free_24" />
 
             <TextView
@@ -32,7 +34,7 @@
                 android:text="@string/face_detection"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -40,13 +42,14 @@
             android:id="@+id/option_age_estimation"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/option_age_estimation_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="34dp"
                 android:src="@drawable/ic_baseline_30fps_24" />
 
             <TextView
@@ -56,7 +59,7 @@
                 android:text="@string/age_estimation"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -64,13 +67,14 @@
             android:id="@+id/option_gender"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/option_gender_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="34dp"
                 android:src="@drawable/ic_baseline_female_24" />
 
             <TextView
@@ -80,7 +84,7 @@
                 android:text="@string/gender"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -88,13 +92,14 @@
             android:id="@+id/option_pixelization"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/option_pixelization_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="34dp"
                 android:src="@drawable/ic_baseline_apps_24" />
 
             <TextView
@@ -104,7 +109,7 @@
                 android:text="@string/pixelization"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -112,13 +117,14 @@
             android:id="@+id/option_grayscale"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/option_grayscale_icon"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="34dp"
                 android:src="@drawable/ic_baseline_color_lens_24" />
 
             <TextView
@@ -128,7 +134,7 @@
                 android:text="@string/grayscale"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 

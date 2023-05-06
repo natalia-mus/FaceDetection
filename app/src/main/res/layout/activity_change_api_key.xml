@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_dark">
+    android:background="@drawable/gradient_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_change_api_key_loading_section"
@@ -31,7 +31,6 @@
         android:layout_marginTop="40dp"
         android:text="@string/change_api_key_info_1"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,15 +42,16 @@
         android:layout_marginTop="20dp"
         android:text="@string/change_api_key_info_2"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_info_1" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/activity_change_api_key_go_to_website"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/button_background_transparent"
+        android:paddingHorizontal="20dp"
         android:text="@string/go_to_website"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
@@ -82,15 +82,16 @@
         android:layout_marginTop="10dp"
         android:text="@string/change_api_key_info_3"
         android:textAlignment="center"
-        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_api_key" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/activity_change_api_key_button_change"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginTop="30dp"
+        android:background="@drawable/button_background_transparent"
+        android:paddingHorizontal="20dp"
         android:text="@string/change_api_key"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
@@ -98,11 +99,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_info_3" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/activity_change_api_key_continue"
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/button_background_transparent"
+        android:lines="2"
+        android:paddingHorizontal="20dp"
         android:text="@string/continue_with_default_key"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
