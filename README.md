@@ -89,3 +89,9 @@ Application was built in Kotlin, according to the MVVM architecture pattern. It 
 <br/><br/>
 
 image source: [pixabay.com](https://pixabay.com)
+
+<br/><br/>
+
+## Author
+
+[Natalia Muskała](https://github.com/natalia-mus)
