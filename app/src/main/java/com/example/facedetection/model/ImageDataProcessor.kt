@@ -6,28 +6,13 @@ import androidx.core.graphics.scale
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.net.URL
 
 class ImageDataProcessor(private val photo: Photo) {
 
     private val faces = photo.tags
 
-    fun isGenderInfoAvailable(): Boolean {
-        var result = false
-
-        for (face in faces) {
-            if (face.attributes.gender != null) {
-                if (face.attributes.gender.value != null) result = true
-            }
-        }
-
-        return result
-    }
-
-    fun countPeople() = faces.size
 
     fun countAdults(): Int {
         var adultsCount = 0
@@ -49,23 +34,20 @@ class ImageDataProcessor(private val photo: Photo) {
         return childrenCount
     }
 
+    fun countPeople() = faces.size
 
     fun detectFaces(): Bitmap {
-        val urlPhoto = photo.url
-        val url = URL(urlPhoto)
-
         val photoWidth = photo.width
         val photoHeight = photo.height
 
-        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 3f
 
+        val bitmap = getBitmap()
+
         GlobalScope.launch {
-            val photoBitmap = getImageFromURL(url)
-            canvas.drawBitmap(photoBitmap, Matrix(), null)
+            val canvas = getCanvas(bitmap)
 
             for (face in faces) {
                 if (face.attributes.ageEst.value.toInt() < 16) {
@@ -92,16 +74,9 @@ class ImageDataProcessor(private val photo: Photo) {
         return bitmap
     }
 
-
     fun estimateAge(): Bitmap {
-        val urlPhoto = photo.url
-        val url = URL(urlPhoto)
-
         val photoWidth = photo.width
         val photoHeight = photo.height
-
-        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
 
         val paintBlack = Paint(Paint.ANTI_ALIAS_FLAG)
         paintBlack.color = Color.BLACK
@@ -109,9 +84,10 @@ class ImageDataProcessor(private val photo: Photo) {
         val paintWhite = Paint(Paint.ANTI_ALIAS_FLAG)
         paintWhite.color = Color.WHITE
 
+        val bitmap = getBitmap()
+
         GlobalScope.launch {
-            val photoBitmap = getImageFromURL(url)
-            canvas.drawBitmap(photoBitmap, Matrix(), null)
+            val canvas = getCanvas(bitmap)
 
             for (face in faces) {
                 val age = face.attributes.ageEst.value.toInt()
@@ -156,23 +132,17 @@ class ImageDataProcessor(private val photo: Photo) {
         return bitmap
     }
 
-
     fun getGender(resources: Resources): Bitmap {
-        val urlPhoto = photo.url
-        val url = URL(urlPhoto)
-
         val photoWidth = photo.width
         val photoHeight = photo.height
-
-        val bitmap = Bitmap.createBitmap(photoWidth, photoHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
 
         val paintTransparent = Paint(Paint.ANTI_ALIAS_FLAG)
         paintTransparent.color = Color.TRANSPARENT
 
+        val bitmap = getBitmap()
+
         GlobalScope.launch {
-            val photoBitmap = getImageFromURL(url)
-            canvas.drawBitmap(photoBitmap, Matrix(), null)
+            val canvas = getCanvas(bitmap)
 
             for (face in faces) {
                 if (face.attributes.gender != null) {
@@ -215,9 +185,38 @@ class ImageDataProcessor(private val photo: Photo) {
         return bitmap
     }
 
+    fun isGenderInfoAvailable(): Boolean {
+        var result = false
+
+        for (face in faces) {
+            if (face.attributes.gender != null) {
+                if (face.attributes.gender.value != null) result = true
+            }
+        }
+
+        return result
+    }
+
+    private fun getBitmap() = Bitmap.createBitmap(photo.width, photo.height, Bitmap.Config.ARGB_8888)
+
+    private suspend fun getCanvas(bitmap: Bitmap): Canvas {
+        val urlPhoto = photo.url
+        val url = URL(urlPhoto)
+
+        val canvas = Canvas(bitmap)
+
+        val photoBitmap = getImageFromURL(url)
+        canvas.drawBitmap(photoBitmap, Matrix(), null)
+
+        return canvas
+    }
 
     private suspend fun getImageFromURL(url: URL): Bitmap {
-        val bitmap = GlobalScope.async { BitmapFactory.decodeStream(url.openConnection().getInputStream()) }
+        val bitmap = GlobalScope.async {
+            BitmapFactory.decodeStream(withContext(Dispatchers.IO) {
+                url.openConnection().getInputStream()
+            })
+        }
         return bitmap.await()
     }
 
