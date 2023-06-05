@@ -37,9 +37,6 @@ class ImageDataProcessor(private val photo: Photo) {
     fun countPeople() = faces.size
 
     fun detectFaces(): Bitmap {
-        val photoWidth = photo.width
-        val photoHeight = photo.height
-
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 3f
@@ -62,12 +59,8 @@ class ImageDataProcessor(private val photo: Photo) {
                 val width = face.width.toFloat()
                 val height = face.height.toFloat()
 
-                val left = ((centerX + width / 2) * photoWidth) / 100
-                val right = ((centerX - width / 2) * photoWidth) / 100
-                val top = ((centerY - height / 2) * photoHeight) / 100
-                val bottom = ((centerY + height / 2) * photoHeight) / 100
-
-                canvas.drawRect(left, top, right, bottom, paint)
+                val rect = getRect(centerX, centerY, width, height)
+                canvas.drawRect(rect, paint)
             }
         }
 
@@ -75,9 +68,6 @@ class ImageDataProcessor(private val photo: Photo) {
     }
 
     fun estimateAge(): Bitmap {
-        val photoWidth = photo.width
-        val photoHeight = photo.height
-
         val paintText = Paint(Paint.ANTI_ALIAS_FLAG)
         paintText.color = Color.BLACK
 
@@ -97,22 +87,16 @@ class ImageDataProcessor(private val photo: Photo) {
                 val height = face.height.toFloat() / 2
 
                 val centerX = face.center.x.toFloat()
-                val centerY = face.center.y.toFloat() + (1.6 * height)
-
-                paintText.textSize = height * 3
+                val centerY = face.center.y.toFloat() + (1.6 * height).toFloat()
 
                 // rectangle
-                val left = (((centerX + width / 2) * photoWidth) / 100).toInt()
-                val right = (((centerX - width / 2) * photoWidth) / 100).toInt()
-                val top = (((centerY - height / 2) * photoHeight) / 100).toInt()
-                val bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
-
-                val rect = Rect(left, top, right, bottom)
+                val rect = getRect(centerX, centerY, width, height)
                 canvas.drawRect(rect, paintBackground)
 
                 // text
                 val x = rect.centerX() - (paintText.measureText(age.toString()) / 2)
                 val y = rect.centerY() - ((paintText.descent() + paintText.ascent()) / 2)
+                paintText.textSize = height * 3
                 canvas.drawText(age.toString(), x, y, paintText)
             }
         }
@@ -121,9 +105,6 @@ class ImageDataProcessor(private val photo: Photo) {
     }
 
     fun getGender(resources: Resources): Bitmap {
-        val photoWidth = photo.width
-        val photoHeight = photo.height
-
         val paintTransparent = Paint(Paint.ANTI_ALIAS_FLAG)
         paintTransparent.color = Color.TRANSPARENT
 
@@ -142,16 +123,10 @@ class ImageDataProcessor(private val photo: Photo) {
                     val height = face.height.toFloat() / 2
 
                     val centerX = face.center.x.toFloat()
-                    val centerY = face.center.y.toFloat() + (1.6 * height)
+                    val centerY = face.center.y.toFloat() + (1.6 * height).toFloat()
 
                     // transparent helper
-                    val left = (((centerX + width / 2) * photoWidth) / 100).toInt()
-                    val right = (((centerX - width / 2) * photoWidth) / 100).toInt()
-                    val top = (((centerY - height / 2) * photoHeight) / 100).toInt()
-                    val bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
-
-                    // we want to draw helper and gender sign below detected face, not exactly on it
-                    val rect = Rect(left, top, right, bottom)
+                    val rect = getRect(centerX, centerY, width, height)
                     canvas.drawRect(rect, paintTransparent)
 
                     // gender sign
@@ -185,9 +160,7 @@ class ImageDataProcessor(private val photo: Photo) {
 
     private suspend fun getCanvas(bitmap: Bitmap): Canvas {
         val url = URL(photo.url)
-
         val canvas = Canvas(bitmap)
-
         val photoBitmap = getImageFromURL(url)
         canvas.drawBitmap(photoBitmap, Matrix(), null)
 
@@ -201,6 +174,18 @@ class ImageDataProcessor(private val photo: Photo) {
             })
         }
         return bitmap.await()
+    }
+
+    private fun getRect(centerX: Float, centerY: Float, width: Float, height: Float): Rect {
+        val photoWidth = photo.width
+        val photoHeight = photo.height
+
+        val left = (((centerX + width / 2) * photoWidth) / 100).toInt()
+        val right = (((centerX - width / 2) * photoWidth) / 100).toInt()
+        val top = (((centerY - height / 2) * photoHeight) / 100).toInt()
+        val bottom = (((centerY + height / 2) * photoHeight) / 100).toInt()
+
+        return Rect(left, top, right, bottom)
     }
 
 }
