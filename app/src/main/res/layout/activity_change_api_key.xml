@@ -14,8 +14,9 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +72,7 @@
         android:paddingHorizontal="18dp"
         android:paddingVertical="8dp"
         android:singleLine="true"
+        android:textColor="@color/black_transparent"
         android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/activity_change_api_key_go_to_website" />
 

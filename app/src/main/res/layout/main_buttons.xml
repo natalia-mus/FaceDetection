@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_photo_camera_24" />
+            android:src="@drawable/ic_camera" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_baseline_photo_library_24" />
+            android:src="@drawable/ic_gallery" />
 
         <TextView
             android:layout_width="wrap_content"
