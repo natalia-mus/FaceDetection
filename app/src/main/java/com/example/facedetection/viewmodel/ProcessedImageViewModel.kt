@@ -10,13 +10,13 @@ import com.example.facedetection.model.datamodel.facesinfo.Photo
 
 class ProcessedImageViewModel() : ViewModel() {
 
-    val loading = MutableLiveData<Boolean>(false)
     val peopleCount = MutableLiveData<Int>()
     val adultsCount = MutableLiveData<Int>()
     val childrenCount = MutableLiveData<Int>()
     val processedImage = MutableLiveData<Bitmap>()
     val pixelatedImage = MutableLiveData<Bitmap>()
 
+    private val imageBitmapProcessor: ImageBitmapProcessor by lazy { ImageBitmapProcessor() }
     private lateinit var imageDataProcessor: ImageDataProcessor
 
 
@@ -56,11 +56,11 @@ class ProcessedImageViewModel() : ViewModel() {
     }
 
     fun pixelateImage(bitmap: Bitmap) {
-        pixelatedImage.value = ImageBitmapProcessor.pixelateImage(bitmap)
+        pixelatedImage.value = imageBitmapProcessor.pixelateImage(bitmap)
     }
 
     fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        return ImageBitmapProcessor.grayscaleImage(bitmap)
+        return imageBitmapProcessor.grayscaleImage(bitmap)
     }
 
 }

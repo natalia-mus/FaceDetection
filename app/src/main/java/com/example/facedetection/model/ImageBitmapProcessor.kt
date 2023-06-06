@@ -7,13 +7,27 @@ import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.example.facedetection.model.datamodel.RGB
 
-object ImageBitmapProcessor {
+class ImageBitmapProcessor() {
 
     private var imageWidth = 0
     private var imageHeight = 0
     private var pixelSize = 0
     private var initialIndicesSet = ArrayList<Int>()
 
+
+    /**
+     * Returns bitmap in grayscale
+     */
+    fun grayscaleImage(bitmap: Bitmap): Bitmap {
+        imageWidth = bitmap.width
+        imageHeight = bitmap.height
+
+        val imageAsPixels = getImageAsPixels(bitmap)
+        val grayscale = convertPixelsToGray(imageAsPixels)
+        val result = convertPixelsIntoBitmap(grayscale)
+
+        return result
+    }
 
     /**
      * Gets bitmap as an argument and returns this bitmap pixelated; pixelSize = pixel edge size
@@ -36,50 +50,90 @@ object ImageBitmapProcessor {
         return result
     }
 
-
     /**
-     * Returns bitmap in grayscale
+     * Returns the average color of the given set of pixels
      */
-    fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        imageWidth = bitmap.width
-        imageHeight = bitmap.height
+    private fun averageColor(pixels: ArrayList<RGB>): RGB {
+        var r = 0
+        var g = 0
+        var b = 0
 
-        val imageAsPixels = getImageAsPixels(bitmap)
-        val grayscale = convertPixelsToGray(imageAsPixels)
-        val result = convertPixelsIntoBitmap(grayscale)
+        for (i in 0 until pixels.size) {
+            val pixel = pixels[i]
+            r += pixel.red
+            g += pixel.green
+            b += pixel.blue
+        }
 
-        return result
+        val averageR = r / (pixelSize * pixelSize)
+        val averageG = g / (pixelSize * pixelSize)
+        val averageB = b / (pixelSize * pixelSize)
+
+        return RGB(averageR, averageG, averageB)
     }
 
+    /**
+     * Cleans after processed image
+     */
+    private fun cleanAfterPixelization() {
+        initialIndicesSet.clear()
+        pixelSize = 0
+    }
 
     /**
-     * Selects best pixel size for pixelation process depending on photo dimensions
+     * Converts pixels into bitmap
      */
-    private fun prepareParameters(bitmap: Bitmap): Bitmap {
-        var btmp = bitmap
-        val parametersSet = listOf(10, 20, 25, 30)
+    private fun convertPixelsIntoBitmap(pixels: ArrayList<ArrayList<RGB>>): Bitmap {
+        val pixelsAsColors = IntArray(imageWidth * imageHeight)
 
-        while (pixelSize == 0) {
-            for (i in parametersSet.indices) {
-                if (btmp.width % parametersSet[i] == 0 && btmp.height % parametersSet[i] == 0) {
-                    pixelSize = parametersSet[i]
-                }
-            }
+        for (i in 0 until imageHeight) {
+            for (j in 0 until imageWidth) {
+                val index = imageWidth * i + j
+                val pixel = pixels[i][j]
 
-            if (pixelSize == 0) {
-                if (btmp.width % 10 == 0) {
-                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width, btmp.height - 1)
+                val r = pixel.red
+                val g = pixel.green
+                val b = pixel.blue
 
-                } else {
-                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width - 1, btmp.height)
-                }
-
+                pixelsAsColors[index] = Color.rgb(r, g, b)
             }
         }
 
-        return btmp
+        return Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.RGBA_F16)
     }
 
+    private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
+        for (row in pixels) {
+            for (pixel in row) {
+                val r = pixel.red
+                val g = pixel.green
+                val b = pixel.blue
+
+                val gray = (r + g + b) / 3
+
+                pixel.red = gray
+                pixel.green = gray
+                pixel.blue = gray
+            }
+        }
+
+        return pixels
+    }
+
+    /**
+     * Flattens ArrayList of ArrayList of RGBs into one dimensional ArrayList
+     */
+    private fun flattenPixelsArray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<RGB> {
+        val flattenArray = ArrayList<RGB>()
+
+        for (i in 0 until pixels.size) {
+            for (j in 0 until pixels[i].size) {
+                flattenArray.add(pixels[i][j])
+            }
+        }
+
+        return flattenArray
+    }
 
     /**
      * Converts pixels of the given bitmap into RGB objects
@@ -104,65 +158,6 @@ object ImageBitmapProcessor {
 
         return pixels
     }
-
-
-    /**
-     * Flattens ArrayList of ArrayList of RGBs into one dimensional ArrayList
-     */
-    private fun flattenPixelsArray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<RGB> {
-        val flattenArray = ArrayList<RGB>()
-
-        for (i in 0 until pixels.size) {
-            for (j in 0 until pixels[i].size) {
-                flattenArray.add(pixels[i][j])
-            }
-        }
-
-        return flattenArray
-    }
-
-
-    /**
-     * Re-flattens ArrayList of RGBs into multiple ArrayLists of RGBs, according to image width and height
-     */
-    private fun reflattenPixelsArray(pixels: ArrayList<RGB>): ArrayList<ArrayList<RGB>> {
-        val reflattenArray = ArrayList<ArrayList<RGB>>()
-
-        for (i in 0 until imageHeight) {
-            val bottomRange = imageWidth * i
-            val topRange = bottomRange + imageWidth
-            val pixelsRow = ArrayList<RGB>()
-
-            for (j in bottomRange until topRange) {
-                pixelsRow.add(pixels[j])
-            }
-
-            reflattenArray.add(pixelsRow)
-        }
-
-        return reflattenArray
-    }
-
-
-    /**
-     * Prepares the initial set of pixel indices, according to the pixel size
-     */
-    private fun prepareInitialIndicesSet() {
-        val indicesSetSize = imageWidth * imageHeight
-        val indicesSet = ArrayList<Int>()
-        for (i in 0 until indicesSetSize) {
-            indicesSet.add(i)
-        }
-
-        for (i in 0 until pixelSize) {
-            val bottomRange = imageWidth * i
-            val topRange = bottomRange + pixelSize
-            for (j in bottomRange until topRange) {
-                initialIndicesSet.add(indicesSet[j])
-            }
-        }
-    }
-
 
     /**
      * Executes the pixelization process
@@ -214,81 +209,72 @@ object ImageBitmapProcessor {
         return pixels
     }
 
-
     /**
-     * Returns the average color of the given set of pixels
+     * Prepares the initial set of pixel indices, according to the pixel size
      */
-    private fun averageColor(pixels: ArrayList<RGB>): RGB {
-        var r = 0
-        var g = 0
-        var b = 0
-
-        for (i in 0 until pixels.size) {
-            val pixel = pixels[i]
-            r += pixel.red
-            g += pixel.green
-            b += pixel.blue
+    private fun prepareInitialIndicesSet() {
+        val indicesSetSize = imageWidth * imageHeight
+        val indicesSet = ArrayList<Int>()
+        for (i in 0 until indicesSetSize) {
+            indicesSet.add(i)
         }
 
-        val averageR = r / (pixelSize * pixelSize)
-        val averageG = g / (pixelSize * pixelSize)
-        val averageB = b / (pixelSize * pixelSize)
-        val result = RGB(averageR, averageG, averageB)
-
-        return result
+        for (i in 0 until pixelSize) {
+            val bottomRange = imageWidth * i
+            val topRange = bottomRange + pixelSize
+            for (j in bottomRange until topRange) {
+                initialIndicesSet.add(indicesSet[j])
+            }
+        }
     }
 
+    /**
+     * Selects best pixel size for pixelation process depending on photo dimensions
+     */
+    private fun prepareParameters(bitmap: Bitmap): Bitmap {
+        var btmp = bitmap
+        val parametersSet = listOf(10, 20, 25, 30)
+
+        while (pixelSize == 0) {
+            for (i in parametersSet.indices) {
+                if (btmp.width % parametersSet[i] == 0 && btmp.height % parametersSet[i] == 0) {
+                    pixelSize = parametersSet[i]
+                }
+            }
+
+            if (pixelSize == 0) {
+                if (btmp.width % 10 == 0) {
+                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width, btmp.height - 1)
+
+                } else {
+                    btmp = Bitmap.createBitmap(btmp, 0, 0, btmp.width - 1, btmp.height)
+                }
+
+            }
+        }
+
+        return btmp
+    }
 
     /**
-     * Converts pixels into bitmap
+     * Re-flattens ArrayList of RGBs into multiple ArrayLists of RGBs, according to image width and height
      */
-    private fun convertPixelsIntoBitmap(pixels: ArrayList<ArrayList<RGB>>): Bitmap {
-        val pixelsAsColors = IntArray(imageWidth * imageHeight)
+    private fun reflattenPixelsArray(pixels: ArrayList<RGB>): ArrayList<ArrayList<RGB>> {
+        val reflattenArray = ArrayList<ArrayList<RGB>>()
 
         for (i in 0 until imageHeight) {
-            for (j in 0 until imageWidth) {
-                val index = imageWidth * i + j
-                val pixel = pixels[i][j]
+            val bottomRange = imageWidth * i
+            val topRange = bottomRange + imageWidth
+            val pixelsRow = ArrayList<RGB>()
 
-                val r = pixel.red
-                val g = pixel.green
-                val b = pixel.blue
-
-                pixelsAsColors[index] = Color.rgb(r, g, b)
+            for (j in bottomRange until topRange) {
+                pixelsRow.add(pixels[j])
             }
+
+            reflattenArray.add(pixelsRow)
         }
 
-        val bitmap = Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.RGBA_F16)
-
-        return bitmap
-    }
-
-
-    private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
-        for (row in pixels) {
-            for (pixel in row) {
-                val r = pixel.red
-                val g = pixel.green
-                val b = pixel.blue
-
-                val gray = (r + g + b) / 3
-
-                pixel.red = gray
-                pixel.green = gray
-                pixel.blue = gray
-            }
-        }
-
-        return pixels
-    }
-
-
-    /**
-     * Cleans after processed image
-     */
-    private fun cleanAfterPixelization() {
-        initialIndicesSet.clear()
-        pixelSize = 0
+        return reflattenArray
     }
 
 }
