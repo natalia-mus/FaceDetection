@@ -5,23 +5,20 @@ FaceDetection is a simple Android app that detects faces in the selected picture
 
 User is able to take a new photo or to select the existing one from the device's gallery. Application uses external API to receive information about the selected picture. According to this, application presents photo and information about number of people and how many adults and children were detected.
 
-Once user choose option "detect faces" all detected faces on the photo becomes surrounded by the rectangles. If the person looks at least 16 years old, rectangle of the face is green and if the detected face looks younger than 16 - its rectangle is blue. User can also see other information recieved from API - like estimated age or possible gender (male/female).
-
-<p align="center">
-<img src="https://user-images.githubusercontent.com/56269299/163679793-04417105-7b61-4062-85b0-97ea0dac1fec.gif" width="60%" height="60%"/>
-</p>
+Once user choose option "detect faces" all detected faces on the photo becomes surrounded by the rectangles. If person looks at least 16 years old, rectangle of the face is green and if the detected face looks younger than 16 - its rectangle is blue. User can also see other information recieved from API - like estimated age or possible gender (male/female).
 
 Application allows to make simple image convertions, like pixelization or grayscale. In order to process image, application converts bitmap into the array where each pixel is a RGB object.
 
+<br/>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/56269299/163679829-14ef3f09-5b5b-45f8-8fb6-df7f17bca5d8.gif" width="60%" height="60%"/>
+<img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/278395ba-e861-4f7f-a6f8-542f029fa264" width="40%" height="40%"/>
 </p>
 <br/><br/>
 
 
 ## Pixelization algorithm
 
-* first, according to the photo dimensions, future pixel size is choosen
+* first, according to the photo dimensions, future pixel size is chosen
 
 * array of RGBs is divided into the packages of pixels - size of each package depends on the future pixel size
 
@@ -79,18 +76,26 @@ Application allows to make simple image convertions, like pixelization or graysc
 <br/><br/>
 
 
-Project is based on the data received from [skybiometry.com](https://skybiometry.com). It allows to detect face on the photo and to get information like estimated age, possible gender and coordinates of the detected face.
+## Project details
 
-Skybiometry API requires image URL in order to return requested data. For this reason, application uses [api.imgbb.com](https://api.imgbb.com), that provides URL address of the given image converted to base64.
+Project is based on the data received from [skybiometry.com](https://skybiometry.com). It allows to detect face in the photo and to get information like estimated age, possible gender and coordinates of the detected face. API has limited queries - user can monitor API usage from application.
+
+<br/>
+<p align="center">
+<img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/e18c6b39-2af9-447d-893d-5bbe94fa38ae" width="40%" height="40%"/>
+</p>
+<br/><br/>
+
+Skybiometry API requires image URL in order to return requested data. For this reason, application uses [api.imgbb.com](https://api.imgbb.com), that provides URL address of the given image converted to base64. By default the developer's API key is in use and all of the images upload to developer's account. If user has his own imgbb.com account, he can change default API key - then all of the images will upload to user's account.
 
 Application was built in Kotlin, according to the MVVM architecture pattern. It uses Retrofit2 in order to fetch data from API. Pictures in the application are displayed thanks to Glide.
 
 
-<br/><br/>
+<br/>
 
 image source: [pixabay.com](https://pixabay.com)
 
-<br/><br/>
+<br/>
 
 ## Author
 
