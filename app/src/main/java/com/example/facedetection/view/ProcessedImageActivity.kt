@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.R
@@ -29,6 +30,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionGender: LinearLayout
     private lateinit var optionPixelization: LinearLayout
     private lateinit var optionGrayscale: LinearLayout
+    //private lateinit var optionSaveImage: LinearLayout
 
     private var faceDetection = false
     private var ageEstimation = false
@@ -103,6 +105,11 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionGender = findViewById(R.id.option_gender)
         optionPixelization = findViewById(R.id.option_pixelization)
         optionGrayscale = findViewById(R.id.option_grayscale)
+        //optionSaveImage = findViewById(R.id.option_saveImage)
+
+//        optionSaveImage.setOnClickListener() {
+//            viewModel.saveImage(this, image.drawable.toBitmap(image.width, image.height))
+//        }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
 

@@ -1,11 +1,15 @@
 package com.example.facedetection.model
 
+import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.provider.MediaStore
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.example.facedetection.model.datamodel.RGB
+import java.util.*
 
 class ImageBitmapProcessor() {
 
@@ -48,6 +52,21 @@ class ImageBitmapProcessor() {
         cleanAfterPixelization()
 
         return result
+    }
+
+    /**
+     * Saves image as file
+     */
+    fun saveImage(context: Context, bitmap: Bitmap) {
+        val filename = "${System.currentTimeMillis()}.jpeg"
+        val resolver = context.contentResolver
+        val contentValues = ContentValues()
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$filename.jpeg")
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+        val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        val fileOutputStream = Objects.requireNonNull(imageUri)?.let { resolver.openOutputStream(it) }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+        fileOutputStream?.close()
     }
 
     /**
@@ -99,7 +118,7 @@ class ImageBitmapProcessor() {
             }
         }
 
-        return Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.RGBA_F16)
+        return Bitmap.createBitmap(pixelsAsColors, imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
     }
 
     private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {

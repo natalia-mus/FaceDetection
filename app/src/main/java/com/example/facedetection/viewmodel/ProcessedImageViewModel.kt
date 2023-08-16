@@ -1,5 +1,6 @@
 package com.example.facedetection.viewmodel
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
@@ -61,6 +62,10 @@ class ProcessedImageViewModel() : ViewModel() {
 
     fun grayscaleImage(bitmap: Bitmap): Bitmap {
         return imageBitmapProcessor.grayscaleImage(bitmap)
+    }
+
+    fun saveImage(context: Context, bitmap: Bitmap) {
+        imageBitmapProcessor.saveImage(context, bitmap)
     }
 
 }
