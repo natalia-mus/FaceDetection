@@ -138,7 +138,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/purple"
-        android:foregroundTint="@color/purple"
         android:src="@drawable/ic_save"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toTopOf="@+id/processed_image_activity_options"

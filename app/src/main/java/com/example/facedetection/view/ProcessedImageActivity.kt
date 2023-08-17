@@ -120,7 +120,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
-            viewModel.saveImage(this, image.drawable.toBitmap(image.width, image.height))
+            viewModel.saveImage(this, image.drawable.toBitmap(image.drawable.intrinsicWidth, image.drawable.intrinsicHeight))
         }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
