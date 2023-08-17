@@ -17,6 +17,7 @@ import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ProcessedImageActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionGender: LinearLayout
     private lateinit var optionPixelization: LinearLayout
     private lateinit var optionGrayscale: LinearLayout
-    //private lateinit var optionSaveImage: LinearLayout
+    private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
     private var ageEstimation = false
@@ -105,11 +106,11 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionGender = findViewById(R.id.option_gender)
         optionPixelization = findViewById(R.id.option_pixelization)
         optionGrayscale = findViewById(R.id.option_grayscale)
-        //optionSaveImage = findViewById(R.id.option_saveImage)
+        saveImageButton = findViewById(R.id.processed_image_activity_save)
 
-//        optionSaveImage.setOnClickListener() {
-//            viewModel.saveImage(this, image.drawable.toBitmap(image.width, image.height))
-//        }
+        saveImageButton.setOnClickListener() {
+            viewModel.saveImage(this, image.drawable.toBitmap(image.width, image.height))
+        }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
 
