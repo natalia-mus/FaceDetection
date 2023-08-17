@@ -17,6 +17,8 @@ class ProcessedImageViewModel() : ViewModel() {
     val processedImage = MutableLiveData<Bitmap>()
     val pixelatedImage = MutableLiveData<Bitmap>()
 
+    val imageSavedSuccessfully = MutableLiveData<Boolean>()
+
     private val imageBitmapProcessor: ImageBitmapProcessor by lazy { ImageBitmapProcessor() }
     private lateinit var imageDataProcessor: ImageDataProcessor
 
@@ -65,7 +67,7 @@ class ProcessedImageViewModel() : ViewModel() {
     }
 
     fun saveImage(context: Context, bitmap: Bitmap) {
-        imageBitmapProcessor.saveImage(context, bitmap)
+        imageSavedSuccessfully.value = imageBitmapProcessor.saveImage(context, bitmap)
     }
 
 }

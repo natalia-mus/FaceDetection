@@ -30,4 +30,5 @@
     <string name="api_key_invalid">Klucz API jest niepoprawny i nie może zostać użyty</string>
     <string name="api_key_default">Domyślny klucz API jest w użyciu</string>
     <string name="api_key_error">Nie można zweryfikować klucza. Sprawdź połączenie z internetem</string>
+    <string name="image_saved_successfully">Obraz został zapisany</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
@@ -56,17 +57,25 @@ class ImageBitmapProcessor() {
 
     /**
      * Saves image as file
+     * returns if image has been saved successfully
      */
-    fun saveImage(context: Context, bitmap: Bitmap) {
-        val filename = "${System.currentTimeMillis()}.jpeg"
-        val resolver = context.contentResolver
-        val contentValues = ContentValues()
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$filename.jpeg")
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-        val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-        val fileOutputStream = Objects.requireNonNull(imageUri)?.let { resolver.openOutputStream(it) }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-        fileOutputStream?.close()
+    fun saveImage(context: Context, bitmap: Bitmap): Boolean {
+        try {
+            val filename = "${System.currentTimeMillis()}.jpeg"
+            val resolver = context.contentResolver
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$filename.jpeg")
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            val fileOutputStream = Objects.requireNonNull(imageUri)?.let { resolver.openOutputStream(it) }
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream?.close()
+            return true
+
+        } catch (exception: Exception) {
+            Log.e("ImageBitmapProcessor - image saving error", exception.message.toString())
+            return false
+        }
     }
 
     /**

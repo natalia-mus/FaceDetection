@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
@@ -52,6 +53,16 @@ class ProcessedImageActivity : AppCompatActivity() {
         setView()
         setObservers()
         setOptions()
+    }
+
+    private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
+        var message = resources.getString(R.string.image_saved_successfully)
+
+        if (!imageSavedSuccessfully) {
+            message = resources.getString(R.string.error_something_went_wrong)
+        }
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
@@ -142,6 +153,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             imageChanged(bitmap)
         }
         viewModel.pixelatedImage.observe(this) { imageChanged(it) }
+        viewModel.imageSavedSuccessfully.observe(this) { handleImageSavingStatus(it) }
     }
 
     private fun setOptions() {

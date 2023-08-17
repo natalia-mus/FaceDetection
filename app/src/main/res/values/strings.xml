@@ -30,4 +30,5 @@
     <string name="api_key_invalid">API key is invalid and can not be used</string>
     <string name="api_key_default">Default API key is in use</string>
     <string name="api_key_error">API key can not be confirmed. Check your internet connection</string>
+    <string name="image_saved_successfully">Image has been saved</string>
 </resources>
