@@ -14,6 +14,8 @@ import java.util.*
 
 class ImageBitmapProcessor() {
 
+    private val fileFormat = Bitmap.CompressFormat.PNG
+
     private var imageWidth = 0
     private var imageHeight = 0
     private var pixelSize = 0
@@ -61,14 +63,14 @@ class ImageBitmapProcessor() {
      */
     fun saveImage(context: Context, bitmap: Bitmap): Boolean {
         try {
-            val filename = "${System.currentTimeMillis()}.jpeg"
+            val filename = "${System.currentTimeMillis()}"
             val resolver = context.contentResolver
             val contentValues = ContentValues()
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$filename.jpeg")
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$filename.${fileFormat.name}")
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/${fileFormat.name}")
             val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
             val fileOutputStream = Objects.requireNonNull(imageUri)?.let { resolver.openOutputStream(it) }
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            bitmap.compress(fileFormat, 100, fileOutputStream)
             fileOutputStream?.close()
             return true
 
