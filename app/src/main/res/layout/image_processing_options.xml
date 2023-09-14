@@ -25,7 +25,7 @@
                 android:id="@+id/option_face_detection_icon"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:src="@drawable/ic_baseline_crop_free_24" />
+                android:src="@drawable/ic_face_detection" />
 
             <TextView
                 android:id="@+id/option_face_detection_text"
@@ -50,7 +50,7 @@
                 android:id="@+id/option_age_estimation_icon"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:src="@drawable/ic_baseline_30fps_24" />
+                android:src="@drawable/ic_age_estimation" />
 
             <TextView
                 android:id="@+id/option_age_estimation_text"
@@ -75,7 +75,7 @@
                 android:id="@+id/option_gender_icon"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:src="@drawable/ic_baseline_female_24" />
+                android:src="@drawable/ic_gender" />
 
             <TextView
                 android:id="@+id/option_gender_text"
@@ -100,7 +100,7 @@
                 android:id="@+id/option_pixelization_icon"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:src="@drawable/ic_baseline_apps_24" />
+                android:src="@drawable/ic_pixelization" />
 
             <TextView
                 android:id="@+id/option_pixelization_text"
@@ -125,7 +125,7 @@
                 android:id="@+id/option_grayscale_icon"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:src="@drawable/ic_baseline_color_lens_24" />
+                android:src="@drawable/ic_grayscale" />
 
             <TextView
                 android:id="@+id/option_grayscale_text"

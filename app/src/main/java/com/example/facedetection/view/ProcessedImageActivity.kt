@@ -7,7 +7,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.R
@@ -16,6 +18,7 @@ import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ProcessedImageActivity : AppCompatActivity() {
 
@@ -29,6 +32,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionGender: LinearLayout
     private lateinit var optionPixelization: LinearLayout
     private lateinit var optionGrayscale: LinearLayout
+    private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
     private var ageEstimation = false
@@ -49,6 +53,20 @@ class ProcessedImageActivity : AppCompatActivity() {
         setView()
         setObservers()
         setOptions()
+    }
+
+    private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
+        var message = resources.getString(R.string.image_saved_successfully)
+
+        if (!imageSavedSuccessfully) {
+            message = resources.getString(R.string.error_something_went_wrong)
+        }
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun saveImage() {
+        viewModel.saveImage(this, image.drawable.toBitmap(image.drawable.intrinsicWidth, image.drawable.intrinsicHeight))
     }
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
@@ -103,6 +121,11 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionGender = findViewById(R.id.option_gender)
         optionPixelization = findViewById(R.id.option_pixelization)
         optionGrayscale = findViewById(R.id.option_grayscale)
+        saveImageButton = findViewById(R.id.processed_image_activity_save)
+
+        saveImageButton.setOnClickListener() {
+            saveImage()
+        }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
 
@@ -134,6 +157,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             imageChanged(bitmap)
         }
         viewModel.pixelatedImage.observe(this) { imageChanged(it) }
+        viewModel.imageSavedSuccessfully.observe(this) { handleImageSavingStatus(it) }
     }
 
     private fun setOptions() {
