@@ -16,6 +16,8 @@ object Settings {
         }
     }
 
+    fun isAPIKeySet() = getAPIKey().isNotEmpty()
+
     fun saveAPIKey(newAPIKey: String) {
         if (instance != null) {
             instance!!.edit().putString(API_KEY, newAPIKey).apply()

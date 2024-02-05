@@ -72,6 +72,29 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun isAPIKeySet() = Settings.isAPIKeySet()
+
+    private fun onCameraButtonClick() {
+        if (isAPIKeySet()) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), Permissions.CAMERA)
+            }
+        } else {
+            changeAPIKey()
+        }
+    }
+
+    private fun onGalleryButtonClick() {
+        if (isAPIKeySet()) {
+            openGallery()
+        } else {
+            changeAPIKey()
+        }
+    }
+
     private fun setToolbar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -85,16 +108,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         buttonCamera.setOnClickListener() {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                openCamera()
-
-            } else {
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), Permissions.CAMERA)
-            }
+            onCameraButtonClick()
         }
 
         buttonGallery.setOnClickListener() {
-            openGallery()
+            onGalleryButtonClick()
         }
     }
 

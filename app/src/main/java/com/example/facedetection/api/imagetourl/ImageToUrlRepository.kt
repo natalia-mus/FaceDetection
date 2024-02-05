@@ -16,7 +16,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ImageToUrlRepository {
 
     private const val BASE_URL = "https://api.imgbb.com/"
-    private const val API_KEY = "71d60985b5f8dd4f6f423458a7ea70cf"
     private const val IMAGE = "image"
 
     private val retrofit =
@@ -72,14 +71,8 @@ object ImageToUrlRepository {
     }
 
     /**
-     * Returns user's API key if it's defined by user - otherwise returns default API key
+     * Returns user's API key
      */
-    private fun getAPIKey(): String {
-        val apiKey = Settings.getAPIKey()
-
-        return apiKey.ifEmpty {
-            API_KEY
-        }
-    }
+    private fun getAPIKey() = Settings.getAPIKey()
 
 }
