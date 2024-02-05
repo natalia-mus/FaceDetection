@@ -65,14 +65,14 @@ object ImageToUrlRepository {
         return true
     }
 
-    private fun handleAPIKeyConfirmationResult(response: ResponseBody): APIKeyConfirmationResult? {
-        val converter = retrofit.responseBodyConverter<APIKeyConfirmationResult>(APIKeyConfirmationResult::class.java, arrayOfNulls<Annotation>(0))
-        return converter.convert(response)
-    }
-
     /**
      * Returns user's API key
      */
     private fun getAPIKey() = Settings.getAPIKey()
+
+    private fun handleAPIKeyConfirmationResult(response: ResponseBody): APIKeyConfirmationResult? {
+        val converter = retrofit.responseBodyConverter<APIKeyConfirmationResult>(APIKeyConfirmationResult::class.java, arrayOfNulls<Annotation>(0))
+        return converter.convert(response)
+    }
 
 }

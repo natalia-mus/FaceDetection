@@ -29,22 +29,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:text="@string/change_api_key_info_1"
         android:textAlignment="center"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/activity_change_api_key_go_to_website"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/activity_change_api_key_go_to_website"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/button_background_transparent"
         android:paddingHorizontal="20dp"
         android:text="@string/go_to_website"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
+        app:layout_constraintBottom_toTopOf="@id/activity_change_api_key_api_key"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_info_1" />
@@ -54,7 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="60dp"
         android:background="@drawable/text_field"
         android:hint="@string/paste_your_api_key"
         android:maxLines="1"
@@ -63,6 +63,7 @@
         android:singleLine="true"
         android:textColor="@color/black_transparent"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/activity_change_api_key_button_change"
         app:layout_constraintTop_toBottomOf="@id/activity_change_api_key_go_to_website" />
 
     <TextView
@@ -80,29 +81,15 @@
         android:id="@+id/activity_change_api_key_button_change"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/button_background_transparent"
         android:paddingHorizontal="20dp"
         android:text="@string/change_api_key"
         app:cornerRadius="50dp"
         app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_info_2" />
-
-    <Button
-        android:id="@+id/activity_change_api_key_continue"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_background_transparent"
-        android:lines="2"
-        android:paddingHorizontal="20dp"
-        android:text="@string/continue_with_default_key"
-        app:cornerRadius="50dp"
-        app:iconGravity="textStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_change_api_key_button_change" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

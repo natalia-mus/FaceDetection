@@ -24,10 +24,9 @@
     <string name="change_api_key_info_2">Tylko ty będziesz w stanie widzieć swój klucz API</string>
     <string name="go_to_website">Przejdź do imgbb.com</string>
     <string name="paste_your_api_key">wklej swój klucz API</string>
-    <string name="continue_with_default_key">Kontynuuj z domyślnym kluczem</string>
-    <string name="api_key_valid">Klucz API został zmieniony</string>
+    <string name="api_key_valid">Klucz API został zapisany</string>
     <string name="api_key_invalid">Klucz API jest niepoprawny i nie może zostać użyty</string>
-    <string name="api_key_default">Domyślny klucz API jest w użyciu</string>
+    <string name="api_key_empty">Wklej swój klucz API</string>
     <string name="api_key_error">Nie można zweryfikować klucza. Sprawdź połączenie z internetem</string>
     <string name="image_saved_successfully">Obraz został zapisany</string>
 </resources>

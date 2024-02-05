@@ -24,10 +24,9 @@
     <string name="change_api_key_info_2">Solo usted podrá ver su clave de API</string>
     <string name="go_to_website">Ir a imgbb.com</string>
     <string name="paste_your_api_key">pega tu clave de API</string>
-    <string name="continue_with_default_key">Continue con la clave predeterminada</string>
-    <string name="api_key_valid">La clave de API ha sido cambiada correctamente</string>
+    <string name="api_key_valid">La clave de API ha sido guardada</string>
     <string name="api_key_invalid">La clave de API no es válida y no puede ser usado</string>
-    <string name="api_key_default">La clave de API predeterminada está en uso</string>
+    <string name="api_key_empty">Pega tu clave de API</string>
     <string name="api_key_error">La clave de API no puede ser confirmada. Comprueba tu conexión a Internet</string>
     <string name="image_saved_successfully">El imagen ha sido guardada</string>
 </resources>

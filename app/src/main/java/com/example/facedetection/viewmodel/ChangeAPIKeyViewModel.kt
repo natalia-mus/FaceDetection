@@ -24,8 +24,7 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
         if (apiKey == "") {
             loading.value = false
-            Settings.saveAPIKey(apiKey)
-            isAPIKeyValid.value = APIKeyConfirmationStatus.Default
+            isAPIKeyValid.value = APIKeyConfirmationStatus.Empty
 
         } else {
             ImageToUrlRepository.confirmAPIKey(
@@ -55,6 +54,6 @@ class ChangeAPIKeyViewModel : ViewModel() {
 enum class APIKeyConfirmationStatus {
     Valid,
     Invalid,
-    Default,
+    Empty,
     Error
 }

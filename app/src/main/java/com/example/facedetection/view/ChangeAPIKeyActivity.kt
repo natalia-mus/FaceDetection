@@ -22,7 +22,6 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
 
     private lateinit var buttonGoToWebsite: Button
     private lateinit var buttonChangeAPIKey: Button
-    private lateinit var buttonContinueWithDefaultKey: Button
     private lateinit var apiKeyField: EditText
     private lateinit var loadingSection: ConstraintLayout
 
@@ -44,7 +43,6 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private fun setView() {
         buttonGoToWebsite = findViewById(R.id.activity_change_api_key_go_to_website)
         buttonChangeAPIKey = findViewById(R.id.activity_change_api_key_button_change)
-        buttonContinueWithDefaultKey = findViewById(R.id.activity_change_api_key_continue)
         apiKeyField = findViewById(R.id.activity_change_api_key_api_key)
         loadingSection = findViewById(R.id.activity_change_api_key_loading_section)
     }
@@ -57,10 +55,6 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
 
         buttonChangeAPIKey.setOnClickListener() {
             changeAPIKey()
-        }
-
-        buttonContinueWithDefaultKey.setOnClickListener() {
-            continueWithDefaultKey()
         }
     }
 
@@ -77,10 +71,6 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private fun changeAPIKey() {
         val newAPIKey = apiKeyField.text.toString()
         saveAPIKey(newAPIKey)
-    }
-
-    private fun continueWithDefaultKey() {
-        saveAPIKey("")
     }
 
     private fun saveAPIKey(apiKey: String) {
@@ -101,10 +91,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
                 finish()
                 showToast(resources.getString(R.string.api_key_valid))
             }
-            APIKeyConfirmationStatus.Default -> {
-                finish()
-                showToast(resources.getString(R.string.api_key_default))
-            }
+            APIKeyConfirmationStatus.Empty -> showToast(resources.getString(R.string.api_key_empty))
             APIKeyConfirmationStatus.Invalid -> showToast(resources.getString(R.string.api_key_invalid))
             APIKeyConfirmationStatus.Error -> showToast(resources.getString(R.string.api_key_error))
         }

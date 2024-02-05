@@ -30,7 +30,7 @@ object Settings {
         if (instance != null) {
             val apiKey = instance!!.getString(API_KEY, "")
 
-            if (apiKey is String) {
+            if (apiKey != null) {
                 result = apiKey
             }
         }
