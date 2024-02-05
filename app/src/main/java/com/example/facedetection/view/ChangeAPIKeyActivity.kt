@@ -61,7 +61,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private fun setObservers() {
         viewModel.loading.observe(this) { loadingStatusChanged(it) }
         viewModel.apiKey.observe(this) { setAPIKeyFieldText(it) }
-        viewModel.isAPIKeyValid.observe(this) { handleAPIKeyConfirmationStatus(it) }
+        viewModel.apiKeyConfirmationStatus.observe(this) { handleAPIKeyConfirmationStatus(it) }
     }
 
     private fun setAPIKeyFieldText(apiKey: String) {

@@ -12,7 +12,7 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
     val loading = MutableLiveData<Boolean>()
     val apiKey = MutableLiveData<String>()
-    val isAPIKeyValid = MutableLiveData<APIKeyConfirmationStatus>()
+    val apiKeyConfirmationStatus = MutableLiveData<APIKeyConfirmationStatus>()
 
 
     fun getAPIKey() {
@@ -24,7 +24,7 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
         if (apiKey == "") {
             loading.value = false
-            isAPIKeyValid.value = APIKeyConfirmationStatus.Empty
+            apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Empty
 
         } else {
             ImageToUrlRepository.confirmAPIKey(
@@ -35,15 +35,15 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
                         if (data.error.code != ErrorCode.InvalidAPIKey.code) {
                             Settings.saveAPIKey(apiKey)
-                            isAPIKeyValid.value = APIKeyConfirmationStatus.Valid
+                            apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Valid
                         } else {
-                            isAPIKeyValid.value = APIKeyConfirmationStatus.Invalid
+                            apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Invalid
                         }
                     }
 
                     override fun onError() {
                         loading.value = false
-                        isAPIKeyValid.value = APIKeyConfirmationStatus.Error
+                        apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Error
                     }
                 })
         }
