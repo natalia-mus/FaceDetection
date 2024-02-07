@@ -12,19 +12,38 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
     val loading = MutableLiveData<Boolean>()
     val apiKey = MutableLiveData<String>()
+    val imageExpirationValue = MutableLiveData<Boolean>()
     val apiKeyConfirmationStatus = MutableLiveData<APIKeyConfirmationStatus>()
 
+
+    fun getAPISettings() {
+        getAPIKey()
+        getImageExpirationValue()
+    }
 
     fun getAPIKey() {
         apiKey.value = Settings.getAPIKey()
     }
 
-    fun saveAPIKey(apiKey: String) {
+    fun getImageExpirationValue() {
+        imageExpirationValue.value = Settings.getImageExpirationTime() != 0
+    }
+
+    fun saveChanges(apiKey: String, setImageExpirationTime: Boolean) {
         loading.value = true
 
         if (apiKey == "") {
             loading.value = false
             apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Empty
+
+        } else if (apiKey == this.apiKey.value && setImageExpirationTime == imageExpirationValue.value) {
+            loading.value = false
+            apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Valid
+
+        } else if (apiKey == this.apiKey.value && setImageExpirationTime != imageExpirationValue.value) {
+            saveSetImageExpirationTimeValue(setImageExpirationTime)
+            loading.value = false
+            apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Valid
 
         } else {
             ImageToUrlRepository.confirmAPIKey(
@@ -35,6 +54,7 @@ class ChangeAPIKeyViewModel : ViewModel() {
 
                         if (data.error.code != ErrorCode.InvalidAPIKey.code) {
                             Settings.saveAPIKey(apiKey)
+                            saveSetImageExpirationTimeValue(setImageExpirationTime)
                             apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Valid
                         } else {
                             apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Invalid
@@ -46,6 +66,14 @@ class ChangeAPIKeyViewModel : ViewModel() {
                         apiKeyConfirmationStatus.value = APIKeyConfirmationStatus.Error
                     }
                 })
+        }
+    }
+
+    private fun saveSetImageExpirationTimeValue(setImageExpirationTime: Boolean) {
+        if (setImageExpirationTime) {
+            Settings.saveExpirationTime(60)
+        } else {
+            Settings.saveExpirationTime(0)
         }
     }
 }

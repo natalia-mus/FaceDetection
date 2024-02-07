@@ -30,8 +30,9 @@ object ImageToUrlRepository {
     fun getImageUrl(image: String, callback: RepositoryCallback<ImageToUrl>) {
         val body = MultipartBody.Part.createFormData(IMAGE, image)
         val apiKey = getAPIKey()
+        val expiration = getExpiration()
 
-        apiService.getImageUrl(apiKey, body).enqueue(object : Callback<ImageToUrl> {
+        apiService.getImageUrl(expiration, apiKey, body).enqueue(object : Callback<ImageToUrl> {
             override fun onResponse(call: Call<ImageToUrl>, response: Response<ImageToUrl>) {
                 response.body()?.let { callback.onSuccess(it) }
             }
@@ -69,6 +70,11 @@ object ImageToUrlRepository {
      * Returns user's API key
      */
     private fun getAPIKey() = Settings.getAPIKey()
+
+    /**
+     * Returns expiration time if set by user
+     */
+    private fun getExpiration() = Settings.getImageExpirationTime().toString()
 
     private fun handleAPIKeyConfirmationResult(response: ResponseBody): APIKeyConfirmationResult? {
         val converter = retrofit.responseBodyConverter<APIKeyConfirmationResult>(APIKeyConfirmationResult::class.java, arrayOfNulls<Annotation>(0))

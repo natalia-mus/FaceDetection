@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private lateinit var buttonGoToWebsite: Button
     private lateinit var buttonChangeAPIKey: Button
     private lateinit var apiKeyField: EditText
+    private lateinit var imageExpirationCheckbox: CheckBox
     private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: ChangeAPIKeyViewModel
@@ -37,13 +39,14 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
         setListeners()
         setObservers()
 
-        viewModel.getAPIKey()
+        viewModel.getAPISettings()
     }
 
     private fun setView() {
         buttonGoToWebsite = findViewById(R.id.activity_change_api_key_go_to_website)
         buttonChangeAPIKey = findViewById(R.id.activity_change_api_key_button_change)
         apiKeyField = findViewById(R.id.activity_change_api_key_api_key)
+        imageExpirationCheckbox = findViewById(R.id.activity_change_api_key_image_expiration_checkbox)
         loadingSection = findViewById(R.id.activity_change_api_key_loading_section)
     }
 
@@ -61,20 +64,26 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
     private fun setObservers() {
         viewModel.loading.observe(this) { loadingStatusChanged(it) }
         viewModel.apiKey.observe(this) { setAPIKeyFieldText(it) }
-        viewModel.apiKeyConfirmationStatus.observe(this) { handleAPIKeyConfirmationStatus(it) }
+        viewModel.imageExpirationValue.observe(this) { setImageExpirationCheckBoxValue(it) }
+        viewModel.isAPIKeyValid.observe(this) { handleAPIKeyConfirmationStatus(it) }
     }
 
     private fun setAPIKeyFieldText(apiKey: String) {
         apiKeyField.setText(apiKey)
     }
 
-    private fun changeAPIKey() {
-        val newAPIKey = apiKeyField.text.toString()
-        saveAPIKey(newAPIKey)
+    private fun setImageExpirationCheckBoxValue(checked: Boolean) {
+        imageExpirationCheckbox.isChecked = checked
     }
 
-    private fun saveAPIKey(apiKey: String) {
-        viewModel.saveAPIKey(apiKey)
+    private fun changeAPIKey() {
+        val newAPIKey = apiKeyField.text.toString()
+        val setImageExpirationTime = imageExpirationCheckbox.isChecked
+        saveAPIKey(newAPIKey, setImageExpirationTime)
+    }
+
+    private fun saveAPIKey(apiKey: String, setImageExpirationTime: Boolean) {
+        viewModel.saveChanges(apiKey, setImageExpirationTime)
     }
 
     private fun loadingStatusChanged(loading: Boolean) {

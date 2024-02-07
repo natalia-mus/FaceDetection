@@ -7,6 +7,7 @@ object Settings {
 
     private const val SETTINGS = "settings"
     private const val API_KEY = "api_key"
+    private const val EXPIRATION = "expiration"
 
     private var instance: SharedPreferences? = null
 
@@ -24,6 +25,12 @@ object Settings {
         }
     }
 
+    fun saveExpirationTime(expiration: Int) {
+        if (instance != null) {
+            instance!!.edit().putInt(EXPIRATION, expiration).apply()
+        }
+    }
+
     fun getAPIKey(): String {
         var result = ""
 
@@ -33,6 +40,18 @@ object Settings {
             if (apiKey != null) {
                 result = apiKey
             }
+        }
+        return result
+    }
+
+    /**
+     * Image expiration time in seconds
+     */
+    fun getImageExpirationTime(): Int {
+        var result = 0
+
+        if (instance != null) {
+            result = instance!!.getInt(EXPIRATION, 0)
         }
         return result
     }

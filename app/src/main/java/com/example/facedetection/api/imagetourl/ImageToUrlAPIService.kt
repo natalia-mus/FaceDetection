@@ -16,8 +16,9 @@ interface ImageToUrlAPIService {
     @Multipart
     @POST("1/upload")
     fun getImageUrl(
+        @Query("expiration") expiration: String,
         @Query("key") key: String,
-        @Part() part: MultipartBody.Part
+        @Part part: MultipartBody.Part
     ): Call<ImageToUrl>
 
     @POST("1/upload")
