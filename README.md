@@ -86,7 +86,7 @@ Project is based on the data received from [skybiometry.com](https://skybiometr
 </p>
 <br/><br/>
 
-Skybiometry API requires image URL in order to return requested data. For this reason, application uses [api.imgbb.com](https://api.imgbb.com), that provides URL address of the given image converted to base64. By default the developer's API key is in use and all of the images upload to developer's account. If user has his own imgbb.com account, he can change default API key - then all of the images will upload to user's account.
+Skybiometry API requires image URL in order to return requested data. For this reason, application uses [api.imgbb.com](https://api.imgbb.com), that provides URL address of the given image converted to base64. User is supposed to have his own imgbb.com account so he can pass own API key to application - then all of the images will upload to user's account. User also can choose whether uploaded images should be deleted within 60 seconds or not.
 
 Application was built in Kotlin, according to the MVVM architecture pattern. It uses Retrofit2 in order to fetch data from API. Pictures in the application are displayed thanks to Glide.
 
