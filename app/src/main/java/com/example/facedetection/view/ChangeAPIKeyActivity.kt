@@ -65,7 +65,7 @@ class ChangeAPIKeyActivity : AppCompatActivity() {
         viewModel.loading.observe(this) { loadingStatusChanged(it) }
         viewModel.apiKey.observe(this) { setAPIKeyFieldText(it) }
         viewModel.imageExpirationValue.observe(this) { setImageExpirationCheckBoxValue(it) }
-        viewModel.isAPIKeyValid.observe(this) { handleAPIKeyConfirmationStatus(it) }
+        viewModel.apiKeyConfirmationStatus.observe(this) { handleAPIKeyConfirmationStatus(it) }
     }
 
     private fun setAPIKeyFieldText(apiKey: String) {

@@ -48,10 +48,10 @@ object Settings {
      * Image expiration time in seconds
      */
     fun getImageExpirationTime(): Int {
-        var result = 0
+        var result = 60
 
         if (instance != null) {
-            result = instance!!.getInt(EXPIRATION, 0)
+            result = instance!!.getInt(EXPIRATION, 60)
         }
         return result
     }
