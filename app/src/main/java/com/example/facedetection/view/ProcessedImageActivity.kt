@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
+import com.example.facedetection.Image
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
@@ -130,11 +131,9 @@ class ProcessedImageActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
 
 
-        if (intent.hasExtra(ConstValues.BITMAP)) {
-            val byteArray = intent.getByteArrayExtra(ConstValues.BITMAP)
-            if (byteArray != null) {
-                bitmap = ImageConverter.convertToBitmap(byteArray)
-            }
+        val byteArray = Image.getImage()
+        if (byteArray != null) {
+            bitmap = ImageConverter.convertToBitmap(byteArray)
         }
 
         if (intent.hasExtra(ConstValues.FACES_INFO)) {

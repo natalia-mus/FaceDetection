@@ -24,7 +24,6 @@ import com.example.facedetection.Status
 import com.example.facedetection.model.datamodel.apiusage.APIUsageData
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.util.ConstValues
-import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.util.Permissions
 import com.example.facedetection.util.RequestCodeUtil
 import com.example.facedetection.viewmodel.MainActivityViewModel
@@ -37,8 +36,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loadingSection: ConstraintLayout
 
     private lateinit var viewModel: MainActivityViewModel
-
-    private lateinit var bitmap: ByteArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,7 +135,6 @@ class MainActivity : AppCompatActivity() {
     private fun statusChanged(status: Status) {
         when (status) {
             Status.ERROR -> Toast.makeText(this, getString(R.string.error_something_went_wrong), Toast.LENGTH_LONG).show()
-            Status.PHOTO_TOO_LARGE -> Toast.makeText(this, getString(R.string.error_picture_too_large) + " " + ConstValues.MAX_PHOTO_SIZE, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -149,7 +145,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun facesInfoChanged(facesInfo: FacesInfo) {
         val intent = Intent(this, ProcessedImageActivity::class.java)
-        intent.putExtra(ConstValues.BITMAP, bitmap)
         intent.putExtra(ConstValues.FACES_INFO, facesInfo)
         startActivity(intent)
     }
@@ -188,17 +183,15 @@ class MainActivity : AppCompatActivity() {
                 val imageStream: InputStream = contentResolver.openInputStream(uriImage)!!
                 val photoBitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
 
-                bitmap = ImageConverter.convertToByteArray(photoBitmap)
+                viewModel.setImage(photoBitmap)
                 viewModel.detectFaces(photoBitmap)
             }
-
 
         } else if (requestCode == RequestCodeUtil.REQUEST_CODE_CAMERA_IMAGE && resultCode == RESULT_OK) {
             val imageFromCamera = data?.getParcelableExtra<Bitmap>(ConstValues.DATA)
 
             if (imageFromCamera != null) {
-                bitmap = ImageConverter.convertToByteArray(imageFromCamera)
-
+                viewModel.setImage(imageFromCamera)
                 viewModel.detectFaces(imageFromCamera)
             }
         }

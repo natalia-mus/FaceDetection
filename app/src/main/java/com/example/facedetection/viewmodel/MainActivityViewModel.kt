@@ -3,6 +3,7 @@ package com.example.facedetection.viewmodel
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.facedetection.Image
 import com.example.facedetection.Status
 import com.example.facedetection.api.RepositoryCallback
 import com.example.facedetection.api.facesinfo.FacesInfoRepository
@@ -11,9 +12,8 @@ import com.example.facedetection.model.datamodel.apiusage.APIUsage
 import com.example.facedetection.model.datamodel.apiusage.APIUsageData
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.imagetourl.ImageToUrl
-import kotlin.math.roundToInt
-import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
+import kotlin.math.roundToInt
 
 class MainActivityViewModel : ViewModel() {
 
@@ -22,7 +22,7 @@ class MainActivityViewModel : ViewModel() {
     val facesInfo = MutableLiveData<FacesInfo>()
     val status = MutableLiveData<Status>(Status.UNKNOWN)
 
-        fun checkAPIUsage() {
+    fun checkAPIUsage() {
         loading.value = true
         status.value = Status.UNKNOWN
 
@@ -51,30 +51,25 @@ class MainActivityViewModel : ViewModel() {
         loading.value = true
         status.value = Status.UNKNOWN
 
-        if (correctPhotoSize(bitmap)) {
-            status.value = Status.IN_PROGRESS
-            val image = ImageConverter.convertToBase64(bitmap)
-            ImageToUrlRepository.getImageUrl(image, object : RepositoryCallback<ImageToUrl> {
-                override fun onSuccess(data: ImageToUrl) {
-                    val url = data.data.url
-                    getFacesInfo(url)
-                }
+        status.value = Status.IN_PROGRESS
+        val image = ImageConverter.convertToBase64(bitmap)
+        ImageToUrlRepository.getImageUrl(image, object : RepositoryCallback<ImageToUrl> {
+            override fun onSuccess(data: ImageToUrl) {
+                val url = data.data.url
+                getFacesInfo(url)
+            }
 
-                override fun onError() {
-                    loading.value = false
-                    status.value = Status.ERROR
-                }
-            })
-        } else {
-            loading.value = false
-            status.value = Status.PHOTO_TOO_LARGE
-        }
-
+            override fun onError() {
+                loading.value = false
+                status.value = Status.ERROR
+            }
+        })
     }
 
 
-    private fun correctPhotoSize(bitmap: Bitmap): Boolean {
-        return (bitmap.width * bitmap.height <= ConstValues.MAX_PHOTO_SIZE)
+    fun setImage(bitmap: Bitmap) {
+        val image = ImageConverter.convertToByteArray(bitmap)
+        Image.setImage(image)
     }
 
 

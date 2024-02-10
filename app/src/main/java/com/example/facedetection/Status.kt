@@ -1,5 +1,5 @@
 package com.example.facedetection
 
 enum class Status {
-    UNKNOWN, IN_PROGRESS, SUCCESS, ERROR, PHOTO_TOO_LARGE
+    UNKNOWN, IN_PROGRESS, SUCCESS, ERROR
 }
