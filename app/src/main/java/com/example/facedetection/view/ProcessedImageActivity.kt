@@ -134,6 +134,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         val byteArray = Image.getImage()
         if (byteArray != null) {
             bitmap = ImageConverter.convertToBitmap(byteArray)
+            imageChanged(bitmap)
         }
 
         if (intent.hasExtra(ConstValues.FACES_INFO)) {
@@ -153,7 +154,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         viewModel.adultsCount.observe(this) { adultsCountChanged(it) }
         viewModel.processedImage.observe(this) {
             processedImage = it
-            imageChanged(bitmap)
+            imageChanged(processedImage)
         }
         viewModel.pixelatedImage.observe(this) { imageChanged(it) }
         viewModel.imageSavedSuccessfully.observe(this) { handleImageSavingStatus(it) }
@@ -164,14 +165,14 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         optionFaceDetection.setOnClickListener() {
             if (!faceDetection) {
-                imageChanged(processedImage)
+                viewModel.detectFaces(photoData)
             }
             selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
         }
 
         optionAgeEstimation.setOnClickListener() {
             if (!ageEstimation) {
-                imageChanged(viewModel.estimateAge(photoData))
+                viewModel.estimateAge(photoData)
             }
             selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
         }
@@ -179,7 +180,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         if (genderInfoAvailable) {
             optionGender.setOnClickListener() {
                 if (!gender) {
-                    imageChanged(viewModel.getGender(photoData, resources))
+                    viewModel.getGender(photoData, resources)
                 }
                 selectOption(ImageProcessingOption.GENDER, gender)
             }
@@ -221,7 +222,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
-            }, 500
+            }, 300
         )
     }
 

@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import com.example.facedetection.model.ImageBitmapProcessor
 import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ProcessedImageViewModel() : ViewModel() {
 
@@ -24,38 +26,39 @@ class ProcessedImageViewModel() : ViewModel() {
 
 
     fun isGenderInfoAvailable(photo: Photo): Boolean {
-        if (!this::imageDataProcessor.isInitialized) {
-            imageDataProcessor = ImageDataProcessor(photo)
-        }
-
+        initDataProcessor(photo)
         return imageDataProcessor.isGenderInfoAvailable()
     }
 
     fun processImage(photo: Photo) {
-        if (!this::imageDataProcessor.isInitialized) {
-            imageDataProcessor = ImageDataProcessor(photo)
-        }
-
+        initDataProcessor(photo)
         peopleCount.value = imageDataProcessor.countPeople()
         adultsCount.value = imageDataProcessor.countAdults()
         childrenCount.value = imageDataProcessor.countChildren()
-        processedImage.value = imageDataProcessor.detectFaces()
     }
 
-    fun estimateAge(photo: Photo): Bitmap {
-        if (!this::imageDataProcessor.isInitialized) {
-            imageDataProcessor = ImageDataProcessor(photo)
-        }
+    fun detectFaces(photo: Photo) {
+        initDataProcessor(photo)
 
-        return imageDataProcessor.estimateAge()
+        GlobalScope.launch {
+            processedImage.postValue(imageDataProcessor.detectFaces())
+        }
     }
 
-    fun getGender(photo: Photo, resources: Resources): Bitmap {
-        if (!this::imageDataProcessor.isInitialized) {
-            imageDataProcessor = ImageDataProcessor(photo)
-        }
+    fun estimateAge(photo: Photo) {
+        initDataProcessor(photo)
 
-        return imageDataProcessor.getGender(resources)
+        GlobalScope.launch {
+            processedImage.postValue(imageDataProcessor.estimateAge())
+        }
+    }
+
+    fun getGender(photo: Photo, resources: Resources) {
+        initDataProcessor(photo)
+
+        GlobalScope.launch {
+            processedImage.postValue(imageDataProcessor.getGender(resources))
+        }
     }
 
     fun pixelateImage(bitmap: Bitmap) {
@@ -68,6 +71,12 @@ class ProcessedImageViewModel() : ViewModel() {
 
     fun saveImage(context: Context, bitmap: Bitmap) {
         imageSavedSuccessfully.value = imageBitmapProcessor.saveImage(context, bitmap)
+    }
+
+    private fun initDataProcessor(photo: Photo) {
+        if (!this::imageDataProcessor.isInitialized) {
+            imageDataProcessor = ImageDataProcessor(photo)
+        }
     }
 
 }
