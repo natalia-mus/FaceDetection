@@ -156,7 +156,6 @@ class ProcessedImageActivity : AppCompatActivity() {
             processedImage = it
             imageChanged(processedImage)
         }
-        viewModel.pixelatedImage.observe(this) { imageChanged(it) }
         viewModel.imageSavedSuccessfully.observe(this) { handleImageSavingStatus(it) }
     }
 
@@ -197,7 +196,7 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         optionGrayscale.setOnClickListener() {
             if (!grayscale) {
-                imageChanged(viewModel.grayscaleImage(bitmap))
+                viewModel.grayscaleImage(bitmap)
             }
             selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
         }

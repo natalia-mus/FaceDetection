@@ -10,6 +10,8 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.example.facedetection.model.datamodel.RGB
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.util.*
 
 class ImageBitmapProcessor() {
@@ -25,36 +27,43 @@ class ImageBitmapProcessor() {
     /**
      * Returns bitmap in grayscale
      */
-    fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        imageWidth = bitmap.width
-        imageHeight = bitmap.height
+    suspend fun grayscaleImage(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
 
-        val imageAsPixels = getImageAsPixels(bitmap)
-        val grayscale = convertPixelsToGray(imageAsPixels)
-        val result = convertPixelsIntoBitmap(grayscale)
+            val imageAsPixels = getImageAsPixels(bitmap)
+            val grayscale = convertPixelsToGray(imageAsPixels)
 
-        return result
+            return@async convertPixelsIntoBitmap(grayscale)
+        }
+
+        return result.await()
     }
 
     /**
      * Gets bitmap as an argument and returns this bitmap pixelated; pixelSize = pixel edge size
      */
-    fun pixelateImage(bitmap: Bitmap): Bitmap {
-        val operationalBitmap = prepareParameters(bitmap)
+    suspend fun pixelateImage(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            val operationalBitmap = prepareParameters(bitmap)
 
-        imageWidth = operationalBitmap.width
-        imageHeight = operationalBitmap.height
-        prepareInitialIndicesSet()
+            imageWidth = operationalBitmap.width
+            imageHeight = operationalBitmap.height
+            prepareInitialIndicesSet()
 
-        val imageAsPixels = getImageAsPixels(operationalBitmap)
-        val flattenPixels = flattenPixelsArray(imageAsPixels)
-        val pixelatedFlatten = pixelate(flattenPixels)
-        val pixelated = reflattenPixelsArray(pixelatedFlatten)
-        val result = convertPixelsIntoBitmap(pixelated)
+            val imageAsPixels = getImageAsPixels(operationalBitmap)
+            val flattenPixels = flattenPixelsArray(imageAsPixels)
+            val pixelatedFlatten = pixelate(flattenPixels)
+            val pixelated = reflattenPixelsArray(pixelatedFlatten)
+            val resultBitmap = convertPixelsIntoBitmap(pixelated)
 
-        cleanAfterPixelization()
+            cleanAfterPixelization()
 
-        return result
+            return@async resultBitmap
+        }
+
+        return result.await()
     }
 
     /**

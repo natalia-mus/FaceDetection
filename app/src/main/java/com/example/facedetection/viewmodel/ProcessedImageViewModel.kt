@@ -17,7 +17,6 @@ class ProcessedImageViewModel() : ViewModel() {
     val adultsCount = MutableLiveData<Int>()
     val childrenCount = MutableLiveData<Int>()
     val processedImage = MutableLiveData<Bitmap>()
-    val pixelatedImage = MutableLiveData<Bitmap>()
 
     val imageSavedSuccessfully = MutableLiveData<Boolean>()
 
@@ -62,11 +61,15 @@ class ProcessedImageViewModel() : ViewModel() {
     }
 
     fun pixelateImage(bitmap: Bitmap) {
-        pixelatedImage.value = imageBitmapProcessor.pixelateImage(bitmap)
+        GlobalScope.launch {
+            processedImage.postValue(imageBitmapProcessor.pixelateImage(bitmap))
+        }
     }
 
-    fun grayscaleImage(bitmap: Bitmap): Bitmap {
-        return imageBitmapProcessor.grayscaleImage(bitmap)
+    fun grayscaleImage(bitmap: Bitmap) {
+        GlobalScope.launch {
+            processedImage.postValue(imageBitmapProcessor.grayscaleImage(bitmap))
+        }
     }
 
     fun saveImage(context: Context, bitmap: Bitmap) {
