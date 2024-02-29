@@ -34,7 +34,7 @@ object FacesInfoRepository {
             }
 
             override fun onFailure(call: Call<APIUsage>, t: Throwable) {
-                Log.e("error", t.message.toString())
+                Log.e("FacesInfoRepository.getAPIUsageInfo", t.message.toString())
                 callback.onError()
             }
         })
@@ -48,7 +48,7 @@ object FacesInfoRepository {
                 }
 
                 override fun onFailure(call: Call<FacesInfo>, t: Throwable) {
-                    Log.e("error", t.message.toString())
+                    Log.e("FacesInfoRepository.getFacesInfo", t.message.toString())
                     callback.onError()
                 }
             })

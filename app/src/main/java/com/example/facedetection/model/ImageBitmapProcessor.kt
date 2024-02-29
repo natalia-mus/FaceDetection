@@ -79,12 +79,14 @@ class ImageBitmapProcessor() {
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/${fileFormat.name}")
             val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
             val fileOutputStream = Objects.requireNonNull(imageUri)?.let { resolver.openOutputStream(it) }
-            bitmap.compress(fileFormat, 100, fileOutputStream)
+            if (fileOutputStream != null) {
+                bitmap.compress(fileFormat, 100, fileOutputStream)
+            }
             fileOutputStream?.close()
             return true
 
         } catch (exception: Exception) {
-            Log.e("ImageBitmapProcessor - image saving error", exception.message.toString())
+            Log.e("ImageBitmapProcessor.saveImage", exception.message.toString())
             return false
         }
     }

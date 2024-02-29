@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.facedetection"
         minSdk 26
-        targetSdk 30
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

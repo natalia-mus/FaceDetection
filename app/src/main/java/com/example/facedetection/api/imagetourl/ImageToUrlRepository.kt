@@ -38,7 +38,7 @@ object ImageToUrlRepository {
             }
 
             override fun onFailure(call: Call<ImageToUrl>, t: Throwable) {
-                Log.e("error", t.message.toString())
+                Log.e("ImageToUrlRepository.getImageUrl", t.message.toString())
                 callback.onError()
             }
         })
@@ -58,7 +58,7 @@ object ImageToUrlRepository {
             }
 
             override fun onFailure(call: Call<APIKeyConfirmationResult>, t: Throwable) {
-                Log.e("error", t.message.toString())
+                Log.e("ImageToUrlRepository.confirmAPIKey", t.message.toString())
                 callback.onError()
             }
         })
