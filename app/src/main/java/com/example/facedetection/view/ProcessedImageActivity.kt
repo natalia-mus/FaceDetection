@@ -72,39 +72,92 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
         progressBar.visibility = View.VISIBLE
-        faceDetection = false
-        ageEstimation = false
-        gender = false
-        pixelization = false
-        grayscale = false
-        optionFaceDetection.isSelected = false
-        optionAgeEstimation.isSelected = false
-        optionGender.isSelected = false
-        optionPixelization.isSelected = false
-        optionGrayscale.isSelected = false
 
         if (selected) {
+            when (option) {
+                ImageProcessingOption.FACE_DETECTION -> {
+                    faceDetection = false
+                    optionFaceDetection.isSelected = false
+                }
+                ImageProcessingOption.AGE_ESTIMATION -> {
+                    ageEstimation = false
+                    optionAgeEstimation.isSelected = false
+                }
+                ImageProcessingOption.GENDER -> {
+                    gender = false
+                    optionGender.isSelected = false
+                }
+                ImageProcessingOption.PIXELIZATION -> {
+                    pixelization = false
+                    optionPixelization.isSelected = false
+                }
+                ImageProcessingOption.GRAYSCALE -> {
+                    grayscale = false
+                    optionGrayscale.isSelected = false
+                }
+            }
             imageChanged(bitmap)
         } else {
             when (option) {
                 ImageProcessingOption.FACE_DETECTION -> {
                     faceDetection = true
+                    ageEstimation = false
+                    gender = false
+                    pixelization = false
+                    grayscale = false
+
                     optionFaceDetection.isSelected = true
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.AGE_ESTIMATION -> {
+                    faceDetection = false
                     ageEstimation = true
+                    gender = false
+                    pixelization = false
+                    grayscale = false
+
+                    optionFaceDetection.isSelected = false
                     optionAgeEstimation.isSelected = true
+                    optionGender.isSelected = false
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.GENDER -> {
+                    faceDetection = false
+                    ageEstimation = false
                     gender = true
+                    pixelization = false
+                    grayscale = false
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
                     optionGender.isSelected = true
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.PIXELIZATION -> {
+                    faceDetection = false
+                    ageEstimation = false
+                    gender = false
                     pixelization = true
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
                     optionPixelization.isSelected = true
                 }
                 ImageProcessingOption.GRAYSCALE -> {
+                    faceDetection = false
+                    ageEstimation = false
+                    gender = false
                     grayscale = true
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
                     optionGrayscale.isSelected = true
                 }
             }
@@ -162,14 +215,14 @@ class ProcessedImageActivity : AppCompatActivity() {
     private fun setOptions() {
         val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
-        optionFaceDetection.setOnClickListener() {
+        optionFaceDetection.setOnClickListener {
             if (!faceDetection) {
                 viewModel.detectFaces(photoData)
             }
             selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
         }
 
-        optionAgeEstimation.setOnClickListener() {
+        optionAgeEstimation.setOnClickListener {
             if (!ageEstimation) {
                 viewModel.estimateAge(photoData)
             }
@@ -177,7 +230,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         }
 
         if (genderInfoAvailable) {
-            optionGender.setOnClickListener() {
+            optionGender.setOnClickListener {
                 if (!gender) {
                     viewModel.getGender(photoData, resources)
                 }
@@ -187,14 +240,14 @@ class ProcessedImageActivity : AppCompatActivity() {
             optionGender.visibility = View.GONE
         }
 
-        optionPixelization.setOnClickListener() {
+        optionPixelization.setOnClickListener {
             if (!pixelization) {
                 viewModel.pixelateImage(bitmap)
             }
             selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
         }
 
-        optionGrayscale.setOnClickListener() {
+        optionGrayscale.setOnClickListener {
             if (!grayscale) {
                 viewModel.grayscaleImage(bitmap)
             }

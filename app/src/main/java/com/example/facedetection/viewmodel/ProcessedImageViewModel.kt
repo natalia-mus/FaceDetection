@@ -11,7 +11,7 @@ import com.example.facedetection.model.datamodel.facesinfo.Photo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ProcessedImageViewModel() : ViewModel() {
+class ProcessedImageViewModel : ViewModel() {
 
     val peopleCount = MutableLiveData<Int>()
     val adultsCount = MutableLiveData<Int>()
