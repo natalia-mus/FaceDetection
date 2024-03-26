@@ -148,6 +148,10 @@ class ProcessedImageActivity : AppCompatActivity() {
                     optionAgeEstimation.isSelected = false
                     optionGender.isSelected = false
                     optionPixelization.isSelected = true
+
+                    if (!grayscale) {
+                        processedImage = bitmap
+                    }
                 }
                 ImageProcessingOption.GRAYSCALE -> {
                     faceDetection = false
@@ -159,6 +163,10 @@ class ProcessedImageActivity : AppCompatActivity() {
                     optionAgeEstimation.isSelected = false
                     optionGender.isSelected = false
                     optionGrayscale.isSelected = true
+
+                    if (!pixelization) {
+                        processedImage = bitmap
+                    }
                 }
             }
         }
@@ -216,42 +224,42 @@ class ProcessedImageActivity : AppCompatActivity() {
         val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
         optionFaceDetection.setOnClickListener {
-            if (!faceDetection) {
+            selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
+            if (faceDetection) {
                 viewModel.detectFaces(photoData)
             }
-            selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
         }
 
         optionAgeEstimation.setOnClickListener {
-            if (!ageEstimation) {
+            selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
+            if (ageEstimation) {
                 viewModel.estimateAge(photoData)
             }
-            selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
         }
 
         if (genderInfoAvailable) {
             optionGender.setOnClickListener {
-                if (!gender) {
+                selectOption(ImageProcessingOption.GENDER, gender)
+                if (gender) {
                     viewModel.getGender(photoData, resources)
                 }
-                selectOption(ImageProcessingOption.GENDER, gender)
             }
         } else {
             optionGender.visibility = View.GONE
         }
 
         optionPixelization.setOnClickListener {
-            if (!pixelization) {
-                viewModel.pixelateImage(bitmap)
-            }
             selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
+            if (pixelization) {
+                viewModel.pixelateImage(processedImage)
+            }
         }
 
         optionGrayscale.setOnClickListener {
-            if (!grayscale) {
-                viewModel.grayscaleImage(bitmap)
-            }
             selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
+            if (grayscale) {
+                viewModel.grayscaleImage(processedImage)
+            }
         }
     }
 
