@@ -20,6 +20,7 @@ import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
 
 class ProcessedImageActivity : AppCompatActivity() {
 
@@ -54,6 +55,28 @@ class ProcessedImageActivity : AppCompatActivity() {
         setView()
         setObservers()
         setOptions()
+    }
+
+    private fun applyImageOptions() {
+        val imageOptions = LinkedList<ImageProcessingOption>()
+
+        if (faceDetection) {
+            imageOptions.add(ImageProcessingOption.FACE_DETECTION)
+        }
+        if (ageEstimation) {
+            imageOptions.add(ImageProcessingOption.AGE_ESTIMATION)
+        }
+        if (gender) {
+            imageOptions.add(ImageProcessingOption.GENDER)
+        }
+        if (pixelization) {
+            imageOptions.add(ImageProcessingOption.PIXELIZATION)
+        }
+        if (grayscale) {
+            imageOptions.add(ImageProcessingOption.GRAYSCALE)
+        }
+
+        viewModel.applyImageOptions(bitmap, photoData, imageOptions, resources)
     }
 
     private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
@@ -96,7 +119,6 @@ class ProcessedImageActivity : AppCompatActivity() {
                     optionGrayscale.isSelected = false
                 }
             }
-            imageChanged(bitmap)
         } else {
             when (option) {
                 ImageProcessingOption.FACE_DETECTION -> {
@@ -170,6 +192,8 @@ class ProcessedImageActivity : AppCompatActivity() {
                 }
             }
         }
+
+        applyImageOptions()
     }
 
     private fun setView() {
@@ -225,24 +249,15 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         optionFaceDetection.setOnClickListener {
             selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
-            if (faceDetection) {
-                viewModel.detectFaces(photoData)
-            }
         }
 
         optionAgeEstimation.setOnClickListener {
             selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
-            if (ageEstimation) {
-                viewModel.estimateAge(photoData)
-            }
         }
 
         if (genderInfoAvailable) {
             optionGender.setOnClickListener {
                 selectOption(ImageProcessingOption.GENDER, gender)
-                if (gender) {
-                    viewModel.getGender(photoData, resources)
-                }
             }
         } else {
             optionGender.visibility = View.GONE
@@ -250,16 +265,10 @@ class ProcessedImageActivity : AppCompatActivity() {
 
         optionPixelization.setOnClickListener {
             selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
-            if (pixelization) {
-                viewModel.pixelateImage(processedImage)
-            }
         }
 
         optionGrayscale.setOnClickListener {
             selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
-            if (grayscale) {
-                viewModel.grayscaleImage(processedImage)
-            }
         }
     }
 

@@ -5,11 +5,15 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.model.ImageBitmapProcessor
 import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class ProcessedImageViewModel : ViewModel() {
 
@@ -24,6 +28,83 @@ class ProcessedImageViewModel : ViewModel() {
     private lateinit var imageDataProcessor: ImageDataProcessor
 
 
+    fun applyImageOptions(bitmap: Bitmap, photo: Photo, options: LinkedList<ImageProcessingOption>, resources: Resources) {
+        if (options.isEmpty()) {
+            processedImage.postValue(bitmap)
+
+        } else {
+            var resultBitmap: Bitmap?
+
+            when (options.pollFirst()) {
+                ImageProcessingOption.FACE_DETECTION -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageDataProcessor.detectFaces()
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
+
+                ImageProcessingOption.AGE_ESTIMATION -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageDataProcessor.estimateAge()
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
+
+                ImageProcessingOption.GENDER -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageDataProcessor.getGender(resources)
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
+
+                ImageProcessingOption.PIXELIZATION -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageBitmapProcessor.pixelateImage(bitmap)
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
+
+                ImageProcessingOption.GRAYSCALE -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageBitmapProcessor.grayscaleImage(bitmap)
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun isGenderInfoAvailable(photo: Photo): Boolean {
         initDataProcessor(photo)
         return imageDataProcessor.isGenderInfoAvailable()
@@ -34,42 +115,6 @@ class ProcessedImageViewModel : ViewModel() {
         peopleCount.value = imageDataProcessor.countPeople()
         adultsCount.value = imageDataProcessor.countAdults()
         childrenCount.value = imageDataProcessor.countChildren()
-    }
-
-    fun detectFaces(photo: Photo) {
-        initDataProcessor(photo)
-
-        GlobalScope.launch {
-            processedImage.postValue(imageDataProcessor.detectFaces())
-        }
-    }
-
-    fun estimateAge(photo: Photo) {
-        initDataProcessor(photo)
-
-        GlobalScope.launch {
-            processedImage.postValue(imageDataProcessor.estimateAge())
-        }
-    }
-
-    fun getGender(photo: Photo, resources: Resources) {
-        initDataProcessor(photo)
-
-        GlobalScope.launch {
-            processedImage.postValue(imageDataProcessor.getGender(resources))
-        }
-    }
-
-    fun pixelateImage(bitmap: Bitmap) {
-        GlobalScope.launch {
-            processedImage.postValue(imageBitmapProcessor.pixelateImage(bitmap))
-        }
-    }
-
-    fun grayscaleImage(bitmap: Bitmap) {
-        GlobalScope.launch {
-            processedImage.postValue(imageBitmapProcessor.grayscaleImage(bitmap))
-        }
     }
 
     fun saveImage(context: Context, bitmap: Bitmap) {
