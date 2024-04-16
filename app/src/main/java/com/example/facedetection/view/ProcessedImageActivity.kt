@@ -20,6 +20,7 @@ import com.example.facedetection.util.ConstValues
 import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
 
 class ProcessedImageActivity : AppCompatActivity() {
 
@@ -56,6 +57,28 @@ class ProcessedImageActivity : AppCompatActivity() {
         setOptions()
     }
 
+    private fun applyImageOptions() {
+        val imageOptions = LinkedList<ImageProcessingOption>()
+
+        if (faceDetection) {
+            imageOptions.add(ImageProcessingOption.FACE_DETECTION)
+        }
+        if (ageEstimation) {
+            imageOptions.add(ImageProcessingOption.AGE_ESTIMATION)
+        }
+        if (gender) {
+            imageOptions.add(ImageProcessingOption.GENDER)
+        }
+        if (pixelization) {
+            imageOptions.add(ImageProcessingOption.PIXELIZATION)
+        }
+        if (grayscale) {
+            imageOptions.add(ImageProcessingOption.GRAYSCALE)
+        }
+
+        viewModel.applyImageOptions(bitmap, photoData, imageOptions, resources)
+    }
+
     private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
         var message = resources.getString(R.string.image_saved_successfully)
 
@@ -72,43 +95,105 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
         progressBar.visibility = View.VISIBLE
-        faceDetection = false
-        ageEstimation = false
-        gender = false
-        pixelization = false
-        grayscale = false
-        optionFaceDetection.isSelected = false
-        optionAgeEstimation.isSelected = false
-        optionGender.isSelected = false
-        optionPixelization.isSelected = false
-        optionGrayscale.isSelected = false
 
         if (selected) {
-            imageChanged(bitmap)
+            when (option) {
+                ImageProcessingOption.FACE_DETECTION -> {
+                    faceDetection = false
+                    optionFaceDetection.isSelected = false
+                }
+                ImageProcessingOption.AGE_ESTIMATION -> {
+                    ageEstimation = false
+                    optionAgeEstimation.isSelected = false
+                }
+                ImageProcessingOption.GENDER -> {
+                    gender = false
+                    optionGender.isSelected = false
+                }
+                ImageProcessingOption.PIXELIZATION -> {
+                    pixelization = false
+                    optionPixelization.isSelected = false
+                }
+                ImageProcessingOption.GRAYSCALE -> {
+                    grayscale = false
+                    optionGrayscale.isSelected = false
+                }
+            }
         } else {
             when (option) {
                 ImageProcessingOption.FACE_DETECTION -> {
                     faceDetection = true
+                    ageEstimation = false
+                    gender = false
+                    pixelization = false
+                    grayscale = false
+
                     optionFaceDetection.isSelected = true
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.AGE_ESTIMATION -> {
+                    faceDetection = false
                     ageEstimation = true
+                    gender = false
+                    pixelization = false
+                    grayscale = false
+
+                    optionFaceDetection.isSelected = false
                     optionAgeEstimation.isSelected = true
+                    optionGender.isSelected = false
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.GENDER -> {
+                    faceDetection = false
+                    ageEstimation = false
                     gender = true
+                    pixelization = false
+                    grayscale = false
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
                     optionGender.isSelected = true
+                    optionPixelization.isSelected = false
+                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.PIXELIZATION -> {
+                    faceDetection = false
+                    ageEstimation = false
+                    gender = false
                     pixelization = true
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
                     optionPixelization.isSelected = true
+
+                    if (!grayscale) {
+                        processedImage = bitmap
+                    }
                 }
                 ImageProcessingOption.GRAYSCALE -> {
+                    faceDetection = false
+                    ageEstimation = false
+                    gender = false
                     grayscale = true
+
+                    optionFaceDetection.isSelected = false
+                    optionAgeEstimation.isSelected = false
+                    optionGender.isSelected = false
                     optionGrayscale.isSelected = true
+
+                    if (!pixelization) {
+                        processedImage = bitmap
+                    }
                 }
             }
         }
+
+        applyImageOptions()
     }
 
     private fun setView() {
@@ -162,42 +247,27 @@ class ProcessedImageActivity : AppCompatActivity() {
     private fun setOptions() {
         val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
-        optionFaceDetection.setOnClickListener() {
-            if (!faceDetection) {
-                viewModel.detectFaces(photoData)
-            }
+        optionFaceDetection.setOnClickListener {
             selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
         }
 
-        optionAgeEstimation.setOnClickListener() {
-            if (!ageEstimation) {
-                viewModel.estimateAge(photoData)
-            }
+        optionAgeEstimation.setOnClickListener {
             selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
         }
 
         if (genderInfoAvailable) {
-            optionGender.setOnClickListener() {
-                if (!gender) {
-                    viewModel.getGender(photoData, resources)
-                }
+            optionGender.setOnClickListener {
                 selectOption(ImageProcessingOption.GENDER, gender)
             }
         } else {
             optionGender.visibility = View.GONE
         }
 
-        optionPixelization.setOnClickListener() {
-            if (!pixelization) {
-                viewModel.pixelateImage(bitmap)
-            }
+        optionPixelization.setOnClickListener {
             selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
         }
 
-        optionGrayscale.setOnClickListener() {
-            if (!grayscale) {
-                viewModel.grayscaleImage(bitmap)
-            }
+        optionGrayscale.setOnClickListener {
             selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
         }
     }
