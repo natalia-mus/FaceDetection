@@ -30,4 +30,5 @@
     <string name="api_key_error">API key can not be confirmed. Check your internet connection</string>
     <string name="image_saved_successfully">Image has been saved</string>
     <string name="automatically_delete_images">Automatically delete uploaded images within 1 minute</string>
+    <string name="sepia">Sepia</string>
 </resources>
