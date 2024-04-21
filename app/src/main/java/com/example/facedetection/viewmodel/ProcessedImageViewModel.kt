@@ -101,6 +101,18 @@ class ProcessedImageViewModel : ViewModel() {
                         }
                     }
                 }
+
+                ImageProcessingOption.SEPIA -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            resultBitmap = imageBitmapProcessor.convertToSepia(bitmap)
+                        }
+
+                        if (resultBitmap != null) {
+                            applyImageOptions(resultBitmap!!, photo, options, resources)
+                        }
+                    }
+                }
             }
         }
     }

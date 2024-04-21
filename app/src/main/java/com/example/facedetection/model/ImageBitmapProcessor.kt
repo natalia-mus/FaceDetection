@@ -13,8 +13,9 @@ import com.example.facedetection.model.datamodel.RGB
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ImageBitmapProcessor() {
+class ImageBitmapProcessor {
 
     private val fileFormat = Bitmap.CompressFormat.PNG
 
@@ -23,6 +24,23 @@ class ImageBitmapProcessor() {
     private var pixelSize = 0
     private var initialIndicesSet = ArrayList<Int>()
 
+
+    /**
+     * Converts image to sepia
+     */
+    suspend fun convertToSepia(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            val sepia = convertPixelsToSepia(imageAsPixels)
+
+            return@async convertPixelsIntoBitmap(sepia)
+        }
+
+        return result.await()
+    }
 
     /**
      * Returns bitmap in grayscale
@@ -146,15 +164,46 @@ class ImageBitmapProcessor() {
     private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
         for (row in pixels) {
             for (pixel in row) {
-                val r = pixel.red
-                val g = pixel.green
-                val b = pixel.blue
+                val red = pixel.red
+                val green = pixel.green
+                val blue = pixel.blue
 
-                val gray = (r + g + b) / 3
+                val gray = (red + green + blue) / 3
 
                 pixel.red = gray
                 pixel.green = gray
                 pixel.blue = gray
+            }
+        }
+
+        return pixels
+    }
+
+    private fun convertPixelsToSepia(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
+        for (row in pixels) {
+            for (pixel in row) {
+                val red = pixel.red
+                val green = pixel.green
+                val blue = pixel.blue
+
+                var newRed = 0.393 * red + 0.769 * green + 0.189 * blue
+                var newGreen = 0.349 * red + 0.686 * green + 0.168 * blue
+                var newBlue = 0.272 * red + 0.534 * green + 0.131 * blue
+
+
+                if (newRed > 255) {
+                    newRed = 255.0
+                }
+                if (newGreen > 255) {
+                    newGreen = 255.0
+                }
+                if (newBlue > 255) {
+                    newBlue = 255.0
+                }
+
+                pixel.red = newRed.toInt()
+                pixel.green = newGreen.toInt()
+                pixel.blue = newBlue.toInt()
             }
         }
 
