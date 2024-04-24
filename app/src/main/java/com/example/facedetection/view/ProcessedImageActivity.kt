@@ -131,59 +131,23 @@ class ProcessedImageActivity : AppCompatActivity() {
         } else {
             when (option) {
                 ImageProcessingOption.FACE_DETECTION -> {
+                    unselectAllOptions()
                     faceDetection = true
-                    ageEstimation = false
-                    gender = false
-                    pixelization = false
-                    grayscale = false
-                    sepia = false
-
                     optionFaceDetection.isSelected = true
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
-                    optionSepia.isSelected = false
                 }
                 ImageProcessingOption.AGE_ESTIMATION -> {
-                    faceDetection = false
+                    unselectAllOptions()
                     ageEstimation = true
-                    gender = false
-                    pixelization = false
-                    grayscale = false
-                    sepia = false
-
-                    optionFaceDetection.isSelected = false
                     optionAgeEstimation.isSelected = true
-                    optionGender.isSelected = false
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
-                    optionSepia.isSelected = false
                 }
                 ImageProcessingOption.GENDER -> {
-                    faceDetection = false
-                    ageEstimation = false
+                    unselectAllOptions()
                     gender = true
-                    pixelization = false
-                    grayscale = false
-                    sepia = false
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
                     optionGender.isSelected = true
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
-                    optionSepia.isSelected = false
                 }
                 ImageProcessingOption.PIXELIZATION -> {
-                    faceDetection = false
-                    ageEstimation = false
-                    gender = false
+                    unselectSingleOptions()
                     pixelization = true
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
                     optionPixelization.isSelected = true
 
                     if (!grayscale && !sepia) {
@@ -191,34 +155,23 @@ class ProcessedImageActivity : AppCompatActivity() {
                     }
                 }
                 ImageProcessingOption.GRAYSCALE -> {
-                    faceDetection = false
-                    ageEstimation = false
-                    gender = false
+                    unselectSingleOptions()
                     grayscale = true
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
                     optionGrayscale.isSelected = true
 
                     if (!pixelization && !sepia) {
                         processedImage = bitmap
                     }
-                } ImageProcessingOption.SEPIA -> {
-                faceDetection = false
-                ageEstimation = false
-                gender = false
-                sepia = true
-
-                optionFaceDetection.isSelected = false
-                optionAgeEstimation.isSelected = false
-                optionGender.isSelected = false
-                optionSepia.isSelected = true
-
-                if (!grayscale && !pixelization) {
-                    processedImage = bitmap
                 }
-            }
+                ImageProcessingOption.SEPIA -> {
+                    unselectSingleOptions()
+                    sepia = true
+                    optionSepia.isSelected = true
+
+                    if (!grayscale && !pixelization) {
+                        processedImage = bitmap
+                    }
+                }
             }
         }
 
@@ -327,6 +280,28 @@ class ProcessedImageActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
             }, 300
         )
+    }
+
+    private fun unselectAllOptions() {
+        unselectSingleOptions()
+
+        pixelization = false
+        grayscale = false
+        sepia = false
+
+        optionPixelization.isSelected = false
+        optionGrayscale.isSelected = false
+        optionSepia.isSelected = false
+    }
+
+    private fun unselectSingleOptions() {
+        faceDetection = false
+        ageEstimation = false
+        gender = false
+
+        optionFaceDetection.isSelected = false
+        optionAgeEstimation.isSelected = false
+        optionGender.isSelected = false
     }
 
 }
