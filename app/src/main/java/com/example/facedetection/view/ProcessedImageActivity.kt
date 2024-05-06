@@ -46,7 +46,6 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ProcessedImageViewModel
 
-    private lateinit var bitmap: Bitmap
     private lateinit var processedImage: Bitmap
     private lateinit var photoData: Photo
 
@@ -81,7 +80,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             imageOptions.add(ImageProcessingOption.SEPIA)
         }
 
-        viewModel.applyImageOptions(bitmap, photoData, imageOptions, resources)
+        viewModel.applyImageOptions(photoData, imageOptions, resources)
     }
 
     private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
@@ -149,28 +148,16 @@ class ProcessedImageActivity : AppCompatActivity() {
                     unselectSingleOptions()
                     pixelization = true
                     optionPixelization.isSelected = true
-
-                    if (!grayscale && !sepia) {
-                        processedImage = bitmap
-                    }
                 }
                 ImageProcessingOption.GRAYSCALE -> {
                     unselectSingleOptions()
                     grayscale = true
                     optionGrayscale.isSelected = true
-
-                    if (!pixelization && !sepia) {
-                        processedImage = bitmap
-                    }
                 }
                 ImageProcessingOption.SEPIA -> {
                     unselectSingleOptions()
                     sepia = true
                     optionSepia.isSelected = true
-
-                    if (!grayscale && !pixelization) {
-                        processedImage = bitmap
-                    }
                 }
             }
         }
@@ -197,13 +184,6 @@ class ProcessedImageActivity : AppCompatActivity() {
         }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
-
-
-        val byteArray = Image.getImage()
-        if (byteArray != null) {
-            bitmap = ImageConverter.convertToBitmap(byteArray)
-            imageChanged(bitmap)
-        }
 
         if (intent.hasExtra(ConstValues.FACES_INFO)) {
             val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)

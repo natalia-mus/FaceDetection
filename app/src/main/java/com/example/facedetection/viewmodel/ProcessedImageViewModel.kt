@@ -5,10 +5,12 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.facedetection.Image
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.model.ImageBitmapProcessor
 import com.example.facedetection.model.ImageDataProcessor
 import com.example.facedetection.model.datamodel.facesinfo.Photo
+import com.example.facedetection.util.ImageConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,94 +29,16 @@ class ProcessedImageViewModel : ViewModel() {
     private val imageBitmapProcessor: ImageBitmapProcessor by lazy { ImageBitmapProcessor() }
     private lateinit var imageDataProcessor: ImageDataProcessor
 
+    private var bitmap: Bitmap? = null
 
-    fun applyImageOptions(bitmap: Bitmap, photo: Photo, options: LinkedList<ImageProcessingOption>, resources: Resources) {
-        if (options.isEmpty()) {
-            processedImage.postValue(bitmap)
 
-        } else {
-            var resultBitmap: Bitmap?
+    init {
+        getOriginalBitmap()
+        processedImage.value = bitmap!!
+    }
 
-            when (options.pollFirst()) {
-                ImageProcessingOption.FACE_DETECTION -> {
-                    initDataProcessor(photo)
-
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageDataProcessor.detectFaces()
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-
-                ImageProcessingOption.AGE_ESTIMATION -> {
-                    initDataProcessor(photo)
-
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageDataProcessor.estimateAge()
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-
-                ImageProcessingOption.GENDER -> {
-                    initDataProcessor(photo)
-
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageDataProcessor.getGender(resources)
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-
-                ImageProcessingOption.PIXELIZATION -> {
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageBitmapProcessor.pixelateImage(bitmap)
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-
-                ImageProcessingOption.GRAYSCALE -> {
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageBitmapProcessor.grayscaleImage(bitmap)
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-
-                ImageProcessingOption.SEPIA -> {
-                    GlobalScope.launch {
-                        withContext(Dispatchers.IO) {
-                            resultBitmap = imageBitmapProcessor.convertToSepia(bitmap)
-                        }
-
-                        if (resultBitmap != null) {
-                            applyImageOptions(resultBitmap!!, photo, options, resources)
-                        }
-                    }
-                }
-            }
-        }
+    fun applyImageOptions(photo: Photo, options: LinkedList<ImageProcessingOption>, resources: Resources) {
+        applyImageOptions(photo, options, resources, true)
     }
 
     fun isGenderInfoAvailable(photo: Photo): Boolean {
@@ -131,6 +55,92 @@ class ProcessedImageViewModel : ViewModel() {
 
     fun saveImage(context: Context, bitmap: Bitmap) {
         imageSavedSuccessfully.value = imageBitmapProcessor.saveImage(context, bitmap)
+    }
+
+    private fun applyImageOptions(photo: Photo, options: LinkedList<ImageProcessingOption>, resources: Resources, getOriginalBitmap: Boolean) {
+        if (getOriginalBitmap) {
+            getOriginalBitmap()
+        }
+
+        if (options.isEmpty()) {
+            processedImage.postValue(bitmap!!)
+
+        } else {
+            when (options.pollFirst()) {
+                ImageProcessingOption.FACE_DETECTION -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageDataProcessor.detectFaces()
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+
+                ImageProcessingOption.AGE_ESTIMATION -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageDataProcessor.estimateAge()
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+
+                ImageProcessingOption.GENDER -> {
+                    initDataProcessor(photo)
+
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageDataProcessor.getGender(resources)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+
+                ImageProcessingOption.PIXELIZATION -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.pixelateImage(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+
+                ImageProcessingOption.GRAYSCALE -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.grayscaleImage(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+
+                ImageProcessingOption.SEPIA -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.convertToSepia(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getOriginalBitmap() {
+        val byteArray = Image.getImage()
+        if (byteArray != null) {
+            bitmap = ImageConverter.convertToBitmap(byteArray)
+        }
     }
 
     private fun initDataProcessor(photo: Photo) {
