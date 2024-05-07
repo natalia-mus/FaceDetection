@@ -6,5 +6,6 @@ enum class ImageProcessingOption {
     GENDER,
     PIXELIZATION,
     GRAYSCALE,
-    SEPIA
+    SEPIA,
+    MIRROR_IMAGE
 }

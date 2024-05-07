@@ -11,13 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
-import com.example.facedetection.Image
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
-import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
@@ -35,6 +33,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionPixelization: LinearLayout
     private lateinit var optionGrayscale: LinearLayout
     private lateinit var optionSepia: LinearLayout
+    private lateinit var optionMirrorImage: LinearLayout
     private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
@@ -43,6 +42,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private var pixelization = false
     private var grayscale = false
     private var sepia = false
+    private var mirrorImage = false
 
     private lateinit var viewModel: ProcessedImageViewModel
 
@@ -126,6 +126,10 @@ class ProcessedImageActivity : AppCompatActivity() {
                     sepia = false
                     optionSepia.isSelected = false
                 }
+                ImageProcessingOption.MIRROR_IMAGE -> {
+                    mirrorImage = false
+                    optionMirrorImage.isSelected = false
+                }
             }
         } else {
             when (option) {
@@ -159,6 +163,11 @@ class ProcessedImageActivity : AppCompatActivity() {
                     sepia = true
                     optionSepia.isSelected = true
                 }
+                ImageProcessingOption.MIRROR_IMAGE -> {
+                    unselectSingleOptions()
+                    mirrorImage = true
+                    optionMirrorImage.isSelected = true
+                }
             }
         }
 
@@ -177,6 +186,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionPixelization = findViewById(R.id.option_pixelization)
         optionGrayscale = findViewById(R.id.option_grayscale)
         optionSepia = findViewById(R.id.option_sepia)
+        optionMirrorImage = findViewById(R.id.option_mirror_image)
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
@@ -237,6 +247,10 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionSepia.setOnClickListener {
             selectOption(ImageProcessingOption.SEPIA, sepia)
         }
+
+        optionMirrorImage.setOnClickListener {
+            selectOption(ImageProcessingOption.MIRROR_IMAGE, mirrorImage)
+        }
     }
 
     private fun peopleCountChanged(peopleCount: Int) {
@@ -268,10 +282,12 @@ class ProcessedImageActivity : AppCompatActivity() {
         pixelization = false
         grayscale = false
         sepia = false
+        mirrorImage = false
 
         optionPixelization.isSelected = false
         optionGrayscale.isSelected = false
         optionSepia.isSelected = false
+        optionMirrorImage.isSelected = false
     }
 
     private fun unselectSingleOptions() {

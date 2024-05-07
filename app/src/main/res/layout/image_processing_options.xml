@@ -163,6 +163,31 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/option_mirror_image"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_processing_option_background"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/option_mirror_image_icon"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_mirror_image" />
+
+            <TextView
+                android:id="@+id/option_mirror_image_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mirror_image"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </HorizontalScrollView>
