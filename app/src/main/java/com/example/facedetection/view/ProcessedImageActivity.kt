@@ -79,6 +79,9 @@ class ProcessedImageActivity : AppCompatActivity() {
         if (sepia) {
             imageOptions.add(ImageProcessingOption.SEPIA)
         }
+        if (mirrorImage) {
+            imageOptions.add(ImageProcessingOption.MIRROR_IMAGE)
+        }
 
         viewModel.applyImageOptions(photoData, imageOptions, resources)
     }

@@ -132,6 +132,16 @@ class ProcessedImageViewModel : ViewModel() {
                         applyImageOptions(photo, options, resources, false)
                     }
                 }
+
+                ImageProcessingOption.MIRROR_IMAGE -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.mirrorImage(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
             }
         }
     }

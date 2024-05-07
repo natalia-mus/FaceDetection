@@ -60,6 +60,26 @@ class ImageBitmapProcessor {
     }
 
     /**
+     * Returns mirrored bitmap
+     */
+    suspend fun mirrorImage(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+
+            for (row in imageAsPixels) {
+                row.reverse()
+            }
+
+            return@async convertPixelsIntoBitmap(imageAsPixels)
+        }
+
+        return result.await()
+    }
+
+    /**
      * Gets bitmap as an argument and returns this bitmap pixelated; pixelSize = pixel edge size
      */
     suspend fun pixelateImage(bitmap: Bitmap): Bitmap {
@@ -254,7 +274,7 @@ class ImageBitmapProcessor {
      */
     private fun pixelate(pixels: ArrayList<RGB>): ArrayList<RGB> {
         val pixelIndicesSet = ArrayList<Int>()                                                      // set of single pixels indices for one huge pixel
-        for (i in 0 until initialIndicesSet.size) {                                                 // at the beginning the set is the same as the initial set
+        for (i in 0 until initialIndicesSet.size) {                                           // at the beginning the set is the same as the initial set
             pixelIndicesSet.add(i, initialIndicesSet[i])
         }
 
