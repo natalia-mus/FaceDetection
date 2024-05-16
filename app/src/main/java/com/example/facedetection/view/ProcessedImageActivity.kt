@@ -34,6 +34,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionGrayscale: LinearLayout
     private lateinit var optionSepia: LinearLayout
     private lateinit var optionMirrorImage: LinearLayout
+    private lateinit var optionUpsideDown: LinearLayout
     private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
@@ -43,6 +44,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private var grayscale = false
     private var sepia = false
     private var mirrorImage = false
+    private var upsideDown = false
 
     private lateinit var viewModel: ProcessedImageViewModel
 
@@ -133,6 +135,10 @@ class ProcessedImageActivity : AppCompatActivity() {
                     mirrorImage = false
                     optionMirrorImage.isSelected = false
                 }
+                ImageProcessingOption.UPSIDE_DOWN -> {
+                    upsideDown = false
+                    optionUpsideDown.isSelected = false
+                }
             }
         } else {
             when (option) {
@@ -171,6 +177,11 @@ class ProcessedImageActivity : AppCompatActivity() {
                     mirrorImage = true
                     optionMirrorImage.isSelected = true
                 }
+                ImageProcessingOption.UPSIDE_DOWN -> {
+                    unselectSingleOptions()
+                    upsideDown = true
+                    optionUpsideDown.isSelected = true
+                }
             }
         }
 
@@ -190,6 +201,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionGrayscale = findViewById(R.id.option_grayscale)
         optionSepia = findViewById(R.id.option_sepia)
         optionMirrorImage = findViewById(R.id.option_mirror_image)
+        optionUpsideDown = findViewById(R.id.option_upside_down)
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
@@ -254,6 +266,10 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionMirrorImage.setOnClickListener {
             selectOption(ImageProcessingOption.MIRROR_IMAGE, mirrorImage)
         }
+
+        optionUpsideDown.setOnClickListener {
+            selectOption(ImageProcessingOption.UPSIDE_DOWN, upsideDown)
+        }
     }
 
     private fun peopleCountChanged(peopleCount: Int) {
@@ -291,6 +307,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionGrayscale.isSelected = false
         optionSepia.isSelected = false
         optionMirrorImage.isSelected = false
+        optionUpsideDown.isSelected = false
     }
 
     private fun unselectSingleOptions() {

@@ -32,4 +32,5 @@
     <string name="automatically_delete_images">Eliminar automáticamente las imágenes cargadas en 1 minuto</string>
     <string name="sepia">Sepia</string>
     <string name="mirror_image">Imagen reflejada</string>
+    <string name="upside_down">Boca abajo</string>
 </resources>

@@ -7,5 +7,6 @@ enum class ImageProcessingOption {
     PIXELIZATION,
     GRAYSCALE,
     SEPIA,
-    MIRROR_IMAGE
+    MIRROR_IMAGE,
+    UPSIDE_DOWN
 }

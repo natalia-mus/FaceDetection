@@ -32,4 +32,5 @@
     <string name="automatically_delete_images">Automatically delete uploaded images within 1 minute</string>
     <string name="sepia">Sepia</string>
     <string name="mirror_image">Mirror image</string>
+    <string name="upside_down">Upside down</string>
 </resources>
