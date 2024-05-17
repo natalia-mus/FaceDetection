@@ -27,6 +27,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var adults: TextView
     private lateinit var children: TextView
     private lateinit var progressBar: LinearLayout
+    private lateinit var options: LinearLayout
     private lateinit var optionFaceDetection: LinearLayout
     private lateinit var optionAgeEstimation: LinearLayout
     private lateinit var optionGender: LinearLayout
@@ -45,6 +46,8 @@ class ProcessedImageActivity : AppCompatActivity() {
     private var sepia = false
     private var mirrorImage = false
     private var upsideDown = false
+
+    private var loading = false
 
     private lateinit var viewModel: ProcessedImageViewModel
 
@@ -84,6 +87,9 @@ class ProcessedImageActivity : AppCompatActivity() {
         if (mirrorImage) {
             imageOptions.add(ImageProcessingOption.MIRROR_IMAGE)
         }
+        if (upsideDown) {
+            imageOptions.add(ImageProcessingOption.UPSIDE_DOWN)
+        }
 
         viewModel.applyImageOptions(photoData, imageOptions, resources)
     }
@@ -104,6 +110,7 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
         progressBar.visibility = View.VISIBLE
+        loading = true
 
         if (selected) {
             when (option) {
@@ -194,6 +201,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         adults = findViewById(R.id.processed_image_activity_adults)
         children = findViewById(R.id.processed_image_activity_children)
         progressBar = findViewById(R.id.activity_processed_image_progress_bar)
+        options = findViewById(R.id.options)
         optionFaceDetection = findViewById(R.id.option_face_detection)
         optionAgeEstimation = findViewById(R.id.option_age_estimation)
         optionGender = findViewById(R.id.option_gender)
@@ -205,7 +213,9 @@ class ProcessedImageActivity : AppCompatActivity() {
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
-            saveImage()
+            if (!loading) {
+                saveImage()
+            }
         }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
@@ -236,39 +246,55 @@ class ProcessedImageActivity : AppCompatActivity() {
         val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
         optionFaceDetection.setOnClickListener {
-            selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
+            if (!loading) {
+                selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
+            }
         }
 
         optionAgeEstimation.setOnClickListener {
-            selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
+            if (!loading) {
+                selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
+            }
         }
 
         if (genderInfoAvailable) {
             optionGender.setOnClickListener {
-                selectOption(ImageProcessingOption.GENDER, gender)
+                if (!loading) {
+                    selectOption(ImageProcessingOption.GENDER, gender)
+                }
             }
         } else {
             optionGender.visibility = View.GONE
         }
 
         optionPixelization.setOnClickListener {
-            selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
+            if (!loading) {
+                selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
+            }
         }
 
         optionGrayscale.setOnClickListener {
-            selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
+            if (!loading) {
+                selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
+            }
         }
 
         optionSepia.setOnClickListener {
-            selectOption(ImageProcessingOption.SEPIA, sepia)
+            if (!loading) {
+                selectOption(ImageProcessingOption.SEPIA, sepia)
+            }
         }
 
         optionMirrorImage.setOnClickListener {
-            selectOption(ImageProcessingOption.MIRROR_IMAGE, mirrorImage)
+            if (!loading) {
+                selectOption(ImageProcessingOption.MIRROR_IMAGE, mirrorImage)
+            }
         }
 
         optionUpsideDown.setOnClickListener {
-            selectOption(ImageProcessingOption.UPSIDE_DOWN, upsideDown)
+            if (!loading) {
+                selectOption(ImageProcessingOption.UPSIDE_DOWN, upsideDown)
+            }
         }
     }
 
@@ -291,6 +317,7 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
+                loading = false
             }, 300
         )
     }

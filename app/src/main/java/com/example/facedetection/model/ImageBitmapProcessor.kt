@@ -130,6 +130,23 @@ class ImageBitmapProcessor {
     }
 
     /**
+     * Returns upside down image
+     */
+    suspend fun turnImageUpsideDown(bitmap: Bitmap) : Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            imageAsPixels.reverse()
+
+            return@async convertPixelsIntoBitmap(imageAsPixels)
+        }
+
+        return result.await()
+    }
+
+    /**
      * Returns the average color of the given set of pixels
      */
     private fun averageColor(pixels: ArrayList<RGB>): RGB {

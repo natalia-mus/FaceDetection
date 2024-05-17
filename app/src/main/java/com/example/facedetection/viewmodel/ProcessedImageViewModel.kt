@@ -142,6 +142,16 @@ class ProcessedImageViewModel : ViewModel() {
                         applyImageOptions(photo, options, resources, false)
                     }
                 }
+
+                ImageProcessingOption.UPSIDE_DOWN -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.turnImageUpsideDown(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
             }
         }
     }
