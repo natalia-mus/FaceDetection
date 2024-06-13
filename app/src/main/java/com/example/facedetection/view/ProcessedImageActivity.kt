@@ -36,6 +36,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var optionSepia: LinearLayout
     private lateinit var optionMirrorImage: LinearLayout
     private lateinit var optionUpsideDown: LinearLayout
+    private lateinit var optionNegative: LinearLayout
     private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
@@ -46,6 +47,7 @@ class ProcessedImageActivity : AppCompatActivity() {
     private var sepia = false
     private var mirrorImage = false
     private var upsideDown = false
+    private var negative = false
 
     private var loading = false
 
@@ -89,6 +91,9 @@ class ProcessedImageActivity : AppCompatActivity() {
         }
         if (upsideDown) {
             imageOptions.add(ImageProcessingOption.UPSIDE_DOWN)
+        }
+        if (negative) {
+            imageOptions.add(ImageProcessingOption.NEGATIVE)
         }
 
         viewModel.applyImageOptions(photoData, imageOptions, resources)
@@ -146,6 +151,10 @@ class ProcessedImageActivity : AppCompatActivity() {
                     upsideDown = false
                     optionUpsideDown.isSelected = false
                 }
+                ImageProcessingOption.NEGATIVE -> {
+                    negative = false
+                    optionNegative.isSelected = false
+                }
             }
         } else {
             when (option) {
@@ -189,6 +198,11 @@ class ProcessedImageActivity : AppCompatActivity() {
                     upsideDown = true
                     optionUpsideDown.isSelected = true
                 }
+                ImageProcessingOption.NEGATIVE -> {
+                    unselectSingleOptions()
+                    negative = true
+                    optionNegative.isSelected = true
+                }
             }
         }
 
@@ -210,6 +224,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionSepia = findViewById(R.id.option_sepia)
         optionMirrorImage = findViewById(R.id.option_mirror_image)
         optionUpsideDown = findViewById(R.id.option_upside_down)
+        optionNegative = findViewById(R.id.option_negative)
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
@@ -296,6 +311,12 @@ class ProcessedImageActivity : AppCompatActivity() {
                 selectOption(ImageProcessingOption.UPSIDE_DOWN, upsideDown)
             }
         }
+
+        optionNegative.setOnClickListener {
+            if (!loading) {
+                selectOption(ImageProcessingOption.NEGATIVE, negative)
+            }
+        }
     }
 
     private fun peopleCountChanged(peopleCount: Int) {
@@ -335,6 +356,7 @@ class ProcessedImageActivity : AppCompatActivity() {
         optionSepia.isSelected = false
         optionMirrorImage.isSelected = false
         optionUpsideDown.isSelected = false
+        optionNegative.isSelected = false
     }
 
     private fun unselectSingleOptions() {

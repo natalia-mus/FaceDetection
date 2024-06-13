@@ -8,5 +8,6 @@ enum class ImageProcessingOption {
     GRAYSCALE,
     SEPIA,
     MIRROR_IMAGE,
-    UPSIDE_DOWN
+    UPSIDE_DOWN,
+    NEGATIVE
 }

@@ -33,4 +33,5 @@
     <string name="sepia">Sepia</string>
     <string name="mirror_image">Imagen reflejada</string>
     <string name="upside_down">Boca abajo</string>
+    <string name="negative">Negativo</string>
 </resources>
