@@ -152,6 +152,16 @@ class ProcessedImageViewModel : ViewModel() {
                         applyImageOptions(photo, options, resources, false)
                     }
                 }
+
+                ImageProcessingOption.NEGATIVE -> {
+                    GlobalScope.launch {
+                        withContext(Dispatchers.IO) {
+                            bitmap = imageBitmapProcessor.negative(bitmap!!)
+                        }
+
+                        applyImageOptions(photo, options, resources, false)
+                    }
+                }
             }
         }
     }

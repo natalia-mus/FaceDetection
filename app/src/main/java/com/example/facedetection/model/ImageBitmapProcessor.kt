@@ -80,6 +80,38 @@ class ImageBitmapProcessor {
     }
 
     /**
+     * Returns image in reversed colors
+     */
+    suspend fun negative(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            val negativeImageAsPixels = ArrayList<ArrayList<RGB>>()
+
+            for (row in imageAsPixels) {
+                val negativeRow = ArrayList<RGB>()
+
+                for (pixel in row) {
+                    val negativeRed = 255 - pixel.red
+                    val negativeGreen = 255 - pixel.green
+                    val negativeBlue = 255 - pixel.blue
+
+                    val negativePixel = RGB(negativeRed, negativeGreen, negativeBlue)
+                    negativeRow.add(negativePixel)
+                }
+
+                negativeImageAsPixels.add(negativeRow)
+            }
+
+            return@async convertPixelsIntoBitmap(negativeImageAsPixels)
+        }
+
+        return result.await()
+    }
+
+    /**
      * Gets bitmap as an argument and returns this bitmap pixelated; pixelSize = pixel edge size
      */
     suspend fun pixelateImage(bitmap: Bitmap): Bitmap {
