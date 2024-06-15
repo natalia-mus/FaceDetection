@@ -11,13 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
-import com.example.facedetection.Image
 import com.example.facedetection.ImageProcessingOption
 import com.example.facedetection.R
 import com.example.facedetection.model.datamodel.facesinfo.FacesInfo
 import com.example.facedetection.model.datamodel.facesinfo.Photo
 import com.example.facedetection.util.ConstValues
-import com.example.facedetection.util.ImageConverter
 import com.example.facedetection.viewmodel.ProcessedImageViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
@@ -29,11 +27,16 @@ class ProcessedImageActivity : AppCompatActivity() {
     private lateinit var adults: TextView
     private lateinit var children: TextView
     private lateinit var progressBar: LinearLayout
+    private lateinit var options: LinearLayout
     private lateinit var optionFaceDetection: LinearLayout
     private lateinit var optionAgeEstimation: LinearLayout
     private lateinit var optionGender: LinearLayout
     private lateinit var optionPixelization: LinearLayout
     private lateinit var optionGrayscale: LinearLayout
+    private lateinit var optionSepia: LinearLayout
+    private lateinit var optionMirrorImage: LinearLayout
+    private lateinit var optionUpsideDown: LinearLayout
+    private lateinit var optionNegative: LinearLayout
     private lateinit var saveImageButton: FloatingActionButton
 
     private var faceDetection = false
@@ -41,10 +44,15 @@ class ProcessedImageActivity : AppCompatActivity() {
     private var gender = false
     private var pixelization = false
     private var grayscale = false
+    private var sepia = false
+    private var mirrorImage = false
+    private var upsideDown = false
+    private var negative = false
+
+    private var loading = false
 
     private lateinit var viewModel: ProcessedImageViewModel
 
-    private lateinit var bitmap: Bitmap
     private lateinit var processedImage: Bitmap
     private lateinit var photoData: Photo
 
@@ -75,8 +83,20 @@ class ProcessedImageActivity : AppCompatActivity() {
         if (grayscale) {
             imageOptions.add(ImageProcessingOption.GRAYSCALE)
         }
+        if (sepia) {
+            imageOptions.add(ImageProcessingOption.SEPIA)
+        }
+        if (mirrorImage) {
+            imageOptions.add(ImageProcessingOption.MIRROR_IMAGE)
+        }
+        if (upsideDown) {
+            imageOptions.add(ImageProcessingOption.UPSIDE_DOWN)
+        }
+        if (negative) {
+            imageOptions.add(ImageProcessingOption.NEGATIVE)
+        }
 
-        viewModel.applyImageOptions(bitmap, photoData, imageOptions, resources)
+        viewModel.applyImageOptions(photoData, imageOptions, resources)
     }
 
     private fun handleImageSavingStatus(imageSavedSuccessfully: Boolean) {
@@ -95,6 +115,7 @@ class ProcessedImageActivity : AppCompatActivity() {
 
     private fun selectOption(option: ImageProcessingOption, selected: Boolean) {
         progressBar.visibility = View.VISIBLE
+        loading = true
 
         if (selected) {
             when (option) {
@@ -118,77 +139,69 @@ class ProcessedImageActivity : AppCompatActivity() {
                     grayscale = false
                     optionGrayscale.isSelected = false
                 }
+                ImageProcessingOption.SEPIA -> {
+                    sepia = false
+                    optionSepia.isSelected = false
+                }
+                ImageProcessingOption.MIRROR_IMAGE -> {
+                    mirrorImage = false
+                    optionMirrorImage.isSelected = false
+                }
+                ImageProcessingOption.UPSIDE_DOWN -> {
+                    upsideDown = false
+                    optionUpsideDown.isSelected = false
+                }
+                ImageProcessingOption.NEGATIVE -> {
+                    negative = false
+                    optionNegative.isSelected = false
+                }
             }
         } else {
             when (option) {
                 ImageProcessingOption.FACE_DETECTION -> {
+                    unselectAllOptions()
                     faceDetection = true
-                    ageEstimation = false
-                    gender = false
-                    pixelization = false
-                    grayscale = false
-
                     optionFaceDetection.isSelected = true
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.AGE_ESTIMATION -> {
-                    faceDetection = false
+                    unselectAllOptions()
                     ageEstimation = true
-                    gender = false
-                    pixelization = false
-                    grayscale = false
-
-                    optionFaceDetection.isSelected = false
                     optionAgeEstimation.isSelected = true
-                    optionGender.isSelected = false
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.GENDER -> {
-                    faceDetection = false
-                    ageEstimation = false
+                    unselectAllOptions()
                     gender = true
-                    pixelization = false
-                    grayscale = false
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
                     optionGender.isSelected = true
-                    optionPixelization.isSelected = false
-                    optionGrayscale.isSelected = false
                 }
                 ImageProcessingOption.PIXELIZATION -> {
-                    faceDetection = false
-                    ageEstimation = false
-                    gender = false
+                    unselectSingleOptions()
                     pixelization = true
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
                     optionPixelization.isSelected = true
-
-                    if (!grayscale) {
-                        processedImage = bitmap
-                    }
                 }
                 ImageProcessingOption.GRAYSCALE -> {
-                    faceDetection = false
-                    ageEstimation = false
-                    gender = false
+                    unselectSingleOptions()
                     grayscale = true
-
-                    optionFaceDetection.isSelected = false
-                    optionAgeEstimation.isSelected = false
-                    optionGender.isSelected = false
                     optionGrayscale.isSelected = true
-
-                    if (!pixelization) {
-                        processedImage = bitmap
-                    }
+                }
+                ImageProcessingOption.SEPIA -> {
+                    unselectSingleOptions()
+                    sepia = true
+                    optionSepia.isSelected = true
+                }
+                ImageProcessingOption.MIRROR_IMAGE -> {
+                    unselectSingleOptions()
+                    mirrorImage = true
+                    optionMirrorImage.isSelected = true
+                }
+                ImageProcessingOption.UPSIDE_DOWN -> {
+                    unselectSingleOptions()
+                    upsideDown = true
+                    optionUpsideDown.isSelected = true
+                }
+                ImageProcessingOption.NEGATIVE -> {
+                    unselectSingleOptions()
+                    negative = true
+                    optionNegative.isSelected = true
                 }
             }
         }
@@ -202,25 +215,25 @@ class ProcessedImageActivity : AppCompatActivity() {
         adults = findViewById(R.id.processed_image_activity_adults)
         children = findViewById(R.id.processed_image_activity_children)
         progressBar = findViewById(R.id.activity_processed_image_progress_bar)
+        options = findViewById(R.id.options)
         optionFaceDetection = findViewById(R.id.option_face_detection)
         optionAgeEstimation = findViewById(R.id.option_age_estimation)
         optionGender = findViewById(R.id.option_gender)
         optionPixelization = findViewById(R.id.option_pixelization)
         optionGrayscale = findViewById(R.id.option_grayscale)
+        optionSepia = findViewById(R.id.option_sepia)
+        optionMirrorImage = findViewById(R.id.option_mirror_image)
+        optionUpsideDown = findViewById(R.id.option_upside_down)
+        optionNegative = findViewById(R.id.option_negative)
         saveImageButton = findViewById(R.id.processed_image_activity_save)
 
         saveImageButton.setOnClickListener() {
-            saveImage()
+            if (!loading) {
+                saveImage()
+            }
         }
 
         viewModel = ViewModelProvider(this).get(ProcessedImageViewModel::class.java)
-
-
-        val byteArray = Image.getImage()
-        if (byteArray != null) {
-            bitmap = ImageConverter.convertToBitmap(byteArray)
-            imageChanged(bitmap)
-        }
 
         if (intent.hasExtra(ConstValues.FACES_INFO)) {
             val facesInfo = intent.getParcelableExtra<FacesInfo>(ConstValues.FACES_INFO)
@@ -248,27 +261,61 @@ class ProcessedImageActivity : AppCompatActivity() {
         val genderInfoAvailable = viewModel.isGenderInfoAvailable(photoData)
 
         optionFaceDetection.setOnClickListener {
-            selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
+            if (!loading) {
+                selectOption(ImageProcessingOption.FACE_DETECTION, faceDetection)
+            }
         }
 
         optionAgeEstimation.setOnClickListener {
-            selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
+            if (!loading) {
+                selectOption(ImageProcessingOption.AGE_ESTIMATION, ageEstimation)
+            }
         }
 
         if (genderInfoAvailable) {
             optionGender.setOnClickListener {
-                selectOption(ImageProcessingOption.GENDER, gender)
+                if (!loading) {
+                    selectOption(ImageProcessingOption.GENDER, gender)
+                }
             }
         } else {
             optionGender.visibility = View.GONE
         }
 
         optionPixelization.setOnClickListener {
-            selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
+            if (!loading) {
+                selectOption(ImageProcessingOption.PIXELIZATION, pixelization)
+            }
         }
 
         optionGrayscale.setOnClickListener {
-            selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
+            if (!loading) {
+                selectOption(ImageProcessingOption.GRAYSCALE, grayscale)
+            }
+        }
+
+        optionSepia.setOnClickListener {
+            if (!loading) {
+                selectOption(ImageProcessingOption.SEPIA, sepia)
+            }
+        }
+
+        optionMirrorImage.setOnClickListener {
+            if (!loading) {
+                selectOption(ImageProcessingOption.MIRROR_IMAGE, mirrorImage)
+            }
+        }
+
+        optionUpsideDown.setOnClickListener {
+            if (!loading) {
+                selectOption(ImageProcessingOption.UPSIDE_DOWN, upsideDown)
+            }
+        }
+
+        optionNegative.setOnClickListener {
+            if (!loading) {
+                selectOption(ImageProcessingOption.NEGATIVE, negative)
+            }
         }
     }
 
@@ -291,8 +338,35 @@ class ProcessedImageActivity : AppCompatActivity() {
             {
                 image.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
+                loading = false
             }, 300
         )
+    }
+
+    private fun unselectAllOptions() {
+        unselectSingleOptions()
+
+        pixelization = false
+        grayscale = false
+        sepia = false
+        mirrorImage = false
+
+        optionPixelization.isSelected = false
+        optionGrayscale.isSelected = false
+        optionSepia.isSelected = false
+        optionMirrorImage.isSelected = false
+        optionUpsideDown.isSelected = false
+        optionNegative.isSelected = false
+    }
+
+    private fun unselectSingleOptions() {
+        faceDetection = false
+        ageEstimation = false
+        gender = false
+
+        optionFaceDetection.isSelected = false
+        optionAgeEstimation.isSelected = false
+        optionGender.isSelected = false
     }
 
 }

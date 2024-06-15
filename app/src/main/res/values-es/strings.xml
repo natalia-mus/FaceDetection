@@ -30,4 +30,8 @@
     <string name="api_key_error">La clave de API no puede ser confirmada. Comprueba tu conexión a Internet</string>
     <string name="image_saved_successfully">El imagen ha sido guardada</string>
     <string name="automatically_delete_images">Eliminar automáticamente las imágenes cargadas en 1 minuto</string>
+    <string name="sepia">Sepia</string>
+    <string name="mirror_image">Imagen reflejada</string>
+    <string name="upside_down">Boca abajo</string>
+    <string name="negative">Negativo</string>
 </resources>

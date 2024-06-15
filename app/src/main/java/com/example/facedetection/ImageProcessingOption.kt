@@ -5,5 +5,9 @@ enum class ImageProcessingOption {
     AGE_ESTIMATION,
     GENDER,
     PIXELIZATION,
-    GRAYSCALE
+    GRAYSCALE,
+    SEPIA,
+    MIRROR_IMAGE,
+    UPSIDE_DOWN,
+    NEGATIVE
 }

@@ -9,6 +9,7 @@
     app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="10dp">
@@ -17,6 +18,7 @@
             android:id="@+id/option_face_detection"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
             android:padding="10dp">
@@ -42,6 +44,7 @@
             android:id="@+id/option_age_estimation"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
             android:padding="10dp">
@@ -67,6 +70,7 @@
             android:id="@+id/option_gender"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
             android:padding="10dp">
@@ -92,6 +96,7 @@
             android:id="@+id/option_pixelization"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
             android:padding="10dp">
@@ -117,6 +122,7 @@
             android:id="@+id/option_grayscale"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:background="@drawable/image_processing_option_background"
             android:orientation="vertical"
             android:padding="10dp">
@@ -132,6 +138,110 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/grayscale"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/option_sepia"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/image_processing_option_background"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/option_sepia_icon"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_sepia" />
+
+            <TextView
+                android:id="@+id/option_sepia_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sepia"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/option_mirror_image"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/image_processing_option_background"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/option_mirror_image_icon"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_mirror_image" />
+
+            <TextView
+                android:id="@+id/option_mirror_image_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mirror_image"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/option_upside_down"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/image_processing_option_background"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/option_upside_down_icon"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_upside_down" />
+
+            <TextView
+                android:id="@+id/option_upside_down_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upside_down"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/option_negative"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/image_processing_option_background"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/option_negative_icon"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:src="@drawable/ic_negative" />
+
+            <TextView
+                android:id="@+id/option_negative_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/negative"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

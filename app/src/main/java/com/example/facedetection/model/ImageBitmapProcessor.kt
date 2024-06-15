@@ -13,8 +13,9 @@ import com.example.facedetection.model.datamodel.RGB
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ImageBitmapProcessor() {
+class ImageBitmapProcessor {
 
     private val fileFormat = Bitmap.CompressFormat.PNG
 
@@ -23,6 +24,23 @@ class ImageBitmapProcessor() {
     private var pixelSize = 0
     private var initialIndicesSet = ArrayList<Int>()
 
+
+    /**
+     * Converts image to sepia
+     */
+    suspend fun convertToSepia(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            val sepia = convertPixelsToSepia(imageAsPixels)
+
+            return@async convertPixelsIntoBitmap(sepia)
+        }
+
+        return result.await()
+    }
 
     /**
      * Returns bitmap in grayscale
@@ -36,6 +54,58 @@ class ImageBitmapProcessor() {
             val grayscale = convertPixelsToGray(imageAsPixels)
 
             return@async convertPixelsIntoBitmap(grayscale)
+        }
+
+        return result.await()
+    }
+
+    /**
+     * Returns mirrored bitmap
+     */
+    suspend fun mirrorImage(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+
+            for (row in imageAsPixels) {
+                row.reverse()
+            }
+
+            return@async convertPixelsIntoBitmap(imageAsPixels)
+        }
+
+        return result.await()
+    }
+
+    /**
+     * Returns image in reversed colors
+     */
+    suspend fun negative(bitmap: Bitmap): Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            val negativeImageAsPixels = ArrayList<ArrayList<RGB>>()
+
+            for (row in imageAsPixels) {
+                val negativeRow = ArrayList<RGB>()
+
+                for (pixel in row) {
+                    val negativeRed = 255 - pixel.red
+                    val negativeGreen = 255 - pixel.green
+                    val negativeBlue = 255 - pixel.blue
+
+                    val negativePixel = RGB(negativeRed, negativeGreen, negativeBlue)
+                    negativeRow.add(negativePixel)
+                }
+
+                negativeImageAsPixels.add(negativeRow)
+            }
+
+            return@async convertPixelsIntoBitmap(negativeImageAsPixels)
         }
 
         return result.await()
@@ -89,6 +159,23 @@ class ImageBitmapProcessor() {
             Log.e("ImageBitmapProcessor.saveImage", exception.message.toString())
             return false
         }
+    }
+
+    /**
+     * Returns upside down image
+     */
+    suspend fun turnImageUpsideDown(bitmap: Bitmap) : Bitmap {
+        val result = GlobalScope.async {
+            imageWidth = bitmap.width
+            imageHeight = bitmap.height
+
+            val imageAsPixels = getImageAsPixels(bitmap)
+            imageAsPixels.reverse()
+
+            return@async convertPixelsIntoBitmap(imageAsPixels)
+        }
+
+        return result.await()
     }
 
     /**
@@ -146,15 +233,46 @@ class ImageBitmapProcessor() {
     private fun convertPixelsToGray(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
         for (row in pixels) {
             for (pixel in row) {
-                val r = pixel.red
-                val g = pixel.green
-                val b = pixel.blue
+                val red = pixel.red
+                val green = pixel.green
+                val blue = pixel.blue
 
-                val gray = (r + g + b) / 3
+                val gray = (red + green + blue) / 3
 
                 pixel.red = gray
                 pixel.green = gray
                 pixel.blue = gray
+            }
+        }
+
+        return pixels
+    }
+
+    private fun convertPixelsToSepia(pixels: ArrayList<ArrayList<RGB>>): ArrayList<ArrayList<RGB>> {
+        for (row in pixels) {
+            for (pixel in row) {
+                val red = pixel.red
+                val green = pixel.green
+                val blue = pixel.blue
+
+                var newRed = 0.393 * red + 0.769 * green + 0.189 * blue
+                var newGreen = 0.349 * red + 0.686 * green + 0.168 * blue
+                var newBlue = 0.272 * red + 0.534 * green + 0.131 * blue
+
+
+                if (newRed > 255) {
+                    newRed = 255.0
+                }
+                if (newGreen > 255) {
+                    newGreen = 255.0
+                }
+                if (newBlue > 255) {
+                    newBlue = 255.0
+                }
+
+                pixel.red = newRed.toInt()
+                pixel.green = newGreen.toInt()
+                pixel.blue = newBlue.toInt()
             }
         }
 
@@ -205,7 +323,7 @@ class ImageBitmapProcessor() {
      */
     private fun pixelate(pixels: ArrayList<RGB>): ArrayList<RGB> {
         val pixelIndicesSet = ArrayList<Int>()                                                      // set of single pixels indices for one huge pixel
-        for (i in 0 until initialIndicesSet.size) {                                                 // at the beginning the set is the same as the initial set
+        for (i in 0 until initialIndicesSet.size) {                                           // at the beginning the set is the same as the initial set
             pixelIndicesSet.add(i, initialIndicesSet[i])
         }
 
