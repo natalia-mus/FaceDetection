@@ -1,6 +1,6 @@
 # FaceDetection
 
-FaceDetection is a simple Android app that detects faces in the selected picture, counts them and establishes for each person wheather he is an adult or a child. User can choose which information about detected faces he wants to present on the picture. Application also works as a simple image converter - it allows to pixelate image, convert it to black and white, sepia, negative or turn it vertically and horizontally.
+FaceDetection is a simple Android app that detects faces in the selected picture, counts them and establishes for each person wheather he is an adult or a child. User can choose which information about detected faces he wants to present in the picture. Application also works as a simple image converter - it allows to pixelate image, convert it to black and white, sepia, negative or turn it vertically and horizontally.
 <br/><br/>
 
 User is able to take a new photo or to select the existing one from the device's gallery. Application uses external API to receive information about the selected picture. According to this, application presents photo and information about number of people and how many adults and children were detected.
