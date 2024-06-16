@@ -5,9 +5,9 @@ FaceDetection is a simple Android app that detects faces in the selected picture
 
 User is able to take a new photo or to select the existing one from the device's gallery. Application uses external API to receive information about the selected picture. According to this, application presents photo and information about number of people and how many adults and children were detected.
 
-Once user choose option "detect faces" all detected faces on the photo becomes surrounded by the rectangles. If person looks at least 16 years old, rectangle of the face is green and if the detected face looks younger than 16 - its rectangle is blue. User can also see other information recieved from API - like estimated age or possible gender (male/female).
+Once user choose option "detect faces" all detected faces in the photo becomes surrounded by the rectangles. If person looks at least 16 years old, rectangle of the face is green and if the detected face looks younger than 16 - its rectangle is blue. User can also see other information recieved from API - like estimated age or possible gender (male/female).
 
-Application allows to make simple image convertions, like pixelization or grayscale. In order to process image, application converts bitmap into the array where each pixel is a RGB object.
+Application allows to make simple image convertions. In order to process image, application converts bitmap into the array where each pixel is a RGB object.
 
 <br/>
 <p align="center">
