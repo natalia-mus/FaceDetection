@@ -76,11 +76,54 @@ Application allows to make simple image convertions, like pixelization or graysc
 <br/><br/>
 
 
+## Sepia algorithm
+
+In order to obtain sepia image, its red, green and blue values need to be recalculated according to the following formula:
+
+      newRed = 0.393 * red + 0.769 * green + 0.189 * blue
+      newGreen = 0.349 * red + 0.686 * green + 0.168 * blue
+      newBlue = 0.272 * red + 0.534 * green + 0.131 * blue
+
+<br/><br/>
+If any of new values is greater than 255, then the result is 255.
+
+
+<br/><br/>
+<br/><br/>
+
+
+## Image turning algorithm
+
+Picture can be turned both vertically and horizontally. In order to turn image, bitmap is converted into an array of pixels. 
+
+When turning upside down, elements of the arrays representing the next vertical rows of pixels are being reversed. Pixels from the bottom of the image come at the top of it.
+
+<p align="center">
+<img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/e2b3a22d-d2d4-40a7-a4c9-c6a4d94c8ec7" width="20%" height="20%"/>
+</p>
+
+When turning horizontally (mirroring), elements of arrays representing next horizontal rows of pixels are being reversed. Wherefore, first pixel on the left becomes the first one on the right.
+
+<p align="center">
+<img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/0ee3bedd-cae8-424f-b171-8dd987570610" width="30%" height="30%"/>
+</p>
+
+<br/><br/>
+<br/><br/>
+
+
+## Negative algorithm
+
+In order to invert colors of the image - red, green and blue values of each pixel must be subtracted from 255.
+
+<br/><br/>
+<br/><br/>
+
 ## Project details
 
 Project is based on the data received from [skybiometry.com](https://skybiometry.com). It allows to detect face in the photo and to get information like estimated age, possible gender and coordinates of the detected face. API has limited queries - user can monitor API usage from application.
 
-<br/>
+<br/><br/>
 <p align="center">
 <img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/e18c6b39-2af9-447d-893d-5bbe94fa38ae" width="40%" height="40%"/>
 </p>
