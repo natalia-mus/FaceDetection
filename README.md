@@ -11,7 +11,7 @@ Application allows to make simple image convertions. In order to process image, 
 
 <br/>
 <p align="center">
-<img src="https://github.com/natalia-mus/FaceDetection/assets/56269299/278395ba-e861-4f7f-a6f8-542f029fa264" width="40%" height="40%"/>
+<img src="https://github.com/user-attachments/assets/5f5caac9-0f3e-44d7-ba2f-bd855f33cae5" width="30%" height="30%"/>
 </p>
 <br/><br/>
 
