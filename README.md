@@ -11,7 +11,7 @@ Application allows to make simple image convertions. In order to process image, 
 
 <br/>
 <p align="center">
-<img src="https://github.com/user-attachments/assets/5f5caac9-0f3e-44d7-ba2f-bd855f33cae5" width="30%" height="30%"/>
+<img src="https://github.com/user-attachments/assets/5f5caac9-0f3e-44d7-ba2f-bd855f33cae5" width="40%" height="40%"/>
 </p>
 <br/><br/>
 
